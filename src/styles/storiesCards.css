@@ -1,0 +1,57 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 16px;
+  padding: 16px;
+  width: 200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  position: relative;
+  display: inline-block;
+}
+
+.card-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.edit-button {
+  padding-left: 1cap;
+  padding-right: 1cap;
+  color: bisque;
+  background-color: dodgerblue;
+  position: absolute;
+  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  left: 70%; /* Position horizontally in the center */
+  transform: translateX(-50%); /* Center the button */
+}
+
+.delete-button {
+  padding-left: 1cap;
+  padding-right: 1cap;
+  color: bisque;
+  background-color: dodgerblue;
+  position: absolute;
+  bottom: 10px; /* Adjust the distance from the bottom as needed */
+  left: 30%; /* Position horizontally in the center */
+  transform: translateX(-50%); /* Center the button */
+}

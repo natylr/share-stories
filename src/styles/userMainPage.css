@@ -1,0 +1,25 @@
+.home-wrapper {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 600px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-inner {
+    text-align: center;
+  }
+  
+  .home-inner h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .home-inner .btn {
+    margin-right: 10px;
+  }
+  .welcome-text {
+    color: rgb(70, 20, 187);
+    margin-left: 10px; 
+  }
