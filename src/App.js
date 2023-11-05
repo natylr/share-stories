@@ -17,7 +17,7 @@ function App() {
           <Route
             exact
             path="/"
-            element={<Login/>}
+            element={isLoggedIn ? <UserMainPage /> : <Login />}
           />
           <Route path="/sign-in" element={<Login/>} />
           <Route path="/sign-up" element={<SignUp/>} />

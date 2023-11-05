@@ -3,7 +3,7 @@ import ReactPlayer from 'react-player'
 import { setUserId, setFirstName, setLastName, setEmail } from '../../actions/userAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-
+import logout from "../../utils/loaclStorage"
 export default function Login() {
   const [email, setAuthEmail] = useState(window.localStorage.getItem("saved-email") || "");
   const [password, setAuthPassword] = useState(window.localStorage.getItem("saved-password") || "");
@@ -59,9 +59,7 @@ export default function Login() {
             .then((res) => res.json())
             .then((data) => {
               if (data.data === "Invalid Token") {
-                alert("Token expired, please login again");
-                window.localStorage.removeItem("token");
-                window.localStorage.removeItem("loggedIn");
+                logout()
               } else {
                 console.log(data.data.fname)
                 console.log('Before dispatching:', firstNamestate);
