@@ -6,26 +6,43 @@
 
 .frame {
   padding: 15px;
-  display: inline-block; /* This makes the frames appear next to each other */
-  margin: 0; /* Remove any default margin */
-  vertical-align: top; /* Align frames to the top */
+  display: inline-block; 
+  vertical-align: top; 
 }
 
-.frame label {
+.story-title-label {
+  color: indigo;
+  display:inline;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+.main-image-label {
+  color: indigo;
   display: block;
   font-weight: bold;
+  width: 120px; 
+  max-width: 100%; 
+  margin-bottom: 5px;
 }
 
-.frame input {
+.main-image-input {
   /* border: 2px solid #007bff;
   border-radius: 4px; */
+  color:rgb(36, 4, 59);
   padding: 10px;
   font-size: 16px;
 }
-.add-story-label {
-  margin: 0;
-  color: '#1bbd7e' 
+
+.story-title-input {
+  /* border: 2px solid #007bff;
+  border-radius: 4px; */
+  color:rgb(36, 4, 59);
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
 }
+
 .add-btn {
   background-color: #007bff;
   color: #fff;

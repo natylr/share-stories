@@ -54,31 +54,36 @@ const AddStoryForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="frame">
             <div className="form-group">
-              <label htmlFor="title">Title:</label>
+              <label className="story-title-label" htmlFor="title">Title:</label>
               <input
                 type="text"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="title-input"
+                className="story-title-input"
               />
             </div>
           </div>
           <div className="frame">
             <div className="form-group">
-              <label>Main Image:</label>
+            <label className="main-image-label" htmlFor="mainImage">Main Image:</label>
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
+                className='main-image-input'
               />
             </div>
-            {uploadedImageUrl && (
+          </div>
+          <div className="frame">
+          <div className="form-group">
+          {uploadedImageUrl && (
               <div className="image-preview">
                 <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
               </div>
             )}
-          </div>
+            </div>
+            </div>
           <button type="submit" className='add-btn'>Add the story</button>
         </form>
       </div>

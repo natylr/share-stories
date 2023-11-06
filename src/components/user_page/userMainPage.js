@@ -1,23 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { Navbar, Nav, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Navbar, Nav} from "react-bootstrap";
 import StoriesCards from "./storiesCards";
 import AddStoryForm from "../story_share/addStoryForm";
-import { useDispatch, useSelector } from 'react-redux';
-import logout from "../../utils/loaclStorage"
+import {logout} from "../../utils/localStorage"
 
 import "../../styles/userMainPage.css";
 
-function UserMainPage({firstName}) {
-  const [currentPage , setCurrentPage] = useState("StoriesCards");
-  const navigate = useNavigate(); 
 
-  // const logOut = () => {
-  //   window.localStorage.removeItem("token");
-  //   window.localStorage.removeItem("loggedIn");
-  //   navigate("/sign-in");
-  // };
+function UserMainPage({}) {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const token = window.localStorage.getItem("token");
+  
+      if (token) {
+        fetch("http://localhost:5000/user/user-data", {
+          method: "POST",
+          crossDomain: true,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          body: JSON.stringify({
+            token: window.localStorage.getItem("token"),
+          }),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.data === "Invalid Token") {
+            console.log("arrive")
+            logout();
+          }
+        });
+      }
+    }, 1000);
+  
+    return () => clearInterval(interval); 
+  }, []);
+  
+  const [currentPage , setCurrentPage] = useState("StoriesCards");
 
   const createStory = () => {
     setCurrentPage("AddStoryForm");
@@ -30,7 +52,7 @@ function UserMainPage({firstName}) {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand className="welcome-text">Welcome {firstName}</Navbar.Brand>
+        <Navbar.Brand className="welcome-text">Welcome {window.localStorage.getItem("first_name")}</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
@@ -45,10 +67,4 @@ function UserMainPage({firstName}) {
     </div>
   );
 }
-const mapStateToProps = (state) => ({
-  firstName: state.user.firstName
-  // lastName: state.lastName,
-  // email: state.email
-});
-
-export default connect(mapStateToProps)(UserMainPage);
+export default UserMainPage;

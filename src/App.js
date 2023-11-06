@@ -3,8 +3,8 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-import Login from "./components/auth/loginPage";
-import SignUp from "./components/auth/signupPage";
+import Login from "./components/auth/login";
+import SignUp from "./components/auth/signup";
 import UserMainPage from "./components/user_page/userMainPage";
 import AddStoryForm from "./components/story_share/addStoryForm";
 
