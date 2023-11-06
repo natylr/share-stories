@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Navbar, Nav} from "react-bootstrap";
 import StoriesCards from "./storiesCards";
 import AddStoryForm from "../story_share/addStoryForm";
+import ParagraphFrame from "../story_share/paragraphFrame"
 import {logout} from "../../utils/localStorage"
 
 import "../../styles/userMainPage.css";
@@ -63,7 +64,7 @@ function UserMainPage({}) {
         </Navbar.Collapse>
       </Navbar>
       {currentPage === "StoriesCards" && <StoriesCards />}
-      {currentPage === "AddStoryForm" && <AddStoryForm />}
+      {currentPage === "AddStoryForm" && <ParagraphFrame />}
     </div>
   );
 }
