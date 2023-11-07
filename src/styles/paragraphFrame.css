@@ -1,6 +1,6 @@
 .paragraph-frame {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .paragraph-form-group {
@@ -8,17 +8,22 @@
 }
 
 .paragraph-form-group label {
+  margin-left: 0; /* Set margin-left to 0 */
   font-weight: bold;
 }
 
 .editor-wrapper {
-  width: 50%;
-  
+  width: 80%;
 }
 
 .paragraph-image-input {
   margin-top: 10px;
   /* align-self: flex-end;  */
-  margin-left: auto; /* Move the button to the right */
+  margin-left: auto; 
   margin-right: 0;
 }
+
+
+
+
+

@@ -33,7 +33,7 @@ const ParagraphFrame = () => {
     return (
         <div className="paragraph-frame">
             <div className="paragraph-form-group">
-                <label>Paragraph Text:</label>
+                {/* <label style={{ marginLeft: 0 }} >Paragraph Text:</label> */}
                 <div className="editor-wrapper">
                     <Editor
                         editorState={pragraphText}
@@ -42,20 +42,20 @@ const ParagraphFrame = () => {
                 </div>
             </div>
             <div className="paragraph-form-group">
-                <label htmlFor="mainImage">Paragraph Image:</label>
+                {uploadedImageUrl && (
+                    <div>
+                        <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
+                    </div>
+                )}
+                {/* <label htmlFor="mainImage">Paragraph Image:</label> */}
                 <input
                     className="paragraph-image-input"
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
-                    style={{ marginLeft: 'auto' }} 
                 />
             </div>
-            {uploadedImageUrl && (
-                <div>
-                    <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
-                </div>
-            )}
+
         </div>
     );
 };
