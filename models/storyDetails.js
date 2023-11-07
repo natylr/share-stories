@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
 
 const StorySchema = new mongoose.Schema({
-  creatorId : Number,
-  title: String,
+  creatorId: {
+    type: Number,
+    required: true
+  },
+  title: { type: String, required: true },
   mainImageUrl: String,
-  text: String,
+  paragraphs: [String],
   additionalImages: [String]
 });
 

@@ -17,22 +17,5 @@ const UserDetailsSchema = new mongoose.Schema(
   }
 );
 
-UserDetailsSchema.pre('save', async function(next) {
-  const user = this;
-
-  if (!user.userId) {
-    // Generate a random userId (you can replace this with your own logic)
-    let generatedUserId = Math.floor(Math.random() * 1000000) + 1;
-
-    // Check if generated userId already exists
-    while (await mongoose.model('UserInfo').findOne({ userId: generatedUserId })) {
-      generatedUserId = Math.floor(Math.random() * 1000000) + 1;
-    }
-
-    user.userId = generatedUserId;
-  }
-
-  next();
-});
 
 mongoose.model("UserInfo", UserDetailsSchema);

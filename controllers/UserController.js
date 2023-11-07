@@ -16,8 +16,16 @@ const register = async (req, res) => {
     if (oldUser) {
       return res.json({ error: "User Exists" });
     }
+    
+    let generatedUserId;
+    // genrate unique number for user id
+    do {
+      generatedUserId = Math.floor(Math.random() * 1000000) + 1;
+    } while (await mongoose.model('UserInfo').findOne({ userId: generatedUserId }));
 
+    
     const user = new User({
+      userId:generatedUserId,
       fname,
       lname,
       email,
@@ -28,6 +36,7 @@ const register = async (req, res) => {
 
     res.send({ status: "ok" });
   } catch (error) {
+    console.log(error)
     res.send({ status: "error" });
   }
 };
@@ -35,7 +44,6 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   const { email, password } = req.body;
-
   const user = await User.findOne({ email });
   if (!user) {
     return res.json({ error: "User Not found" });
