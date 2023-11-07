@@ -53,7 +53,7 @@ function UserMainPage({}) {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand className="welcome-text">Welcome {window.localStorage.getItem("first_name")}</Navbar.Brand>
+        <Navbar.Brand className="welcome-text">Welcome {window.localStorage.getItem("firstName")}!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
