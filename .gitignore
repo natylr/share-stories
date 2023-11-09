@@ -1,0 +1,4 @@
+node_modules
+.env
+/public/background.mp4
+/public/login_sign_up1.mp4

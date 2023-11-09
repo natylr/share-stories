@@ -30,7 +30,6 @@ function UserMainPage({}) {
         .then((res) => res.json())
         .then((data) => {
           if (data.data === "Invalid Token") {
-            console.log("arrive")
             logout();
           }
         });
@@ -64,7 +63,7 @@ function UserMainPage({}) {
         </Navbar.Collapse>
       </Navbar>
       {currentPage === "StoriesCards" && <StoriesCards />}
-      {currentPage === "AddStoryForm" && <ParagraphFrame />}
+      {currentPage === "AddStoryForm" && <AddStoryForm />}
     </div>
   );
 }

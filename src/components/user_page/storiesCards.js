@@ -1,15 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/storiesCards.css"
-import Card  from './card';
+import Card from './card';
+import {logout} from "../../utils/localStorage"
 
 const StoriesCards = () => {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/story/cards')
-      .then((response) => response.json())
-      .then((data) => setCards(data))
-      .catch((error) => console.error('Error:', error));
+    const token = window.localStorage.getItem("token");
+    if (token) {
+      fetch("http://localhost:5000/story/my_cards", {
+        method: "POST",
+        crossDomain: true,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        body: JSON.stringify({
+          token: window.localStorage.getItem("token"),
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.data === "Invalid Token") {
+            logout();
+          }
+          else {
+            console.
+            setCards(data)
+          }
+        });
+    }
   }, []);
 
   const handleDelete = async (title) => {
