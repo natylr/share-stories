@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Story = mongoose.model("StoryDetails");
+const { userData } = require('./UserController');
 
 const getCards = async (req, res) => {
   try {
@@ -10,12 +11,24 @@ const getCards = async (req, res) => {
   }
 };
 
+const getMyCards = async (req, res) => {
+  try {
+    const { token } = req.body;
+    const user = await userDataByToken(token);
+    const cards = await Story.find({ creatorId: user.userId }, 'title mainImageUrl');
+    res.json(cards);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const addStory = async (req, res) => {
-  const { title } = req.body;
+  const { creatorId, title } = req.body;
   const mainImageUrl = req.file.path;
   
   try {
     const newStory = new Story({
+      creatorId,
       title,
       mainImageUrl,
     });
@@ -65,5 +78,5 @@ const resetStorySchema = async (req, res) => {
 };
 
 module.exports = {
-  getCards, addStory, resetStorySchema, deleteStoryByTitle
+  getCards, addStory, resetStorySchema, deleteStoryByTitle, getMyCards
 };

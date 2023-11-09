@@ -60,15 +60,22 @@ const login = async (req, res) => {
   }
 };
 
-const userData = async (req, res) => {
-  const { token } = req.body;
-
+const userDataByToken = async (token) => {
   try {
     const user = jwt.verify(token, JWT_SECRET);
-
     const useremail = user.email;
     const userData = await User.findOne({ email: useremail });
-    res.send({ status: "ok", data: userData });
+    return { status: "ok", data: userData };
+  } catch (error) {
+    throw new Error("Invalid Token");
+  }
+};
+
+const userData = async (req, res) => {
+  const { token } = req.body;
+  try {
+    const userDataResult = await userDataByToken(token);
+    res.send(userDataResult);
   } catch (error) {
     res.send({ status: "error", data: "Invalid Token" });
   }
