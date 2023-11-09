@@ -42,8 +42,8 @@ const AddStoryForm = () => {
 
       const data = await response.json();
 
-      // Set the uploaded image URL to display
-      setUploadedImageUrl(`http://localhost:5000/${data.mainImageUrl}`);
+      // // Set the uploaded image URL to display
+      // setUploadedImageUrl(`http://localhost:5000/${data.mainImageUrl}`);
     } catch (error) {
       console.error('Error:', error);
     }

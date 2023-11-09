@@ -11,7 +11,7 @@ const Card = ({ imageUrl, text, onDelete }) =>{
     return(
     <div className="card">
       <div className="card-image">
-        <img src={`http://localhost:5000/${imageUrl}`} alt="Card" />
+      {imageUrl ? <img src={`http://localhost:5000/${imageUrl}`} alt="Card" /> : null}
         <h1 className="card-text">{text}</h1>
       </div>
       <button className="edit-button">edit</button>

@@ -27,7 +27,6 @@ const StoriesCards = () => {
             logout();
           }
           else {
-            console.
             setCards(data)
           }
         });
@@ -36,9 +35,10 @@ const StoriesCards = () => {
 
   const handleDelete = async (title) => {
     try {
+      const token = window.localStorage.getItem("token");
       const response = await fetch('http://localhost:5000/story/delete_story', {
         method: 'DELETE',
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ title , token}),
         headers: {
           'Content-Type': 'application/json'
         }

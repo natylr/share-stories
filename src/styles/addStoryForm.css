@@ -62,8 +62,8 @@
 }
 
 .add-story-img {
-  max-width: 300px; /* Adjust the value as needed */
-  max-height: 300px; /* Adjust the value as needed */
+  max-width: 300px; 
+  max-height: 300px; 
   width: auto;
   height: auto;
   border-radius: 4px;
