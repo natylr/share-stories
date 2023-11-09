@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Story = mongoose.model("StoryDetails");
-const { userData } = require('./UserController');
+const { userDataByToken } = require('./UserController');
 
 const getCards = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ const getMyCards = async (req, res) => {
   try {
     const { token } = req.body;
     const user = await userDataByToken(token);
-    const cards = await Story.find({ creatorId: user.userId }, 'title mainImageUrl');
+    const cards = await Story.find({ creatorId: user.data.userId }, 'title mainImageUrl');
     res.json(cards);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -24,8 +24,12 @@ const getMyCards = async (req, res) => {
 
 const addStory = async (req, res) => {
   const { creatorId, title } = req.body;
-  const mainImageUrl = req.file.path;
-  
+  let mainImageUrl = null;
+
+  if (req.file) {
+    mainImageUrl = req.file.path;
+  }
+
   try {
     const newStory = new Story({
       creatorId,
@@ -42,25 +46,29 @@ const addStory = async (req, res) => {
 
 const deleteStoryByTitle = async (req, res) => {
   try {
-    const { title } = req.body;
-    const story = await Story.findOne({ title: title });
+    const { title, token } = req.body;
+    const user = await userDataByToken(token);
+    const userId = user.data.userId;
+
+    const story = await Story.findOne({ title: title, userId: userId }); // Find by both title and userId
 
     if (!story) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
 
-    const result = await Story.deleteOne({ title: title });
-
-    // Delete the image file from the server
-    const fs = require('fs');
-    fs.unlink(story.mainImageUrl, (err) => {
-      if (err) {
-        console.error('Error deleting image file:', err);
-      } else {
-        console.log('Image file deleted successfully');
-      }
-    });
-
+    const result = await Story.deleteOne({ title: title, userId: userId });
+    
+    if (story.mainImageUrl) {
+      // Delete the image file from the server
+      const fs = require('fs');
+      fs.unlink(story.mainImageUrl, (err) => {
+        if (err) {
+          console.error('Error deleting image file:', err);
+        } else {
+          console.log('Image file deleted successfully');
+        }
+      });
+    }
     return res.json({ success: true });
   } catch (error) {
     console.error(error);

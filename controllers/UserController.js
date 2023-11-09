@@ -85,4 +85,5 @@ module.exports = {
   register,
   login,
   userData,
+  userDataByToken
 };
