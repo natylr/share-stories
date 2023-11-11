@@ -57,7 +57,7 @@ const deleteStoryByTitle = async (req, res) => {
     }
 
     const result = await Story.deleteOne({ title: title, userId: userId });
-    
+
     if (story.mainImageUrl) {
       // Delete the image file from the server
       const fs = require('fs');
@@ -86,5 +86,5 @@ const resetStorySchema = async (req, res) => {
 };
 
 module.exports = {
-  getCards, addStory, resetStorySchema, deleteStoryByTitle, getMyCards
+  getCards, addStory, deleteStoryByTitle, getMyCards
 };
