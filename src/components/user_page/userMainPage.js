@@ -39,16 +39,19 @@ function UserMainPage({}) {
     return () => clearInterval(interval); 
   }, []);
   
-  const [currentPage , setCurrentPage] = useState("StoriesCards");
+  const [currentPage , setCurrentPage] = useState("AllStoriesCards");
 
   const createStory = () => {
     setCurrentPage("AddStoryForm");
   };
 
   const showMyStories = () => {
-    setCurrentPage("StoriesCards");
+    setCurrentPage("MyStoriesCards");
   };
 
+  const showAllStories = () => {
+    setCurrentPage("AllStoriesCards");
+  };
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -57,12 +60,14 @@ function UserMainPage({}) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link onClick={createStory}>Create a Story</Nav.Link>
+            <Nav.Link onClick={showAllStories}>All The Stories</Nav.Link>
             <Nav.Link onClick={showMyStories}>My stories</Nav.Link>
             <Nav.Link onClick={logout}>Log Out</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      {currentPage === "StoriesCards" && <StoriesCards />}
+      {currentPage === "MyStoriesCards" && <StoriesCards cards_type= "my_cards" />}
+      {currentPage === "AllStoriesCards" && <StoriesCards cards_type= "cards" />}
       {currentPage === "AddStoryForm" && <AddStoryForm />}
     </div>
   );

@@ -1,52 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import "../../styles/storiesCards.css"
+import "../../styles/storiesCards.css";
 import Card from './card';
-import {logout} from "../../utils/localStorage"
+import { logout } from "../../utils/localStorage";
+import apiService from '../../utils/apiService'; // Import the utility
 
-const StoriesCards = () => {
+const StoriesCards = (props) => {
   const [cards, setCards] = useState([]);
+  const { cards_type } = props;
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
+
     if (token) {
-      fetch("http://localhost:5000/story/my_cards", {
-        method: "POST",
-        crossDomain: true,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          token: window.localStorage.getItem("token"),
-        }),
-      })
-        .then((res) => res.json())
+      const url = `http://localhost:5000/story/${cards_type}`;
+      const method = cards_type === "cards" ? "GET" : "POST";
+
+      apiService(url, method, {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      }, cards_type === "cards" ? null : { token })
         .then((data) => {
           if (data.data === "Invalid Token") {
             logout();
-          }
-          else {
-            setCards(data)
+          } else {
+            setCards(data);
           }
         });
     }
-  }, []);
+  }, [cards_type]);
 
   const handleDelete = async (title) => {
     try {
       const token = window.localStorage.getItem("token");
-      const response = await fetch('http://localhost:5000/story/delete_story', {
-        method: 'DELETE',
-        body: JSON.stringify({ title , token}),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      const response = await apiService('http://localhost:5000/story/delete_story', 'DELETE', {
+        'Content-Type': 'application/json'
+      }, { title, token });
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response.success) {
         setCards(prevCards => prevCards.filter(card => card.title !== title));
       }
     } catch (error) {
