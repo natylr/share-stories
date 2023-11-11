@@ -1,15 +1,29 @@
-import React, { useState } from 'react';
-import { EditorState, ContentState, convertToRaw } from 'draft-js';
+import React, { useState, useEffect } from 'react';
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import '../../styles/paragraphFrame.css';
 
-const ParagraphFrame = (title) => {
-    const userId = localStorage.getItem("userId")
+const ParagraphFrame = (props) => {
+    const userId = localStorage.getItem("userId");
     const [pragraphText, setPragraphText] = useState(EditorState.createEmpty());
     const [mainImage, setMainImage] = useState(null);
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+
+    useEffect(() => {
+        // Set initial text state from props
+        if (props.initialText) {
+            const contentState = convertFromHTML(props.initialText);
+            const editorState = EditorState.createWithContent(contentState);
+            setPragraphText(editorState);
+        }
+
+        // Set initial image state from props
+        if (props.initialImageUrl) {
+            setUploadedImageUrl(props.initialImageUrl);
+        }
+    }, [props.initialText, props.initialImageUrl]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];

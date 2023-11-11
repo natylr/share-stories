@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "../../styles/storiesCards.css";
 import Card from './card';
 import { logout } from "../../utils/localStorage";
-import apiService from '../../utils/apiService'; // Import the utility
+import apiService from '../../utils/apiService'; 
 
 const StoriesCards = (props) => {
   const [cards, setCards] = useState([]);
@@ -48,7 +48,10 @@ const StoriesCards = (props) => {
   return (
     <div className="card-container">
       {cards.map((card, index) => (
-        <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} />
+        cards_type === "cards"?
+        <Card key={index} imageUrl={card.mainImageUrl} text={card.title} isEdit ={false} />
+        :
+        <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} isEdit={true}/>
       ))}
     </div>
   );

@@ -1,24 +1,31 @@
 import React from 'react';
-import "../../styles/storiesCards.css"
+import "../../styles/storiesCards.css";
 
-const Card = ({ imageUrl, text, onDelete }) =>{ 
-    const title = text
+const Card = (props) => { 
+
+    const title = props.text;
+
     const handleDelete = (e) => {
         e.preventDefault();
-        onDelete(text);
+        props.onDelete(title);
     };
     
-    return(
-    <div className="card">
-      <div className="card-image">
-        {imageUrl ? <img src={`http://localhost:5000/${imageUrl}`} alt="Card" /> : null}
-        <h1 className="card-text">{text}</h1>
-      </div>
-      <button className="edit-button">edit</button>
-      <button className="view-button">view</button>
-      <button className="delete-button" onClick={handleDelete}>delete</button>
-    </div>
-  )
+    return (
+        <div className="card">
+            <div className="card-image">
+                {props.imageUrl ? <img src={`http://localhost:5000/${props.imageUrl}`} alt="Card" /> : null}
+                <h1 className="card-text">{title}</h1>
+            </div>
+            {props.isEdit && (
+              <>
+                <button className="edit-button">edit</button>
+                <button className="delete-button" onClick={handleDelete}>delete</button>
+              </>
+              )}
+              <button className="view-button">view</button>
+
+        </div>
+    );
 };
 
 export default Card;

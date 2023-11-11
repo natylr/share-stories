@@ -60,7 +60,7 @@ function UserMainPage({}) {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link onClick={createStory}>Create a Story</Nav.Link>
-            <Nav.Link onClick={showAllStories}>All The Stories</Nav.Link>
+            <Nav.Link onClick={showAllStories}>Read Stories</Nav.Link>
             <Nav.Link onClick={showMyStories}>My stories</Nav.Link>
             <Nav.Link onClick={logout}>Log Out</Nav.Link>
           </Nav>
