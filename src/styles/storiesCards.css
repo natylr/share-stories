@@ -11,18 +11,21 @@
   border-radius: 8px;
   margin: 16px;
   padding: 16px;
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 250px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  overflow: hidden;
+  position: relative;
 }
 
 .card img {
   max-width: 100%;
-  height: auto;
+  max-height: 100%;
+  object-fit: contain;
   border-radius: 4px;
   position: relative;
-  display: inline-block;
+  display: block;
 }
 
 .card-text {
@@ -35,24 +38,26 @@
   z-index: 1;
 }
 
-.edit-button {
-  padding-left: 1cap;
-  padding-right: 1cap;
+.edit-button,
+.view-button,
+.delete-button {
+  padding: 8px; /* Adjusted padding */
+  font-size: 12px; /* Adjusted font size */
   color: bisque;
   background-color: dodgerblue;
   position: absolute;
-  bottom: 10px; /* Adjust the distance from the bottom as needed */
-  left: 70%; /* Position horizontally in the center */
-  transform: translateX(-50%); /* Center the button */
+  bottom: 10px;
+  transform: translateX(-50%);
+}
+
+.edit-button {
+  left: 20%;
+}
+
+.view-button {
+  left: 50%;
 }
 
 .delete-button {
-  padding-left: 1cap;
-  padding-right: 1cap;
-  color: bisque;
-  background-color: dodgerblue;
-  position: absolute;
-  bottom: 10px; /* Adjust the distance from the bottom as needed */
-  left: 30%; /* Position horizontally in the center */
-  transform: translateX(-50%); /* Center the button */
+  left: 80%;
 }
