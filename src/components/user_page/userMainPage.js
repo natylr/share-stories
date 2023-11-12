@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 import { Navbar, Nav} from "react-bootstrap";
 import StoriesCards from "./storiesCards";
 import AddStoryForm from "../story_share/addStoryForm";
-import ParagraphFrame from "../story_share/paragraphFrame"
 import {logout} from "../../utils/localStorage"
-
+import StoryForm from "../story_share/StoryForm"
 import "../../styles/userMainPage.css";
 
 
@@ -40,9 +39,14 @@ function UserMainPage({}) {
   }, []);
   
   const [currentPage , setCurrentPage] = useState("AllStoriesCards");
-
+  const [storyTitleForEdit, setStoryTitleForEdit] = useState("")
   const createStory = () => {
     setCurrentPage("AddStoryForm");
+  };
+
+  const editStory = (title) => {
+    setStoryTitleForEdit(title)
+    setCurrentPage("EditStory");
   };
 
   const showMyStories = () => {
@@ -66,9 +70,10 @@ function UserMainPage({}) {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      {currentPage === "MyStoriesCards" && <StoriesCards cards_type= "my_cards" />}
-      {currentPage === "AllStoriesCards" && <StoriesCards cards_type= "cards" />}
-      {currentPage === "AddStoryForm" && <AddStoryForm />}
+      {currentPage === "MyStoriesCards" && <StoriesCards cardsType= "my_cards" />}
+      {currentPage === "AllStoriesCards" && <StoriesCards cardsType= "cards" />}
+      {currentPage === "AddStoryForm" && <AddStoryForm onFinish={editStory}/>}
+      {currentPage === "EditStory" && <StoryForm title={storyTitleForEdit}/>}
     </div>
   );
 }

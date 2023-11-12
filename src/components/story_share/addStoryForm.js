@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import "../../styles/addStoryForm.css"
+import { useNavigate } from "react-router-dom";
 
-const AddStoryForm = () => {
+const AddStoryForm = ({onFinish}) => {
+  // const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [mainImage, setMainImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -41,7 +43,8 @@ const AddStoryForm = () => {
       });
 
       const data = await response.json();
-
+      onFinish(title);
+      // navigate('/story', { state: { title } });
       // // Set the uploaded image URL to display
       // setUploadedImageUrl(`http://localhost:5000/${data.mainImageUrl}`);
     } catch (error) {

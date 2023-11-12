@@ -1,53 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ParagraphFrame from './paragraphFrame';
 
 const StoryForm = (props) => {
-  // State for managing the form data
-  const [formData, setFormData] = useState({
-    // Initialize with default values if needed
-    // Example:
-    title: '',
-    content: '',
-  });
+  const [paragraphsData, setParagraphsData] = useState([]);
+  const [titleFromProps, setTitleFromProps] = useState('');
 
-  // Event handler for form input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+//   useEffect(() => {
+//     // Check if props.location and props.location.state are defined
+//     if (props.location && props.location.state && props.location.state.title) {
+//       setTitleFromProps(props.location.state.title);
+//     }
+//   }, [props.location]);
+
+  const handleAddParagraph = () => {
+    setParagraphsData([...paragraphsData, {}]);
   };
 
-  // Event handler for form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Do something with the form data, for example, send it to an API
-
-    // Reset the form after submission if needed
-    setFormData({
-      title: '',
-      content: '',
-    });
+  const handleSubmit = () => {
+    // Handle form submission
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* Input for title */}
-      <label htmlFor="title">Title:</label>
-        
+        {console.log({titleFromProps})}
+        <h1>{props.title}</h1>
+      <label htmlFor="title">{titleFromProps}</label>
+      <button type="button" onClick={handleAddParagraph}>
+        Add Paragraph
+      </button>
 
-      {/* Input for content */}
-      <label htmlFor="content">Content:</label>
-      <textarea
-        id="content"
-        name="content"
-        value={formData.content}
-        onChange={handleInputChange}
-      />
-
-      {/* Button to submit the form */}
+      {paragraphsData.map((paragraphData, index) => (
+        <ParagraphFrame key={index} />
+      ))}
       <button type="submit">Submit</button>
     </form>
   );

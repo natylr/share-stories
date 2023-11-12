@@ -6,20 +6,20 @@ import apiService from '../../utils/apiService';
 
 const StoriesCards = (props) => {
   const [cards, setCards] = useState([]);
-  const { cards_type } = props;
+  const { cardsType } = props;
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
 
     if (token) {
-      const url = `http://localhost:5000/story/${cards_type}`;
-      const method = cards_type === "cards" ? "GET" : "POST";
+      const url = `http://localhost:5000/story/${cardsType}`;
+      const method = cardsType === "cards" ? "GET" : "POST";
 
       apiService(url, method, {
         "Content-Type": "application/json",
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
-      }, cards_type === "cards" ? null : { token })
+      }, cardsType === "cards" ? null : { token })
         .then((data) => {
           if (data.data === "Invalid Token") {
             logout();
@@ -28,7 +28,7 @@ const StoriesCards = (props) => {
           }
         });
     }
-  }, [cards_type]);
+  }, [cardsType]);
 
   const handleDelete = async (title) => {
     try {
@@ -48,7 +48,7 @@ const StoriesCards = (props) => {
   return (
     <div className="card-container">
       {cards.map((card, index) => (
-        cards_type === "cards"?
+        cardsType === "cards"?
         <Card key={index} imageUrl={card.mainImageUrl} text={card.title} isEdit ={false} />
         :
         <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} isEdit={true}/>
