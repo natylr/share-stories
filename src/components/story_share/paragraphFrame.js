@@ -85,7 +85,7 @@ const ParagraphFrame = (props) => {
                     onChange={handleFileChange}
                 />
             </div>
-            <button className="save-paragraph-button" onClick={handleSave}>Save Paragraph</button>
+            {/* <button className="save-paragraph-button" onClick={handleSave}>Save Paragraph</button> */}
         </div>
     );
 };
