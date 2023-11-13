@@ -76,6 +76,49 @@ const deleteStoryByTitle = async (req, res) => {
   }
 };
 
+const updateStory = async (req, res) => {
+  const { storyId, title, paragraphs } = req.body;
+  let mainImageUrl = null;
+  let additionalImages = [];
+
+  if (req.file) {
+    mainImageUrl = req.file.path;
+  }
+
+  if (req.files) {
+    additionalImages = req.files.map((file) => file.path);
+  }
+
+  try {
+    const updatedStory = await Story.findByIdAndUpdate(
+      storyId,
+      {
+        $set: {
+          title,
+          mainImageUrl,
+        },
+        $push: {
+          paragraphs,
+        },
+        $addToSet: {
+          additionalImages: { $each: additionalImages },
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedStory) {
+      return res.status(404).json({ success: false, error: 'Story not found' });
+    }
+
+    res.json(updatedStory);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
+
+
 const resetStorySchema = async (req, res) => {
   try {
     const result = await Story.deleteMany({});
@@ -86,5 +129,5 @@ const resetStorySchema = async (req, res) => {
 };
 
 module.exports = {
-  getCards, addStory, deleteStoryByTitle, getMyCards
+  getCards, addStory, deleteStoryByTitle, getMyCards, updateStory
 };
