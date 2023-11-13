@@ -41,8 +41,8 @@
 .edit-button,
 .view-button,
 .delete-button {
-  padding: 8px; /* Adjusted padding */
-  font-size: 12px; /* Adjusted font size */
+  padding: 8px; 
+  font-size: 12px;
   color: bisque;
   background-color: dodgerblue;
   position: absolute;

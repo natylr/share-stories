@@ -1,0 +1,26 @@
+.formContainer {
+  position: relative;
+  padding: 20px; 
+}
+
+.addButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 20px; 
+  margin-left: 20px;
+  padding: 10px;
+  background-color: midnightblue;
+  color: beige;
+}
+
+.saveButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 20px; 
+  margin-right: 20px; 
+  padding: 10px;
+  background-color: midnightblue;
+  color: beige;
+}

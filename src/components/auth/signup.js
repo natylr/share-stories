@@ -1,5 +1,6 @@
 import React, { Component, useState } from "react";
 import ReactPlayer from 'react-player'
+
 export default function SignUp() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");

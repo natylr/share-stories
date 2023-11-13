@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "../../styles/addStoryForm.css"
-import { useNavigate } from "react-router-dom";
+import ReactPlayer from 'react-player';
 
 const AddStoryForm = ({onFinish}) => {
   // const navigate = useNavigate();
@@ -90,6 +90,21 @@ const AddStoryForm = ({onFinish}) => {
             </div>
           <button type="submit" className='add-btn'>Add the story</button>
         </form>
+          <ReactPlayer
+          width={'100%'}
+          height="100%"
+          url="http://localhost:3000/create_story_backgroud.mp4"
+          playing={true}
+          muted={true}
+          loop={true}
+          config={{
+            file: {
+              attributes: {
+                controlsList: 'nofullscreen',
+              },
+            },
+          }}
+        />
       </div>
     </div>
   );

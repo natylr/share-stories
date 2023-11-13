@@ -1,18 +1,18 @@
-import React, {useEffect, useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { connect } from 'react-redux';
-import { Navbar, Nav} from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import StoriesCards from "./storiesCards";
 import AddStoryForm from "../story_share/addStoryForm";
-import {logout} from "../../utils/localStorage"
-import StoryForm from "../story_share/StoryForm"
+import { logout } from "../../utils/localStorage";
+import StoryForm from "../story_share/StoryForm";
 import "../../styles/userMainPage.css";
 
-
-function UserMainPage({}) {
+function UserMainPage({ }) {
   useEffect(() => {
     const interval = setInterval(() => {
       const token = window.localStorage.getItem("token");
-  
+
       if (token) {
         fetch("http://localhost:5000/user/user-data", {
           method: "POST",
@@ -26,26 +26,29 @@ function UserMainPage({}) {
             token: window.localStorage.getItem("token"),
           }),
         })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.data === "Invalid Token") {
-            logout();
-          }
-        });
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.data === "Invalid Token") {
+              logout();
+            }
+          });
+      } else {
+        logout();
       }
     }, 1000);
-  
-    return () => clearInterval(interval); 
+
+    return () => clearInterval(interval);
   }, []);
-  
-  const [currentPage , setCurrentPage] = useState("AllStoriesCards");
-  const [storyTitleForEdit, setStoryTitleForEdit] = useState("")
+
+  const [currentPage, setCurrentPage] = useState("AllStoriesCards");
+  const [storyTitleForEdit, setStoryTitleForEdit] = useState("");
+
   const createStory = () => {
     setCurrentPage("AddStoryForm");
   };
 
   const editStory = (title) => {
-    setStoryTitleForEdit(title)
+    setStoryTitleForEdit(title);
     setCurrentPage("EditStory");
   };
 
@@ -56,6 +59,7 @@ function UserMainPage({}) {
   const showAllStories = () => {
     setCurrentPage("AllStoriesCards");
   };
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -70,11 +74,12 @@ function UserMainPage({}) {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      {currentPage === "MyStoriesCards" && <StoriesCards cardsType= "my_cards" />}
-      {currentPage === "AllStoriesCards" && <StoriesCards cardsType= "cards" />}
-      {currentPage === "AddStoryForm" && <AddStoryForm onFinish={editStory}/>}
-      {currentPage === "EditStory" && <StoryForm title={storyTitleForEdit}/>}
+      {currentPage === "MyStoriesCards" && <StoriesCards cardsType="my_cards" />}
+      {currentPage === "AllStoriesCards" && <StoriesCards cardsType="cards" />}
+      {currentPage === "AddStoryForm" && <AddStoryForm onFinish={editStory} />}
+      {currentPage === "EditStory" && <StoryForm title={storyTitleForEdit} />}
     </div>
   );
 }
+
 export default UserMainPage;

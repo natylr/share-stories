@@ -1,6 +1,15 @@
 .paragraph-frame {
   display: flex;
   flex-direction: row;
+  margin-bottom: 20px; 
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.paragraph-frame + .paragraph-frame {
+  margin-top: 20px; 
 }
 
 .paragraph-form-group {
@@ -8,7 +17,7 @@
 }
 
 .paragraph-form-group label {
-  margin-left: 0; /* Set margin-left to 0 */
+  margin-left: 0; 
   font-weight: bold;
 }
 
