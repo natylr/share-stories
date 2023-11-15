@@ -6,9 +6,12 @@ const upload = multer({ dest: 'uploads/' });
 
 router.get("/cards", StoryController.getCards);
 router.post("/add_story", upload.single('mainImage'), StoryController.addStory);
-router.post("/my_cards", StoryController.getMyCards)
-router.delete("/delete_story", StoryController.deleteStoryByTitle)
-router.put("/update_story", upload.single('mainImage'), StoryController.updateStory); // Add this line
+router.post("/my_cards", StoryController.getMyCards);
+router.delete("/delete_story", StoryController.deleteStoryByTitle);
+router.put("/update_paragraphs", upload.array('additionalImages'), StoryController.updateParagraphs);
+
+module.exports = router;
+
 
 
 module.exports = router;

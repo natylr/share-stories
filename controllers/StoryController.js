@@ -23,7 +23,16 @@ const getMyCards = async (req, res) => {
 };
 
 const addStory = async (req, res) => {
-  const { creatorId, title } = req.body;
+  const { token, title } = req.body;
+  const user = await userDataByToken(token);
+  const creatorId = user.data.userId;
+  
+  const story = await Story.findOne({ title: title, creatorId: userId }); // Find by both title and userId
+
+    if (story) {
+      return res.json({ error: "User Exists" });
+    }
+
   let mainImageUrl = null;
 
   if (req.file) {
@@ -50,7 +59,7 @@ const deleteStoryByTitle = async (req, res) => {
     const user = await userDataByToken(token);
     const userId = user.data.userId;
 
-    const story = await Story.findOne({ title: title, userId: userId }); // Find by both title and userId
+    const story = await Story.findOne({ title: title, creatorId: userId }); // Find by both title and userId
 
     if (!story) {
       return res.status(404).json({ success: false, error: 'Story not found' });
@@ -76,29 +85,26 @@ const deleteStoryByTitle = async (req, res) => {
   }
 };
 
-const updateStory = async (req, res) => {
-  const { storyId, title, paragraphs } = req.body;
-  let mainImageUrl = null;
-  let additionalImages = [];
-
-  if (req.file) {
-    mainImageUrl = req.file.path;
-  }
-
-  if (req.files) {
-    additionalImages = req.files.map((file) => file.path);
-  }
+const updateParagraphs = async (req, res) => {
+  const { title, token, paragraphs } = req.body;
 
   try {
-    const updatedStory = await Story.findByIdAndUpdate(
-      storyId,
+    const user = await userDataByToken(token);
+    const creatorId = user.data.userId;
+
+    let additionalImages = [];
+
+    // Check if additional image files are provided
+    if (req.files && req.files.length > 0) {
+      additionalImages = req.files.map((file) => file.path);
+    }
+
+    // Update the story in the database
+    const updatedStory = await Story.findOneAndUpdate(
+      { title, creatorId },
       {
-        $set: {
-          title,
-          mainImageUrl,
-        },
         $push: {
-          paragraphs,
+          paragraphs: { $each: paragraphs },
         },
         $addToSet: {
           additionalImages: { $each: additionalImages },
@@ -107,10 +113,12 @@ const updateStory = async (req, res) => {
       { new: true }
     );
 
+    // Check if the story is not found
     if (!updatedStory) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
 
+    // Return the updated story
     res.json(updatedStory);
   } catch (error) {
     console.error(error);
@@ -118,6 +126,22 @@ const updateStory = async (req, res) => {
   }
 };
 
+
+const getStoryByTitle = async (req, res) => {
+  try {
+    const { title } = req.params;
+    const story = await Story.findOne({ title });
+    
+    if (!story) {
+      return res.status(404).json({ success: false, error: 'Story not found' });
+    }
+
+    res.json(story);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
 
 const resetStorySchema = async (req, res) => {
   try {
@@ -129,5 +153,5 @@ const resetStorySchema = async (req, res) => {
 };
 
 module.exports = {
-  getCards, addStory, deleteStoryByTitle, getMyCards, updateStory
+  getCards, addStory, deleteStoryByTitle, getMyCards, updateParagraphs, getStoryByTitle
 };
