@@ -34,7 +34,7 @@ const AddStoryForm = ({onFinish}) => {
 
     try {
       const formData = new FormData();
-      formData.append('creatorId', window.localStorage.getItem("userId"))
+      formData.append('token', window.localStorage.getItem("token"))
       formData.append('title', title);
       formData.append('mainImage', mainImage);
       const response = await fetch('http://localhost:5000/story/add_story', {
