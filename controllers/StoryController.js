@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Story = mongoose.model("StoryDetails");
 const { userDataByToken } = require('./UserController');
+const fs = require('fs');
 
 const getCards = async (req, res) => {
   try {
@@ -25,13 +26,13 @@ const getMyCards = async (req, res) => {
 const addStory = async (req, res) => {
   const { token, title } = req.body;
   const user = await userDataByToken(token);
-  const creatorId = user.data.userId;
-  
+  const userId = user.data.userId;
+
   const story = await Story.findOne({ title: title, creatorId: userId }); // Find by both title and userId
 
-    if (story) {
-      return res.json({ error: "User Exists" });
-    }
+  if (story) {
+    return res.json({ error: "User Exists" });
+  }
 
   let mainImageUrl = null;
 
@@ -41,7 +42,7 @@ const addStory = async (req, res) => {
 
   try {
     const newStory = new Story({
-      creatorId,
+      creatorId :userId,
       title,
       mainImageUrl,
     });
@@ -49,6 +50,7 @@ const addStory = async (req, res) => {
 
     res.json(savedStory);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: error.message });
   }
 };
@@ -65,11 +67,10 @@ const deleteStoryByTitle = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
 
-    const result = await Story.deleteOne({ title: title, userId: userId });
+    const result = await Story.deleteOne({ title: title, creatorId: userId });
 
     if (story.mainImageUrl) {
       // Delete the image file from the server
-      const fs = require('fs');
       fs.unlink(story.mainImageUrl, (err) => {
         if (err) {
           console.error('Error deleting image file:', err);
@@ -85,6 +86,7 @@ const deleteStoryByTitle = async (req, res) => {
   }
 };
 
+
 const updateParagraphs = async (req, res) => {
   const { title, token, paragraphs } = req.body;
 
@@ -92,33 +94,32 @@ const updateParagraphs = async (req, res) => {
     const user = await userDataByToken(token);
     const creatorId = user.data.userId;
 
-    let additionalImages = [];
+    // Find the existing story to get the old images
+    const existingStory = await Story.findOne({ title, creatorId });
 
-    // Check if additional image files are provided
-    if (req.files && req.files.length > 0) {
-      additionalImages = req.files.map((file) => file.path);
-    }
-
-    // Update the story in the database
-    const updatedStory = await Story.findOneAndUpdate(
-      { title, creatorId },
-      {
-        $push: {
-          paragraphs: { $each: paragraphs },
-        },
-        $addToSet: {
-          additionalImages: { $each: additionalImages },
-        },
-      },
-      { new: true }
-    );
-
-    // Check if the story is not found
-    if (!updatedStory) {
+    if (!existingStory) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
 
-    // Return the updated story
+    // Delete all old images associated with the existing story
+    existingStory.paragraphs.forEach((paragraph) => {
+      if (paragraph.imagePath) {
+        fs.unlink(paragraph.imagePath, (err) => {
+          if (err) {
+            console.error('Error deleting image file:', err);
+          } else {
+            console.log('Image file deleted successfully:', paragraph.imagePath);
+          }
+        });
+      }
+    });
+
+    // Update paragraphs with the new ones
+    existingStory.paragraphs = paragraphs;
+
+    // Save the updated story
+    const updatedStory = await existingStory.save();
+
     res.json(updatedStory);
   } catch (error) {
     console.error(error);
@@ -126,12 +127,11 @@ const updateParagraphs = async (req, res) => {
   }
 };
 
-
 const getStoryByTitle = async (req, res) => {
   try {
     const { title } = req.params;
     const story = await Story.findOne({ title });
-    
+
     if (!story) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }

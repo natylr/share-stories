@@ -7,8 +7,16 @@ const StorySchema = new mongoose.Schema({
   },
   title: { type: String, required: true },
   mainImageUrl: String,
-  paragraphs: [String],
-  additionalImages: [String]
+  paragraphs: [
+    {
+      text: {
+        type: String,
+        required: true
+      },
+      imageUrl: String
+    }
+  ],
+  // additionalImages: [String]
 });
 
 module.exports = mongoose.model("StoryDetails", StorySchema);
