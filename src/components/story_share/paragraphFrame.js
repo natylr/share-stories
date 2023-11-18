@@ -7,62 +7,39 @@ import '../../styles/paragraphFrame.css';
 
 const ParagraphFrame = (props) => {
   const [paragraphText, setParagraphText] = useState(EditorState.createEmpty());
-  const [mainImage, setMainImage] = useState(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  const [paragraphImage, setParagraphImage] = useState(null);
 
   useEffect(() => {
-    // Set initial text state from props
     if (props.initialText) {
       const contentState = convertFromHTML(props.initialText);
       const editorState = EditorState.createWithContent(contentState);
       setParagraphText(editorState);
     }
 
-    // Set initial image state from props
     if (props.initialImageUrl) {
-      setUploadedImageUrl(props.initialImageUrl);
+      setParagraphImage(props.initialImageUrl);
     }
   }, [props.initialText, props.initialImageUrl]);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setMainImage(file);
-
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        setUploadedImageUrl(event.target.result);
-      }
-
-      reader.readAsDataURL(file);
-    } else {
-      setUploadedImageUrl(null);
-    }
+    setParagraphImage(file)
+    onUpdateParagraphData();
   };
 
   const onEditorStateChange = (newEditorState) => {
     setParagraphText(newEditorState);
 
     // Automatically save the paragraph data whenever the editor state changes
-    saveParagraphData();
+    onUpdateParagraphData();
   };
 
-  const saveParagraphData = () => {
+  const onUpdateParagraphData = () => {
     const contentState = paragraphText.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
     const htmlContent = draftToHtml(rawContentState);
-
-    // Now you can send the `htmlContent` to your server for saving in MongoDB
-    // Example:
-    // fetch('/api/saveContent', {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({ htmlContent })
-    // });
-  };
+    props.onUpdataParagraph( {"textData": { htmlContent }, "paragraphImageData": paragraphImage } );
+};
 
   return (
     <div className="paragraph-frame">
@@ -75,9 +52,9 @@ const ParagraphFrame = (props) => {
         </div>
       </div>
       <div className="paragraph-form-group">
-        {uploadedImageUrl && (
+        {paragraphImage && (
           <div>
-            <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
+            <img src={paragraphImage} alt="Uploaded" className='add-story-img' />
           </div>
         )}
         <input
