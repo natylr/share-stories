@@ -86,7 +86,6 @@ const deleteStoryByTitle = async (req, res) => {
   }
 };
 
-
 const updateParagraphs = async (req, res) => {
   const { title, token, paragraphs } = req.body;
 
@@ -94,30 +93,26 @@ const updateParagraphs = async (req, res) => {
     const user = await userDataByToken(token);
     const creatorId = user.data.userId;
 
-    // Find the existing story to get the old images
-    const existingStory = await Story.findOne({ title, creatorId });
+    const existingStory = await Story.findOne({title, creatorId });
 
     if (!existingStory) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
 
-    // Delete all old images associated with the existing story
-    existingStory.paragraphs.forEach((paragraph) => {
+    existingStory.paragraphs.forEach(async (paragraph) => {
       if (paragraph.imagePath) {
-        fs.unlink(paragraph.imagePath, (err) => {
-          if (err) {
-            console.error('Error deleting image file:', err);
-          } else {
-            console.log('Image file deleted successfully:', paragraph.imagePath);
-          }
-        });
+
+        try {
+          await fs.promises.unlink(paragraph.imagePath);
+          console.log('Image file deleted successfully:', paragraph.imagePath);
+        } catch (error) {
+          console.error('Error deleting image file:', error);
+        }
       }
     });
 
-    // Update paragraphs with the new ones
     existingStory.paragraphs = paragraphs;
 
-    // Save the updated story
     const updatedStory = await existingStory.save();
 
     res.json(updatedStory);
@@ -129,12 +124,15 @@ const updateParagraphs = async (req, res) => {
 
 const getStoryByTitle = async (req, res) => {
   try {
-    const { title } = req.params;
-    const story = await Story.findOne({ title });
+    console.log("rount")
+    const { creatorId, title } = req.params;
+    const story = await Story.findOne({ title, creatorId });
 
     if (!story) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
+
+    console.log('Sending Story Data:', story); // Log the story data
 
     res.json(story);
   } catch (error) {
@@ -142,6 +140,7 @@ const getStoryByTitle = async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 };
+
 
 const resetStorySchema = async (req, res) => {
   try {
