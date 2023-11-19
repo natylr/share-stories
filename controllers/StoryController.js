@@ -125,8 +125,9 @@ const updateParagraphs = async (req, res) => {
 const getStoryByTitle = async (req, res) => {
   try {
     console.log("rount")
-    const { creatorId, title } = req.params;
-    const story = await Story.findOne({ title, creatorId });
+    const { title, userId } = req.params;
+    console.log( title, userId)
+    const story = await Story.findOne({ title, creatorId:userId });
 
     if (!story) {
       return res.status(404).json({ success: false, error: 'Story not found' });
@@ -136,8 +137,8 @@ const getStoryByTitle = async (req, res) => {
 
     res.json(story);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    console.log(error);
+    res.status(500).json({ success: false, error: error });
   }
 };
 
