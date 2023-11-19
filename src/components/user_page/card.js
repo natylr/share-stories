@@ -5,6 +5,10 @@ const Card = (props) => {
 
     const title = props.text;
 
+    const handleEdit = (e) =>{
+        e.preventDefault();
+        props.onEdit(title)
+    }
     const handleDelete = (e) => {
         e.preventDefault();
         props.onDelete(title);
@@ -18,7 +22,7 @@ const Card = (props) => {
             </div>
             {props.isEdit && (
               <>
-                <button className="edit-button">edit</button>
+                <button className="edit-button" onClick={handleEdit}>edit</button>
                 <button className="delete-button" onClick={handleDelete}>delete</button>
               </>
               )}

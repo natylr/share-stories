@@ -3,16 +3,40 @@ import ParagraphFrame from './paragraphFrame';
 import '../../styles/storyForm.css';
 
 const StoryForm = (props) => {
+  const title = props.title 
   const [paragraphsData, setParagraphsData] = useState([]);
-  const [titleFromProps, setTitleFromProps] = useState('');
+  
+  const fetchStoryByTitle = async () => { 
+    try {
+      const userId = localStorage.getItem("userId");
+      const response = await fetch(`http://localhost:5000/story/get_story/${userId}${title}`);
+      console.log(response)
+      // const storyData = await response.json();
+      if (response.ok) {
+        try {
+          const responseBody = await response.text(); // Read the response body as text
+          console.log('Response Body:', responseBody);
+        
+          const storyData = JSON.parse(responseBody); // Attempt to parse the response body as JSON
+          console.log('Story Data:', storyData);
+          setParagraphsData(storyData);
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+        // console.log(storyData);
+        // setParagraphsData(storyData);
+        // console.log('Story Data:', storyData);
+      } else {
+        console.error('Failed to fetch story data');
+      }
+    } catch (error) {
+      console.error('Error fetching story data:', error);
+    }
+  };
 
   useEffect(() => {
-    // Set initial data when in edit mode
-    if (props.editData) {
-      setTitleFromProps(props.editData.title);
-      setParagraphsData(props.editData.paragraphs);
-    }
-  }, [props.editData]);
+    fetchStoryByTitle();
+  }, []);
 
   const handleAddParagraph = () => {
     setParagraphsData([...paragraphsData, {}]);
@@ -29,7 +53,7 @@ const StoryForm = (props) => {
   const handleSave = async () => {
     try {
       const formData = new FormData();
-      formData.append('title', titleFromProps);
+      formData.append('title', title);
       formData.append('token', localStorage.getItem("token"));
   
       // Append each paragraph data along with its image file (if exists)
@@ -58,8 +82,8 @@ const StoryForm = (props) => {
   
   return (
     <form className="formContainer" onSubmit={handleSave} >
-      <h1>{titleFromProps}</h1>
-      <label htmlFor="title">{titleFromProps}</label>
+      {/* <h1>{titleFromProps}</h1> */}
+      <label htmlFor="title">{title}</label>
 
       <button className="addButton" type="button" onClick={handleAddParagraph}>
         Add Paragraph

@@ -19,7 +19,7 @@ const ParagraphFrame = (props) => {
     if (props.initialImageUrl) {
       setParagraphImage(props.initialImageUrl);
     }
-  }, [props.initialText, props.initialImageUrl]);
+  }, []);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];

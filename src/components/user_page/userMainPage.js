@@ -74,7 +74,7 @@ function UserMainPage({ }) {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      {currentPage === "MyStoriesCards" && <StoriesCards cardsType="my_cards" />}
+      {currentPage === "MyStoriesCards" && <StoriesCards cardsType="my_cards" onEdit={editStory} />}
       {currentPage === "AllStoriesCards" && <StoriesCards cardsType="cards" />}
       {currentPage === "AddStoryForm" && <AddStoryForm onFinish={editStory} />}
       {currentPage === "EditStory" && <StoryForm title={storyTitleForEdit} />}

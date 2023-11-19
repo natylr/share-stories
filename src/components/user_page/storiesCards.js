@@ -6,7 +6,7 @@ import apiService from '../../utils/apiService';
 
 const StoriesCards = (props) => {
   const [cards, setCards] = useState([]);
-  const { cardsType } = props;
+  const { cardsType , onEdit} = props;
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -51,7 +51,7 @@ const StoriesCards = (props) => {
         cardsType === "cards"?
         <Card key={index} imageUrl={card.mainImageUrl} text={card.title} isEdit ={false} />
         :
-        <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} isEdit={true}/>
+        <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} onEdit={onEdit} isEdit={true}/>
       ))}
     </div>
   );
