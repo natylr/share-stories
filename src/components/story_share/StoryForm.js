@@ -9,7 +9,7 @@ const StoryForm = (props) => {
   const fetchStoryByTitle = async () => { 
     try {
       const userId = localStorage.getItem("userId");
-      const response = await fetch(`http://localhost:5000/story/get_story/${userId}${title}`);
+      const response = await fetch(`http://localhost:5000/story/get_story?userId=${userId}&title=${title}`);
       console.log(response)
       // const storyData = await response.json();
       if (response.ok) {
