@@ -10,12 +10,11 @@ const StoryForm = (props) => {
     try {
       const userId = localStorage.getItem("userId");
       const response = await fetch(`http://localhost:5000/story/get_story?userId=${userId}&title=${title}`);
-      console.log(response)
       // const storyData = await response.json();
       if (response.ok) {
         try {
-          const responseBody = await response.text(); // Read the response body as text
-          const storyData = JSON.parse(responseBody); // Attempt to parse the response body as JSON
+          const responseBody = await response.text(); 
+          const storyData = JSON.parse(responseBody); 
           setParagraphsData(storyData.paragraphs);
         } catch (error) {
           console.error('Error parsing JSON:', error);
@@ -36,34 +35,30 @@ const StoryForm = (props) => {
     setParagraphsData([...paragraphsData, {}]);
   };
   
-  const handleUpdateParagraph = (paragraphIndex, data) => {
-    setParagraphsData((prevData) => {
-      const newData = [...prevData];
-      newData[paragraphIndex] = data;
-      return newData;
-    });
+
+  const handleUpdateParagraph = (paragraphIndex, newData) => {
+    const updatedParagraphsData = [...paragraphsData];
+  
+    updatedParagraphsData[paragraphIndex] = newData;
+  
+    setParagraphsData(updatedParagraphsData);
   };
 
   const handleSave = async () => {
     try {
-      alert("handleSave")      
-      const formData = new FormData();
-      formData.append('title', title);
-      formData.append('token', localStorage.getItem("token"));
-  
-      // Append each paragraph data along with its image file (if exists)
-      paragraphsData.forEach((paragraph, index) => {
-        formData.append(`paragraphs[${index}][text]`, paragraph.text);
-        if (paragraph.imageFile) {
-          formData.append(`paragraphs[${index}][image]`, paragraph.imageFile);
-        }
-      });
-  
+      const data = {};
+      data.title = title;
+      data.token = localStorage.getItem("token");
+      data.paragraphs = [...paragraphsData];
+      console.log(data)
       const response = await fetch('http://localhost:5000/story/update_paragraphs', {
         method: 'PUT',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       });
-  
+
       if (response.ok) {
         const savedStory = await response.json();
       } else {
@@ -85,7 +80,7 @@ const StoryForm = (props) => {
 
       <div className="paragraphsContainer">
         {paragraphsData.map((paragraphData, index) => (
-          <ParagraphFrame key={index} onUpdataParagraph={handleUpdateParagraph}/>
+          <ParagraphFrame initialText={paragraphData.textData} initialImageUrl={paragraphData.paragraphImageData} index={index} key={index} onUpdataParagraph={handleUpdateParagraph}/>
         ))}
       </div>
 

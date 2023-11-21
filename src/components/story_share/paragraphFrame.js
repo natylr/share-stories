@@ -12,6 +12,7 @@ const ParagraphFrame = (props) => {
   useEffect(() => {
     if (props.initialText) {
       const contentState = convertFromHTML(props.initialText);
+      console.log(contentState)
       const editorState = EditorState.createWithContent(contentState);
       setParagraphText(editorState);
     }
@@ -38,7 +39,7 @@ const ParagraphFrame = (props) => {
     const contentState = paragraphText.getCurrentContent();
     const rawContentState = convertToRaw(contentState);
     const htmlContent = draftToHtml(rawContentState);
-    props.onUpdataParagraph( {"textData": { htmlContent }, "paragraphImageData": paragraphImage } );
+    props.onUpdataParagraph( props.index ,{"textData": htmlContent , "paragraphImageData": paragraphImage } );
 };
 
   return (
