@@ -87,31 +87,29 @@ const deleteStoryByTitle = async (req, res) => {
 };
 
 const updateParagraphs = async (req, res) => {
+  console.log("req.body", req.body)
   const { title, token, paragraphs } = req.body;
-
   try {
     const user = await userDataByToken(token);
     const creatorId = user.data.userId;
-    
+
     const existingStory = await Story.findOne({title, creatorId });
 
     if (!existingStory) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
-
     existingStory.paragraphs.forEach(async (old_paragraph) => {
-      if (old_paragraph.imagePath) {
+      if (old_paragraph.paragraphImageData) {
 
         try {
-          await fs.promises.unlink(old_paragraph.imagePath);
-          console.log('Image file deleted successfully:', old_paragraph.imagePath);
+          await fs.promises.unlink(old_paragraph.paragraphImageData);
+          console.log('Image file deleted successfully:', old_paragraph.paragraphImageData);
         } catch (error) {
           console.error('Error deleting image file:', error);
         }
       }
     });
 
-    console.log(existingStory);
     existingStory.paragraphs = paragraphs;
 
     const updatedStory = await existingStory.save();
@@ -132,7 +130,6 @@ const getStoryByTitle = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
 
-    console.log('Sending Story Data:', story); // Log the story data
 
     res.json(story);
   } catch (error) {

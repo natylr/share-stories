@@ -9,11 +9,11 @@ const StorySchema = new mongoose.Schema({
   mainImageUrl: String,
   paragraphs: [
     {
-      text: {
+      textData: {
         type: String,
         required: true
       },
-      imageUrl: String
+      paragraphImageData: String
     }
   ],
   // additionalImages: [String]
