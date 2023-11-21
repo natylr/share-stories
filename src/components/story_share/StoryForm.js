@@ -15,17 +15,11 @@ const StoryForm = (props) => {
       if (response.ok) {
         try {
           const responseBody = await response.text(); // Read the response body as text
-          console.log('Response Body:', responseBody);
-        
           const storyData = JSON.parse(responseBody); // Attempt to parse the response body as JSON
-          console.log('Story Data:', storyData);
-          setParagraphsData(storyData);
+          setParagraphsData(storyData.paragraphs);
         } catch (error) {
           console.error('Error parsing JSON:', error);
         }
-        // console.log(storyData);
-        // setParagraphsData(storyData);
-        // console.log('Story Data:', storyData);
       } else {
         console.error('Failed to fetch story data');
       }
@@ -52,6 +46,7 @@ const StoryForm = (props) => {
 
   const handleSave = async () => {
     try {
+      alert("handleSave")      
       const formData = new FormData();
       formData.append('title', title);
       formData.append('token', localStorage.getItem("token"));
@@ -64,14 +59,13 @@ const StoryForm = (props) => {
         }
       });
   
-      const response = await fetch('/save_story', {
-        method: 'POST',
+      const response = await fetch('http://localhost:5000/story/update_paragraphs', {
+        method: 'PUT',
         body: formData,
       });
   
       if (response.ok) {
         const savedStory = await response.json();
-        console.log('Saved Story:', savedStory);
       } else {
         console.error('Failed to save story');
       }
@@ -81,7 +75,7 @@ const StoryForm = (props) => {
   };
   
   return (
-    <form className="formContainer" onSubmit={handleSave} >
+    <form className="formContainer" >
       {/* <h1>{titleFromProps}</h1> */}
       <label htmlFor="title">{title}</label>
 
@@ -95,7 +89,7 @@ const StoryForm = (props) => {
         ))}
       </div>
 
-      <button className="saveButton" type="submit">
+      <button className="saveButton" type="button" onClick={handleSave}>
         Save
       </button>
     </form>
