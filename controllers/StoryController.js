@@ -92,25 +92,26 @@ const updateParagraphs = async (req, res) => {
   try {
     const user = await userDataByToken(token);
     const creatorId = user.data.userId;
-
+    
     const existingStory = await Story.findOne({title, creatorId });
 
     if (!existingStory) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
 
-    existingStory.paragraphs.forEach(async (paragraph) => {
-      if (paragraph.imagePath) {
+    existingStory.paragraphs.forEach(async (old_paragraph) => {
+      if (old_paragraph.imagePath) {
 
         try {
-          await fs.promises.unlink(paragraph.imagePath);
-          console.log('Image file deleted successfully:', paragraph.imagePath);
+          await fs.promises.unlink(old_paragraph.imagePath);
+          console.log('Image file deleted successfully:', old_paragraph.imagePath);
         } catch (error) {
           console.error('Error deleting image file:', error);
         }
       }
     });
 
+    console.log(existingStory);
     existingStory.paragraphs = paragraphs;
 
     const updatedStory = await existingStory.save();
@@ -124,9 +125,7 @@ const updateParagraphs = async (req, res) => {
 
 const getStoryByTitle = async (req, res) => {
   try {
-    console.log("rount")
-    const { title, userId } = req.params;
-    console.log( title, userId)
+    const { title, userId } = req.query;
     const story = await Story.findOne({ title, creatorId:userId });
 
     if (!story) {
