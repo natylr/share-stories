@@ -38,29 +38,30 @@ const StoryForm = (props) => {
 
   const handleUpdateParagraph = (paragraphIndex, newData) => {
     const updatedParagraphsData = [...paragraphsData];
-  
     updatedParagraphsData[paragraphIndex] = newData;
-  
+    console.log(updatedParagraphsData[paragraphIndex])
     setParagraphsData(updatedParagraphsData);
   };
 
   const handleSave = async () => {
     try {
-      const data = {};
-      data.title = title;
-      data.token = localStorage.getItem("token");
-      data.paragraphs = [...paragraphsData];
-      console.log(data)
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('token', localStorage.getItem("token"));
+  
+      paragraphsData.forEach((paragraph, index) => {
+        formData.append(`paragraphs[${index}][textData]`, paragraph.textData);
+        formData.append(`paragraphs[${index}][paragraphImageData]`, paragraph.paragraphImageData);
+      });
+      console.log(formData)
       const response = await fetch('http://localhost:5000/story/update_paragraphs', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+        body: formData,
       });
-
+  
       if (response.ok) {
         const savedStory = await response.json();
+        alert("Your changes have been saved");
       } else {
         console.error('Failed to save story');
       }
@@ -68,11 +69,9 @@ const StoryForm = (props) => {
       console.error('Error saving story:', error);
     }
   };
-  
   return (
     <form className="formContainer" >
-      {/* <h1>{titleFromProps}</h1> */}
-      <label htmlFor="title">{title}</label>
+      <label htmlFor="title"><h1>{title}</h1></label>
 
       <button className="addButton" type="button" onClick={handleAddParagraph}>
         Add Paragraph

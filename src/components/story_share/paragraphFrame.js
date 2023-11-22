@@ -8,15 +8,18 @@ import '../../styles/paragraphFrame.css';
 const ParagraphFrame = (props) => {
   const [paragraphText, setParagraphText] = useState(EditorState.createEmpty());
   const [paragraphImage, setParagraphImage] = useState(null);
-
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
+  
   useEffect(() => {
     if (props.initialText) {
-      const contentState = convertFromHTML(props.initialText);
-      console.log(contentState)
-      const editorState = EditorState.createWithContent(contentState);
-      setParagraphText(editorState);
-    }
-
+        const blocksFromHTML = convertFromHTML(props.initialText);
+        const contentState = ContentState.createFromBlockArray(
+          blocksFromHTML.contentBlocks,
+          blocksFromHTML.entityMap
+        );
+        const editorState = EditorState.createWithContent(contentState);
+        setParagraphText(editorState);
+      }
     if (props.initialImageUrl) {
       setParagraphImage(props.initialImageUrl);
     }
@@ -24,9 +27,27 @@ const ParagraphFrame = (props) => {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    setParagraphImage(file)
+    setParagraphImage(file);
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        setUploadedImageUrl(event.target.result);
+      }
+
+      reader.readAsDataURL(file);
+    } else {
+      setUploadedImageUrl(null);
+    }
     onUpdateParagraphData();
   };
+  
+//   const handleFileChange = (e) => {
+//     const file = e.target.files[0];
+//     setParagraphImage(file)
+//     onUpdateParagraphData();
+//   };
 
   const onEditorStateChange = (newEditorState) => {
     setParagraphText(newEditorState);
@@ -53,9 +74,9 @@ const ParagraphFrame = (props) => {
         </div>
       </div>
       <div className="paragraph-form-group">
-        {paragraphImage && (
+        {uploadedImageUrl && (
           <div>
-            <img src={paragraphImage} alt="Uploaded" className='add-story-img' />
+            <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
           </div>
         )}
         <input
