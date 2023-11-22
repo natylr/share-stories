@@ -8,7 +8,7 @@ router.get("/cards", StoryController.getCards);
 router.post("/add_story", upload.single('mainImage'), StoryController.addStory);
 router.post("/my_cards", StoryController.getMyCards);
 router.delete("/delete_story", StoryController.deleteStoryByTitle);
-router.put("/update_paragraphs", upload.array('paragraphs.*.image'), StoryController.updateParagraphs);
+router.put("/update_paragraphs", upload.array('paragraphs.*.paragraphImageData'), StoryController.updateParagraphs);
 router.get("/get_story", StoryController.getStoryByTitle);
 
 module.exports = router;
