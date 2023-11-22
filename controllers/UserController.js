@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const {JWT_SECRET} = require ("../secret");
 
 const User = mongoose.model("UserInfo");
 
-const JWT_SECRET = "hvdvay6ert72839289()aiyg8t87qt72393293883uhefiuh78ttq3ifi78272jbkj?[]]pou89ywe";
 
 const register = async (req, res) => {
   const { fname, lname, email, password} = req.body;

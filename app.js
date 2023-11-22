@@ -1,3 +1,4 @@
+const { mongoUrl } = require("./secret");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,8 +15,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
-// Connect to MongoDB
-const mongoUrl = "mongodb+srv://netanelham:1q2w3e@user-info.hhi99os.mongodb.net/";
 
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
