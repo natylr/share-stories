@@ -6,88 +6,81 @@ import draftToHtml from 'draftjs-to-html';
 import '../../styles/paragraphFrame.css';
 
 const ParagraphFrame = (props) => {
-  const [paragraphText, setParagraphText] = useState(EditorState.createEmpty());
-  const [paragraphImage, setParagraphImage] = useState(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
-  
-  useEffect(() => {
-    if (props.initialText) {
-        const blocksFromHTML = convertFromHTML(props.initialText);
-        const contentState = ContentState.createFromBlockArray(
-          blocksFromHTML.contentBlocks,
-          blocksFromHTML.entityMap
-        );
-        const editorState = EditorState.createWithContent(contentState);
-        setParagraphText(editorState);
-      }
-    if (props.initialImageUrl) {
-      setParagraphImage(props.initialImageUrl);
-    }
-  }, []);
+    const [paragraphText, setParagraphText] = useState(EditorState.createEmpty());
+    const [paragraphImage, setParagraphImage] = useState(null);
+    const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setParagraphImage(file);
+    useEffect(() => {
+        if (props.initialText) {
+            const blocksFromHTML = convertFromHTML(props.initialText);
+            const contentState = ContentState.createFromBlockArray(
+                blocksFromHTML.contentBlocks,
+                blocksFromHTML.entityMap
+            );
+            const editorState = EditorState.createWithContent(contentState);
+            setParagraphText(editorState);
+        }
+        if (props.initialImageUrl) {
+            setParagraphImage(props.initialImageUrl);
+        }
+    }, []);
 
-    if (file) {
-      const reader = new FileReader();
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file === paragraphImage) {
+            return
+        }
+        props.onUpdataImage(props.index, file);
+        setParagraphImage(file);
+        if (file) {
+            const reader = new FileReader();
 
-      reader.onload = (event) => {
-        setUploadedImageUrl(event.target.result);
-      }
+            reader.onload = (event) => {
+                setUploadedImageUrl(event.target.result);
+            }
 
-      reader.readAsDataURL(file);
-    } else {
-      setUploadedImageUrl(null);
-    }
-    onUpdateParagraphData();
-  };
-  
-//   const handleFileChange = (e) => {
-//     const file = e.target.files[0];
-//     setParagraphImage(file)
-//     onUpdateParagraphData();
-//   };
+            reader.readAsDataURL(file);
+        } else {
+            setUploadedImageUrl(null);
+        }
+    };
 
-  const onEditorStateChange = (newEditorState) => {
-    setParagraphText(newEditorState);
+    const onEditorStateChange = (newEditorState) => {
+        if (paragraphText == newEditorState) {
+            return
+        }
+        const contentState = newEditorState.getCurrentContent();
+        const rawContentState = convertToRaw(contentState);
+        const htmlContent = draftToHtml(rawContentState);
+        props.onUpdataText(props.index, htmlContent);
+        setParagraphText(newEditorState)
+    };
 
-    // Automatically save the paragraph data whenever the editor state changes
-    onUpdateParagraphData();
-  };
-
-  const onUpdateParagraphData = () => {
-    const contentState = paragraphText.getCurrentContent();
-    const rawContentState = convertToRaw(contentState);
-    const htmlContent = draftToHtml(rawContentState);
-    props.onUpdataParagraph( props.index ,{"textData": htmlContent , "paragraphImageData": paragraphImage } );
-};
-
-  return (
-    <div className="paragraph-frame">
-      <div className="paragraph-form-group">
-        <div className="editor-wrapper">
-          <Editor
-            editorState={paragraphText}
-            onEditorStateChange={onEditorStateChange}
-          />
+    return (
+        <div className="paragraph-frame">
+            <div className="paragraph-form-group">
+                <div className="editor-wrapper">
+                    <Editor
+                        editorState={paragraphText}
+                        onEditorStateChange={onEditorStateChange}
+                    />
+                </div>
+            </div>
+            <div className="paragraph-form-group">
+                {uploadedImageUrl && (
+                    <div>
+                        <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
+                    </div>
+                )}
+                <input
+                    className="paragraph-image-input"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                />
+            </div>
         </div>
-      </div>
-      <div className="paragraph-form-group">
-        {uploadedImageUrl && (
-          <div>
-            <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
-          </div>
-        )}
-        <input
-          className="paragraph-image-input"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ParagraphFrame;

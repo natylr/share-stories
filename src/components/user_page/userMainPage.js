@@ -5,7 +5,7 @@ import { Navbar, Nav } from "react-bootstrap";
 import StoriesCards from "./storiesCards";
 import AddStoryForm from "../story_share/addStoryForm";
 import { logout } from "../../utils/localStorage";
-import StoryForm from "../story_share/StoryForm";
+import StoryEditor from "../story_share/storyEditor";
 import "../../styles/userMainPage.css";
 
 function UserMainPage({ }) {
@@ -77,7 +77,7 @@ function UserMainPage({ }) {
       {currentPage === "MyStoriesCards" && <StoriesCards cardsType="my_cards" onEdit={editStory} />}
       {currentPage === "AllStoriesCards" && <StoriesCards cardsType="cards" />}
       {currentPage === "AddStoryForm" && <AddStoryForm onFinish={editStory} />}
-      {currentPage === "EditStory" && <StoryForm title={storyTitleForEdit} />}
+      {currentPage === "EditStory" && <StoryEditor title={storyTitleForEdit} />}
     </div>
   );
 }

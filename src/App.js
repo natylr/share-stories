@@ -6,7 +6,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Login from "./components/auth/login";
 import SignUp from "./components/auth/signup";
 import UserMainPage from "./components/user_page/userMainPage";
-import StoryForm from "./components/story_share/StoryForm";
 
 function App() {
   const isLoggedIn = window.localStorage.getItem("loggedIn");
