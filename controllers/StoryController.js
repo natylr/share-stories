@@ -87,8 +87,9 @@ const deleteStoryByTitle = async (req, res) => {
 };
 
 const updateParagraphs = async (req, res) => {
-  console.log("req.body", req.body)
   const { title, token, paragraphs } = req.body;
+  console.log(paragraphs)
+  console.log(req.files)
   try {
     const user = await userDataByToken(token);
     const creatorId = user.data.userId;
@@ -109,7 +110,9 @@ const updateParagraphs = async (req, res) => {
         }
       }
     });
-
+    req.files.forEach(async (file, index) => {
+      paragraphs[index].paragraphImageData = file.path;
+    })
     existingStory.paragraphs = paragraphs;
 
     const updatedStory = await existingStory.save();
