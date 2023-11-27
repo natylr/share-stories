@@ -51,9 +51,10 @@ const StoryEditor = (props) => {
 
       paragraphsData.forEach((paragraph, index) => {
         formData.append(`paragraphs[${index}][textData]`, paragraph.textData);
-        formData.append(`paragraphs[${index}][paragraphImageData]`, paragraph.paragraphImageData);
-      });
+        formData.append(`paragraphs[${index}][paragraphImageData]`, null);
+        formData.append("test1", paragraph.paragraphImageData)
 
+      });
       const response = await fetch('http://localhost:5000/story/update_paragraphs', {
         method: 'PUT',
         body: formData,
