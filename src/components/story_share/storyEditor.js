@@ -7,7 +7,7 @@ const StoryEditor = (props) => {
   const [paragraphsData, setParagraphsData] = useState([]);
   const updatedTextsIndex = new Set();
   const updatedImagesIndex = new Set();
-
+  
   const fetchStoryByTitle = async () => {
     try {
       const userId = localStorage.getItem("userId");
@@ -51,9 +51,9 @@ const StoryEditor = (props) => {
 
   const handleSave = async () => {
     try {
-      const updatedImages = [];
-      const updatedTexts = [];
-      const removedImagesIndex = []
+      let updatedImages = [];
+      let updatedTexts = [];
+      let removedImagesIndex = []
       paragraphsData.forEach((paragraph, index) => {
         if (updatedTextsIndex.has(index)) {
           updatedTexts.push(paragraph.textData);
@@ -81,8 +81,8 @@ const StoryEditor = (props) => {
       if (!response.ok) {
         throw new Error(`Failed to update paragraphs. Status: ${response.status}`);
       }
-      const updatedTextsIndex = new Set();
-      const updatedImagesIndex = new Set();
+      updatedTextsIndex = new Set();
+      updatedImagesIndex = new Set();
       console.log('Paragraphs updated successfully');
     } catch (error) {
       console.error('Error updating paragraphs:', error);
