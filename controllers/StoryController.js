@@ -42,7 +42,7 @@ const addStory = async (req, res) => {
 
   try {
     const newStory = new Story({
-      creatorId :userId,
+      creatorId: userId,
       title,
       mainImageUrl,
     });
@@ -87,21 +87,39 @@ const deleteStoryByTitle = async (req, res) => {
 };
 
 const updateParagraphs = async (req, res) => {
-  const { title, token, paragraphs } = req.body;
-  console.log(paragraphs)
-  console.log(req.files)
+  const { title, token, updatedTextsIndex, updatedTexts, updatedImagesIndex, removedImagesIndex } = req.body;
+  
+  const updatedTextsIndexArray = updatedTextsIndex.split(',');
+  const updatedTextsArray = updatedTexts.split(',');
+  const updatedImagesIndexArray = updatedImagesIndex.split(',');
+  const removedImagesIndexArray = removedImagesIndex.split(',');
+  updatedTextsIndexArray.forEach((value, idx)=>{updatedTextsIndexArray[idx] = parseInt(value)})
+  updatedImagesIndexArray.forEach((value, idx)=>{updatedImagesIndexArray[idx] = parseInt(value)})
+  removedImagesIndexArray.forEach((value, idx)=>{removedImagesIndexArray[idx] = parseInt(value)})
+
   try {
     const user = await userDataByToken(token);
     const creatorId = user.data.userId;
 
-    const existingStory = await Story.findOne({title, creatorId });
+    const existingStory = await Story.findOne({ title, creatorId });
 
     if (!existingStory) {
       return res.status(404).json({ success: false, error: 'Story not found' });
     }
-    existingStory.paragraphs.forEach(async (old_paragraph) => {
-      if (old_paragraph.paragraphImageData) {
 
+    // checking if exist new paragraph without text
+    if ((updatedImagesIndexArray[updatedImagesIndexArray.length - 1] > updatedTextsIndexArray[updatedTextsIndexArray.length - 1]) && (updatedImagesIndexArray[updatedImagesIndex.length - 1] > existingStory.paragraphs.length))
+      return res.status(403).json({ success: false, error: 'Can not add paragraph without text' });
+    console.log("updatedTextsIndexArray", updatedTextsIndexArray);
+    updatedTextsIndexArray.forEach(paragraphIndex => {
+      if (existingStory.paragraphs.length <= paragraphIndex)
+      existingStory.paragraphs = [...existingStory.paragraphs, {"textData": null ,"paragraphImageData":null}]
+    });
+    
+    for (let paragraphIndex = 0; paragraphIndex < existingStory.paragraphs.length; paragraphIndex++) {
+      // remove not old images
+      const old_paragraph = existingStory.paragraphs[paragraphIndex];
+      if ((updatedImagesIndexArray.includes(paragraphIndex) || removedImagesIndexArray.includes(paragraphIndex)) && old_paragraph.paragraphImageData) {
         try {
           await fs.promises.unlink(old_paragraph.paragraphImageData);
           console.log('Image file deleted successfully:', old_paragraph.paragraphImageData);
@@ -109,12 +127,17 @@ const updateParagraphs = async (req, res) => {
           console.error('Error deleting image file:', error);
         }
       }
-    });
-    req.files.forEach(async (file, index) => {
-      paragraphs[index].paragraphImageData = file.path;
-    })
-    existingStory.paragraphs = paragraphs;
+      if (updatedImagesIndexArray.includes(paragraphIndex)) 
+        existingStory.paragraphs[paragraphIndex].paragraphImageData = req.files[paragraphIndex].path
+      
+      if (updatedTextsIndexArray.includes(paragraphIndex)) 
+        existingStory.paragraphs[paragraphIndex].textData = updatedTextsArray[paragraphIndex]
+      
+      if (removedImagesIndexArray.includes(paragraphIndex))
+        existingStory.paragraphs[paragraphIndex].textData = null
 
+    }
+    console.log(existingStory.paragraphs);
     const updatedStory = await existingStory.save();
 
     res.json(updatedStory);
@@ -127,7 +150,7 @@ const updateParagraphs = async (req, res) => {
 const getStoryByTitle = async (req, res) => {
   try {
     const { title, userId } = req.query;
-    const story = await Story.findOne({ title, creatorId:userId });
+    const story = await Story.findOne({ title, creatorId: userId });
 
     if (!story) {
       return res.status(404).json({ success: false, error: 'Story not found' });
