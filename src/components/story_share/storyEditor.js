@@ -5,9 +5,9 @@ import '../../styles/storyForm.css';
 const StoryEditor = (props) => {
   const title = props.title
   const [paragraphsData, setParagraphsData] = useState([]);
-  const updatedTextsIndex = new Set();
-  const updatedImagesIndex = new Set();
-  
+  const [updatedTextsIndex, setUpdatedTextsIndex] = useState(new Set());
+  const [updatedImagesIndex, setUpdatedImagesIndex] = useState(new Set());
+
   const fetchStoryByTitle = async () => {
     try {
       const userId = localStorage.getItem("userId");
@@ -19,6 +19,7 @@ const StoryEditor = (props) => {
 
       const responseBody = await response.text();
       const storyData = JSON.parse(responseBody);
+      console.log(storyData);
       setParagraphsData(storyData.paragraphs);
     } catch (error) {
       console.error('Error fetching story data:', error);
@@ -35,22 +36,22 @@ const StoryEditor = (props) => {
 
   const updateTextOfParagraph = (paragraphIndex, newText) => {
     const updatedParagraphsData = [...paragraphsData];
-    console.log(paragraphIndex, updatedParagraphsData[paragraphIndex])
     updatedParagraphsData[paragraphIndex].textData = newText;
     setParagraphsData(updatedParagraphsData);
-    updatedTextsIndex.add(paragraphIndex)
+    setUpdatedTextsIndex(new Set(updatedTextsIndex).add(paragraphIndex))
   }
 
   const updateImageOfParagraph = (paragraphIndex, newImage) => {
     const updatedParagraphsData = [...paragraphsData];
     updatedParagraphsData[paragraphIndex].paragraphImageData = newImage;
     setParagraphsData(updatedParagraphsData);
-    updatedImagesIndex.add(paragraphIndex)
+    setUpdatedImagesIndex(new Set(updatedImagesIndex).add(paragraphIndex))
   }
 
 
   const handleSave = async () => {
     try {
+
       let updatedImages = [];
       let updatedTexts = [];
       let removedImagesIndex = []
@@ -65,11 +66,15 @@ const StoryEditor = (props) => {
             removedImagesIndex.push(index)
         }
       })
-     
       const formData = new FormData();
+      console.log(updatedTextsIndex)
       formData.append('token', localStorage.getItem("token"));
       formData.append('title', title);
+      
+      formData.append('updatedTextsIndex', Array.from(updatedTextsIndex));
+
       formData.append('updatedTexts', updatedTexts);
+      formData.append('updatedImagesIndex', Array.from(updatedImagesIndex));
       formData.append('updatedImages', updatedImages);
       formData.append('removedImagesIndex', removedImagesIndex);
 
@@ -77,12 +82,11 @@ const StoryEditor = (props) => {
         method: 'PUT',
         body: formData,
       });
-
-      if (!response.ok) {
+      if (!response.ok) 
         throw new Error(`Failed to update paragraphs. Status: ${response.status}`);
-      }
-      updatedTextsIndex = new Set();
-      updatedImagesIndex = new Set();
+      
+      setUpdatedTextsIndex(new Set())
+      setUpdatedImagesIndex(new Set())
       console.log('Paragraphs updated successfully');
     } catch (error) {
       console.error('Error updating paragraphs:', error);
