@@ -21,7 +21,7 @@ const ParagraphFrame = (props) => {
             setParagraphText(editorState);
         }
         if (props.initialImageUrl) {
-            setParagraphImage(props.initialImageUrl);
+            setUploadedImageUrl(`http://localhost:5000/${props.initialImageUrl}`);
         }
     }, []);
 

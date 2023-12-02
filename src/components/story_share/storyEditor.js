@@ -75,7 +75,10 @@ const StoryEditor = (props) => {
 
       formData.append('updatedTexts', updatedTexts);
       formData.append('updatedImagesIndex', Array.from(updatedImagesIndex));
-      formData.append('updatedImages', updatedImages);
+      updatedImages.forEach((image)=>{
+        formData.append('updatedImages', image);
+      })
+
       formData.append('removedImagesIndex', removedImagesIndex);
 
       const response = await fetch(`http://localhost:5000/story/update_paragraphs`, {
