@@ -2,6 +2,7 @@ import React, {useState } from "react";
 import ReactPlayer from 'react-player'
 import { useNavigate } from "react-router-dom";
 import {logout, saveUserData} from "../../utils/localStorage"
+import { loginUserApi, getUserDataApi } from '../../utils/authApi';
 
 export default function Login() {
   const [email, setAuthEmail] = useState(window.localStorage.getItem("saved-email") || "");
@@ -10,60 +11,40 @@ export default function Login() {
   const headerStyle = { margin: 0, color: '#1bbd7e' }
   const navigate = useNavigate();
   
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    fetch("http://localhost:5000/user/login-user", {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.status == "ok") {
-          alert("login successful");
-          window.localStorage.setItem("token", data.data);
-          window.localStorage.setItem("loggedIn", true);
-          if (rememberMe) {
-            window.localStorage.setItem("saved-email", email);
-            window.localStorage.setItem("saved-password", password);
-          } else {
-            window.localStorage.removeItem("saved-email");
-            window.localStorage.removeItem("saved-password");
-          }
-          fetch("http://localhost:5000/user/user-data", {
-            method: "POST",
-            crossDomain: true,
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              "Access-Control-Allow-Origin": "*",
-            },
-            body: JSON.stringify({
-              token: window.localStorage.getItem("token"),
-            }),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.data === "Invalid Token") {
-                logout();
-              } else {
-                saveUserData(data);
-                navigate("/user-page");
-              }
-            });
+    try {
+      const loginResponse = await loginUserApi(email, password);
+
+      if (loginResponse.status === "ok") {
+        alert("Login successful");
+        window.localStorage.setItem("token", loginResponse.data);
+        window.localStorage.setItem("loggedIn", true);
+
+        if (rememberMe) {
+          window.localStorage.setItem("saved-email", email);
+          window.localStorage.setItem("saved-password", password);
         } else {
-          alert(data.error);
+          window.localStorage.removeItem("saved-email");
+          window.localStorage.removeItem("saved-password");
         }
-      });
+
+        const userDataResponse = await getUserDataApi(loginResponse.data);
+
+        if (userDataResponse.data === "Invalid Token") {
+          logout();
+        } else {
+          saveUserData(userDataResponse);
+          navigate("/user-page");
+        }
+      } else {
+        alert(loginResponse.error);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert("Something went wrong");
+    }
   }
 
   return (

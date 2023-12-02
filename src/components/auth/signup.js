@@ -1,5 +1,7 @@
 import React, { Component, useState } from "react";
 import ReactPlayer from 'react-player'
+import { registerUserApi } from '../../utils/authApi';
+
 
 export default function SignUp() {
   const [fname, setFname] = useState("");
@@ -8,36 +10,23 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const headerStyle = { margin: 0, color: '#1bbd7e' }
 
-  const handleSubmit = (e) => {
-    {
-      e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      fetch("http://localhost:5000/user/register", {
-        method: "POST",
-        crossDomain: true,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-        body: JSON.stringify({
-          fname,
-          email,
-          lname,
-          password
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data, "userRegister");
-          if (data.status == "ok") {
-            alert("Registration Successful");
-          } else {
-            alert("Something went wrong");
-          }
-        });
+    try {
+      const response = await registerUserApi(fname, lname, email, password);
+
+      if (response.status === "ok") {
+        alert("Registration Successful");
+      } else {
+        alert("Something went wrong");
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert("Something went wrong");
     }
   };
+
 
   return (
     <div className="auth-body">

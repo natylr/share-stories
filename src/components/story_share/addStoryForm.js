@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import "../../styles/addStoryForm.css"
 import ReactPlayer from 'react-player';
+import { addStoryApi } from '../../utils/storyApi';
 
 const AddStoryForm = ({onFinish}) => {
-  // const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [mainImage, setMainImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -33,20 +33,8 @@ const AddStoryForm = ({onFinish}) => {
     }
 
     try {
-      const formData = new FormData();
-      formData.append('token', window.localStorage.getItem("token"))
-      formData.append('title', title);
-      formData.append('mainImage', mainImage);
-      const response = await fetch('http://localhost:5000/story/add_story', {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await response.json();
+      const response = await addStoryApi(window.localStorage.getItem('token'), title, mainImage);
       onFinish(title);
-      // navigate('/story', { state: { title } });
-      // // Set the uploaded image URL to display
-      // setUploadedImageUrl(`http://localhost:5000/${data.mainImageUrl}`);
     } catch (error) {
       console.error('Error:', error);
     }
