@@ -3,7 +3,7 @@ const apiService = async (url, method, headers, body) => {
     const response = await fetch(url, {
       method,
       headers,
-      body: body ? JSON.stringify(body) : undefined,
+      body: body ? body : undefined,
     });
 
     if (!response.ok) {

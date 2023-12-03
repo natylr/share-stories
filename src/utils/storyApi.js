@@ -19,7 +19,7 @@ export const addStoryApi = async (token, title, mainImage) => {
 export const getStoryByTitleApi = async (userId, title) => {
   try {
     const response = await apiService(`http://localhost:5000/story/get_story?userId=${userId}&title=${title}`);
-    return JSON.parse(response);
+    return response;
   } catch (error) {
     console.error('Error fetching story data:', error);
     throw error;
@@ -31,21 +31,21 @@ export const updateParagraphsApi = async (token, title, updatedTextsIndex, updat
     const formData = new FormData();
     formData.append('token', token);
     formData.append('title', title);
-    formData.append('updatedTextsIndex', JSON.stringify(updatedTextsIndex));
-    formData.append('updatedTexts', JSON.stringify(updatedTexts));
-    formData.append('updatedImagesIndex', JSON.stringify(updatedImagesIndex));
+    formData.append('updatedTextsIndex', updatedTextsIndex);
+    formData.append('updatedTexts', updatedTexts);
+    formData.append('updatedImagesIndex', updatedImagesIndex);
 
     updatedImages.forEach((image) => {
       formData.append('updatedImages', image);
     });
 
-    formData.append('removedImagesIndex', JSON.stringify(removedImagesIndex));
+    formData.append('removedImagesIndex', removedImagesIndex);
 
     const response = await apiService('http://localhost:5000/story/update_paragraphs', 'PUT', {}, formData);
 
-    if (!response.ok) {
-      throw new Error(`Failed to update paragraphs. Status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Failed to update paragraphs. Status: ${response.status}`);
+    // }
 
     console.log('Paragraphs updated successfully');
   } catch (error) {

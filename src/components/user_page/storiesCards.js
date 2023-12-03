@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import "../../styles/storiesCards.css";
 import Card from './card';
 import { logout } from "../../utils/localStorage";
-import apiService from '../../utils/apiService'; 
+import apiService from '../../utils/apiService';
 
 const StoriesCards = (props) => {
   const [cards, setCards] = useState([]);
-  const { cardsType , onEdit} = props;
+  const { cardsType, onEdit } = props;
 
   useEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -19,7 +19,7 @@ const StoriesCards = (props) => {
         "Content-Type": "application/json",
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",
-      }, cardsType === "cards" ? null : { token })
+      }, cardsType === "cards" ? null : JSON.stringify({token}))
         .then((data) => {
           if (data.data === "Invalid Token") {
             logout();
@@ -48,10 +48,10 @@ const StoriesCards = (props) => {
   return (
     <div className="card-container">
       {cards.map((card, index) => (
-        cardsType === "cards"?
-        <Card key={index} imageUrl={card.mainImageUrl} text={card.title} isEdit ={false} />
-        :
-        <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} onEdit={onEdit} isEdit={true}/>
+        cardsType === "cards" ?
+          <Card key={index} imageUrl={card.mainImageUrl} text={card.title} isEdit={false} />
+          :
+          <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} onEdit={onEdit} isEdit={true} />
       ))}
     </div>
   );
