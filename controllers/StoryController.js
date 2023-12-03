@@ -24,6 +24,7 @@ const getMyCards = async (req, res) => {
 };
 
 const addStory = async (req, res) => {
+
   const { token, title } = req.body;
   const user = await userDataByToken(token);
   const userId = user.data.userId;
@@ -110,7 +111,6 @@ const updateParagraphs = async (req, res) => {
     // checking if exist new paragraph without text
     if ((updatedImagesIndexArray[updatedImagesIndexArray.length - 1] > updatedTextsIndexArray[updatedTextsIndexArray.length - 1]) && (updatedImagesIndexArray[updatedImagesIndex.length - 1] > existingStory.paragraphs.length))
       return res.status(403).json({ success: false, error: 'Can not add paragraph without text' });
-    console.log("updatedTextsIndexArray", updatedTextsIndexArray);
     updatedTextsIndexArray.forEach(paragraphIndex => {
       if (existingStory.paragraphs.length <= paragraphIndex)
       existingStory.paragraphs = [...existingStory.paragraphs, {"textData": null ,"paragraphImageData":null}]
@@ -137,7 +137,6 @@ const updateParagraphs = async (req, res) => {
         existingStory.paragraphs[paragraphIndex].textData = null
 
     }
-    console.log(existingStory.paragraphs);
     const updatedStory = await existingStory.save();
 
     res.json(updatedStory);

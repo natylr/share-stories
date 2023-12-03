@@ -7,7 +7,7 @@ const User = mongoose.model("UserInfo");
 
 
 const register = async (req, res) => {
-  const { fname, lname, email, password} = req.body;
+  const { fname, lname, email, password, address, city, phone } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, 10);
   try {
@@ -16,31 +16,35 @@ const register = async (req, res) => {
     if (oldUser) {
       return res.json({ error: "User Exists" });
     }
-    
+
     let generatedUserId;
-    // genrate unique number for user id
+    // generate unique number for user id
     do {
       generatedUserId = Math.floor(Math.random() * 1000000) + 1;
-    } while (await mongoose.model('UserInfo').findOne({ userId: generatedUserId }));
+    } while (
+      await mongoose.model("UserInfo").findOne({ userId: generatedUserId })
+    );
 
-    
     const user = new User({
-      userId:generatedUserId,
+      userId: generatedUserId,
       fname,
       lname,
       email,
       password: encryptedPassword,
+      address,
+      city,
+      phone,
     });
 
-    await user.save(); // Save the user to the database
+    await user.save(); 
 
     res.send({ status: "ok" });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send({ status: "error" });
   }
 };
-// ...
+
 
 const login = async (req, res) => {
   const { email, password } = req.body;
