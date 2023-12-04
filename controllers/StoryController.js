@@ -139,7 +139,7 @@ const updateParagraphs = async (req, res) => {
     }
     const updatedStory = await existingStory.save();
 
-    res.json(updatedStory);
+    res.json({ ok: true, data: updatedStory });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: 'Internal Server Error' });
@@ -163,15 +163,6 @@ const getStoryByTitle = async (req, res) => {
   }
 };
 
-
-const resetStorySchema = async (req, res) => {
-  try {
-    const result = await Story.deleteMany({});
-    return res.json({ message: "Schema reset successful", deletedCount: result.deletedCount });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
-};
 
 module.exports = {
   getCards, addStory, deleteStoryByTitle, getMyCards, updateParagraphs, getStoryByTitle

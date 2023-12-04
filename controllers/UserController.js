@@ -85,9 +85,46 @@ const userData = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  const { token, fname, lname, address, city, phone } = req.body;
+  const user = await userDataByToken(token);
+  const userId = user.data.userId;
+
+  try {
+    const user = await User.findOne({ userId });
+
+    if (!user) {
+      return res.json({ error: "User not found" });
+    }
+
+    // Update the user's details
+    user.fname = fname;
+    user.lname = lname;
+    user.address = address;
+    user.city = city;
+    user.phone = phone;
+
+    await user.save(); // Save the updated user to the database
+
+    res.send({ status: "ok" });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    res.send({ status: "error" });
+  }
+};
+const resetStorySchema = async (req, res) => {
+  try {
+    const result = await Story.deleteMany({});
+    return res.json({ message: "Schema reset successful", deletedCount: result.deletedCount });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   register,
   login,
   userData,
-  userDataByToken
+  userDataByToken,
+  updateProfile
 };
