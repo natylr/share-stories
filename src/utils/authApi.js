@@ -71,3 +71,37 @@ export const loginUserApi = async (email, password) => {
       throw error;
     }
   };
+
+  export const updateProfileApi = async (
+    token,
+    fname,
+    lname,
+    address,
+    city,
+    phone
+  ) => {
+    try {
+      const response = await apiService(
+        `http://localhost:5000/user/update-profile`, // Adjust the endpoint
+        "PUT", // Use PUT or PATCH method for updating resources
+        {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        {
+          token,
+          fname,
+          lname,
+          address,
+          city,
+          phone,
+        }
+      );
+  
+      return response;
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      throw error;
+    }
+  };

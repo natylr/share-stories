@@ -7,6 +7,7 @@ import AddStoryForm from "../story_share/addStoryForm";
 import { logout } from "../../utils/localStorage";
 import StoryEditor from "../story_share/storyEditor";
 import "../../styles/userMainPage.css";
+import UpdateProfile from "../user_page/updateProfile"
 
 function UserMainPage({ }) {
   useEffect(() => {
@@ -60,6 +61,10 @@ function UserMainPage({ }) {
     setCurrentPage("AllStoriesCards");
   };
 
+  const updateProfile = () => {
+    setCurrentPage("UpdateProfile");
+  };
+
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -67,9 +72,10 @@ function UserMainPage({ }) {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link onClick={createStory}>Create a Story</Nav.Link>
-            <Nav.Link onClick={showAllStories}>Read Stories</Nav.Link>
+            <Nav.Link onClick={createStory}>Create a story</Nav.Link>
+            <Nav.Link onClick={showAllStories}>Read stories</Nav.Link>
             <Nav.Link onClick={showMyStories}>My stories</Nav.Link>
+            <Nav.Link onClick={updateProfile}>Change my details</Nav.Link>
             <Nav.Link onClick={logout}>Log Out</Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -77,6 +83,7 @@ function UserMainPage({ }) {
       {currentPage === "MyStoriesCards" && <StoriesCards cardsType="my_cards" onEdit={editStory} />}
       {currentPage === "AllStoriesCards" && <StoriesCards cardsType="cards" />}
       {currentPage === "AddStoryForm" && <AddStoryForm onFinish={editStory} />}
+      {currentPage === "UpdateProfile" && <UpdateProfile/>}
       {currentPage === "EditStory" && <StoryEditor title={storyTitleForEdit} />}
     </div>
   );
