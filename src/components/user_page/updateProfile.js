@@ -82,11 +82,15 @@ export default function UpdateProfile() {
             onChange={(e) => setPhone(e.target.value)}
           />
         </div>
-
+        <p className="forgot-password text-right">
+        </p>
         <button type="submit" className="update-btn">
           Update Profile
         </button>
+       
       </form>
+      <a href="/change-password" className="change-password">change your password</a>
+
     </div>
   );
 }

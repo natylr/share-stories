@@ -1,20 +1,38 @@
-import React, { Component, useState } from "react";
-import ReactPlayer from 'react-player'
-import { registerUserApi } from '../../utils/authApi';
-
+import React, {useState, useEffect } from "react";
+import ReactPlayer from "react-player";
+import { useNavigate } from "react-router-dom";
+import { registerUserApi } from "../../utils/authApi";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(window.localStorage.getItem("loggedIn"))
+    if(window.localStorage.getItem("loggedIn")==="true")
+      navigate("/all-stories");
+  },[])
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const headerStyle = { margin: 0, color: '#1bbd7e' }
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const headerStyle = { margin: 0, color: "#1bbd7e" };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await registerUserApi(fname, lname, email, password);
+      const response = await registerUserApi(
+        fname,
+        lname,
+        email,
+        password,
+        address,
+        city,
+        phone
+      );
 
       if (response.status === "ok") {
         alert("Registration Successful");
@@ -22,22 +40,23 @@ export default function SignUp() {
         alert("Something went wrong");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       alert("Something went wrong");
     }
   };
 
-
   return (
     <div className="auth-body">
-      <div className='auth-main'>
+      <div className="auth-main">
         <div className="auth-overlay"></div>
-        {/* <video src={videoBg} autoPlay loop muted /> */}
-        <ReactPlayer width={'100%'} height='100%'
+        <ReactPlayer
+          width={"100%"}
+          height="100%"
           url="http://localhost:3000/login_sign_up.mp4"
           playing={true}
           muted={true}
-          loop={true}>    </ReactPlayer>
+          loop={true}
+        ></ReactPlayer>
 
         <div className="auth-content">
           <div className="auth-wrapper">
@@ -81,6 +100,36 @@ export default function SignUp() {
                     className="form-control"
                     placeholder="Enter password"
                     onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter address"
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label>City</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter city"
+                    onChange={(e) => setCity(e.target.value)}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label>Phone</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter phone number"
+                    onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
 

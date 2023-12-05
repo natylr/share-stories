@@ -1,4 +1,3 @@
-// StoryEditor.js
 import React, { useState, useEffect } from 'react';
 import ParagraphFrame from './paragraphFrame';
 import '../../styles/storyForm.css';

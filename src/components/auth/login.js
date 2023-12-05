@@ -1,15 +1,21 @@
-import React, {useState } from "react";
+import React, {useState, useEffect } from "react";
 import ReactPlayer from 'react-player'
 import { useNavigate } from "react-router-dom";
 import {logout, saveUserData} from "../../utils/localStorage"
 import { loginUserApi, getUserDataApi } from '../../utils/authApi';
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(window.localStorage.getItem("loggedIn"))
+    if(window.localStorage.getItem("loggedIn")==="true")
+      navigate("/all-stories");
+  },[])
   const [email, setAuthEmail] = useState(window.localStorage.getItem("saved-email") || "");
   const [password, setAuthPassword] = useState(window.localStorage.getItem("saved-password") || "");
   const [rememberMe, setRememberMe] = useState(true);
   const headerStyle = { margin: 0, color: '#1bbd7e' }
-  const navigate = useNavigate();
   
   async function handleSubmit(e) {
     e.preventDefault();
@@ -36,7 +42,7 @@ export default function Login() {
           logout();
         } else {
           saveUserData(userDataResponse);
-          navigate("/user-page");
+          navigate("/all-stories");
         }
       } else {
         alert(loginResponse.error);
