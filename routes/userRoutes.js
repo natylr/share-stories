@@ -5,6 +5,7 @@ const UserController = require("../controllers/UserController");
 router.post("/register", UserController.register);
 router.post("/login-user", UserController.login);
 router.post("/user-data", UserController.userData);
-// Add other user routes here
+router.post("/update-profile", UserController.updateProfile);
+
 
 module.exports = router;
