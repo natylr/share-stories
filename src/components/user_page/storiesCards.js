@@ -3,8 +3,10 @@ import "../../styles/storiesCards.css";
 import Card from './card';
 import { logout } from "../../utils/localStorage";
 import apiService from '../../utils/apiService';
+import { useNavigate } from "react-router-dom";
 
 const StoriesCards = (props) => {
+  const navigate = useNavigate();
   const [cards, setCards] = useState([]);
   const { cardsType, onEdit } = props;
 
@@ -51,7 +53,7 @@ const StoriesCards = (props) => {
         cardsType === "cards" ?
           <Card key={index} imageUrl={card.mainImageUrl} text={card.title} isEdit={false} />
           :
-          <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} onEdit={onEdit} isEdit={true} />
+          <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} onEdit={()=> navigate("/edit-story/"+card.title)} isEdit={true} />
       ))}
     </div>
   );

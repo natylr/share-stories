@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ParagraphFrame from './paragraphFrame';
 import '../../styles/storyForm.css';
 import { getStoryByTitleApi, updateParagraphsApi } from '../../utils/storyApi';
+import { useParams } from 'react-router-dom';
 
-const StoryEditor = (props) => {
-  const title = props.title;
+const StoryEditor = () => {
+  const { title } = useParams();
   const [paragraphsData, setParagraphsData] = useState([]);
   const [updatedTextsIndex, setUpdatedTextsIndex] = useState(new Set());
   const [updatedImagesIndex, setUpdatedImagesIndex] = useState(new Set());
@@ -13,7 +14,6 @@ const StoryEditor = (props) => {
     try {
       const userId = localStorage.getItem('userId');
       const storyData = await getStoryByTitleApi(userId, title);
-      console.log(storyData);
       setParagraphsData(storyData.paragraphs);
     } catch (error) {
       console.error('Error fetching story data:', error);
