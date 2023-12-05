@@ -80,6 +80,15 @@ const deleteStoryByTitle = async (req, res) => {
         }
       });
     }
+    story.paragraphs.forEach(async (paragraph)=>{
+      try {
+        if (paragraph.paragraphImageData)
+          await fs.promises.unlink(paragraph.paragraphImageData);
+        console.log('Image file deleted successfully:', paragraph.paragraphImageData);
+      } catch (error) {
+        console.error('Error deleting image file:', error);
+      }
+    })
     return res.json({ success: true });
   } catch (error) {
     console.error(error);
