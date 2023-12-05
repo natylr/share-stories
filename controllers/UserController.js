@@ -112,6 +112,37 @@ const updateProfile = async (req, res) => {
     res.send({ status: "error" });
   }
 };
+
+export const changePassword = async (req, res) => {
+  const { token, prevPassword, newPassword } = req.body;
+  const user = await userDataByToken(token);
+  const userId = user.data.userId;
+  
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.json({ status: "error", error: "User not found" });
+    }
+
+    const isPasswordMatch = await bcrypt.compare(prevPassword, user.password);
+
+    if (!isPasswordMatch) {
+      return res.json({ status: "error", error: "Invalid previous password" });
+    }
+
+    const encryptedNewPassword = await bcrypt.hash(newPassword, 10);
+    user.password = encryptedNewPassword;
+
+    await user.save();
+
+    res.json({ status: "ok" });
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.json({ status: "error", error: "Something went wrong" });
+  }
+};
+
 const resetStorySchema = async (req, res) => {
   try {
     const result = await Story.deleteMany({});
@@ -126,5 +157,6 @@ module.exports = {
   login,
   userData,
   userDataByToken,
-  updateProfile
+  updateProfile,
+  changePassword
 };
