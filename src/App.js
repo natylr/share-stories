@@ -11,6 +11,7 @@ import AddStoryForm from "./components/story_share/addStoryForm";
 import UpdateProfile from "./components/user_page/updateProfile"
 import NavbarContainer from "./components/user_page/navbarContainer";
 import ChangePassword  from "./components/user_page/changePassword";
+import StoryView from './components/story_share/storyView'
 
 function App() {
   const isLoggedIn = window.localStorage.getItem("loggedIn");
@@ -28,9 +29,11 @@ function App() {
           <Route path="/all-stories" element={<NavbarContainer page={<StoriesCards cardsType="cards"/>} />} />
           <Route path="/my-stories" element={<NavbarContainer page={<StoriesCards cardsType="my_cards"/>} />} />
           <Route path="/edit-story/:title" element={<NavbarContainer page={<StoryEditor/>} />} />
+          <Route path="/view-story/:title" element={<NavbarContainer page={<StoryView/>} />} />
           <Route path="/add-story" element={<NavbarContainer page={<AddStoryForm />} />} />
           <Route path="/update-profile" element={<NavbarContainer page={<UpdateProfile />} />} />
           <Route path="/change-password" element={<NavbarContainer page={<ChangePassword />} />} />
+
         </Routes>
       </div>
     </Router>

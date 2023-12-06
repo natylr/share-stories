@@ -53,7 +53,7 @@ const StoriesCards = (props) => {
         cardsType === "cards" ?
           <Card key={index} imageUrl={card.mainImageUrl} text={card.title} isEdit={false} />
           :
-          <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} onEdit={()=> navigate("/edit-story/"+card.title)} isEdit={true} />
+          <Card key={index} imageUrl={card.mainImageUrl} text={card.title} onDelete={handleDelete} isEdit={true} />
       ))}
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ParagraphFrame from './paragraphFrame';
+import EditParagraphFrame from './editParagraphFrame';
 import '../../styles/storyForm.css';
 import { getStoryByTitleApi, updateParagraphsApi } from '../../utils/storyApi';
 import { useParams } from 'react-router-dom';
@@ -86,7 +86,7 @@ const StoryEditor = () => {
 
       <div className="paragraphsContainer">
         {paragraphsData.map((paragraphData, index) => (
-          <ParagraphFrame
+          <EditParagraphFrame
             initialText={paragraphData.textData}
             initialImageUrl={paragraphData.paragraphImageData}
             index={index}

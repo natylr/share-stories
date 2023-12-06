@@ -5,7 +5,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import '../../styles/paragraphFrame.css';
 
-const ParagraphFrame = (props) => {
+const EditParagraphFrame = (props) => {
     const [paragraphText, setParagraphText] = useState(EditorState.createEmpty());
     const [paragraphImage, setParagraphImage] = useState(null);
     const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -83,4 +83,4 @@ const ParagraphFrame = (props) => {
     );
 };
 
-export default ParagraphFrame;
+export default EditParagraphFrame;
