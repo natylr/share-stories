@@ -1,8 +1,34 @@
-import React, { useState } from "react";
-import { updateProfileApi } from "../../utils/authApi";
+import React, { useState, useEffect } from "react";
+import { updateProfileApi, getUserDataApi } from "../../utils/authApi";
 import "../../styles/updateProfile.css"; 
 
 export default function UpdateProfile() {
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = window.localStorage.getItem("token");
+
+      try {
+        const response = await getUserDataApi(token);
+
+        if (response.status === "ok") {
+          const userData = response.data;
+          setFname(userData.fname || "");
+          setLname(userData.lname || "");
+          setAddress(userData.address || "");
+          setCity(userData.city || "");
+          setPhone(userData.phone || "");
+        } else {
+          alert("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        alert("Something went wrong");
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [address, setAddress] = useState("");
