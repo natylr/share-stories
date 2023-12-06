@@ -37,7 +37,7 @@ const StoriesCards = (props) => {
       const token = window.localStorage.getItem("token");
       const response = await apiService('http://localhost:5000/story/delete_story', 'DELETE', {
         'Content-Type': 'application/json'
-      }, { title, token });
+      }, JSON.stringify({ title, token }));
 
       if (response.success) {
         setCards(prevCards => prevCards.filter(card => card.title !== title));
