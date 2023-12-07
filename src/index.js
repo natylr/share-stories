@@ -4,15 +4,11 @@ import './styles/index.css';
 import './styles/auth.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux'; 
-import store from './store/store'; 
 
 const rootElement = document.getElementById('root');
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <App />,
   rootElement
 );
 
