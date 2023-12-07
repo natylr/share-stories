@@ -26,12 +26,12 @@ const AddStoryForm = ({onFinish}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!title) {
+  
+    if (!title.trim()) {
       alert('Please enter a title.');
       return;
     }
-
+  
     try {
       const response = await addStoryApi(window.localStorage.getItem('token'), title, mainImage);
       onFinish(title);
