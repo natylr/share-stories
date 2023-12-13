@@ -113,11 +113,10 @@ const updateProfile = async (req, res) => {
   }
 };
 
-export const changePassword = async (req, res) => {
+const changePassword = async (req, res) => {
   const { token, prevPassword, newPassword } = req.body;
   const user = await userDataByToken(token);
   const userId = user.data.userId;
-  
   try {
     const user = await User.findById(userId);
 
