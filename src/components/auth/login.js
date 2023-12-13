@@ -8,8 +8,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(window.localStorage.getItem("loggedIn"))
-    if(window.localStorage.getItem("loggedIn")==="true")
+    if(window.localStorage.getItem("loggedIn") ==="true")
       navigate("/all-stories");
   },[])
   const [email, setAuthEmail] = useState(window.localStorage.getItem("saved-email") || "");
