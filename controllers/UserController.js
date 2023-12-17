@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const {JWT_SECRET} = require ("../secret");
 
 const User = mongoose.model("UserInfo");
 
@@ -36,7 +35,7 @@ const register = async (req, res) => {
       phone,
     });
 
-    await user.save(); 
+    await user.save();
 
     res.send({ status: "ok" });
   } catch (error) {
@@ -64,21 +63,30 @@ const login = async (req, res) => {
   }
 };
 
-const userDataByToken = async (token) => {
+// const userDataByToken = async (token) => {
+//   try {
+//     const user = jwt.verify(token, JWT_SECRET);
+//     const useremail = user.email;
+//     const userData = await User.findOne({ email: useremail });
+//     return { status: "ok", data: userData };
+//   } catch (error) {
+//     throw new Error("Invalid Token");
+//   }
+// };
+
+const userDataByUserId = async (userId) => {
   try {
-    const user = jwt.verify(token, JWT_SECRET);
-    const useremail = user.email;
-    const userData = await User.findOne({ email: useremail });
+    const userData = await User.findOne({ userId: userId });
     return { status: "ok", data: userData };
   } catch (error) {
-    throw new Error("Invalid Token");
+    throw new Error("Invalid User ID");
   }
 };
 
 const userData = async (req, res) => {
-  const { token } = req.body;
   try {
-    const userDataResult = await userDataByToken(token);
+    const userId = req.userId;
+    const userDataResult = await userDataByUserId(userId);
     res.send(userDataResult);
   } catch (error) {
     res.send({ status: "error", data: "Invalid Token" });
@@ -86,9 +94,8 @@ const userData = async (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
-  const { token, fname, lname, address, city, phone } = req.body;
-  const user = await userDataByToken(token);
-  const userId = user.data.userId;
+  const userId = req.userId;
+  const { fname, lname, address, city, phone } = req.body;
 
   try {
     const user = await User.findOne({ userId });
@@ -114,9 +121,8 @@ const updateProfile = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  const { token, prevPassword, newPassword } = req.body;
-  const user = await userDataByToken(token);
-  const userId = user.data.userId;
+  const userId = req.userId;
+  const { prevPassword, newPassword } = req.body;
   try {
     const user = await User.findById(userId);
 
@@ -155,7 +161,7 @@ module.exports = {
   register,
   login,
   userData,
-  userDataByToken,
+  userDataByUserId,
   updateProfile,
   changePassword
 };

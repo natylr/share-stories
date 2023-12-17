@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Story = mongoose.model("StoryDetails");
-const { userDataByToken } = require('./UserController');
+
 const fs = require('fs');
 
 const getCards = async (req, res) => {
@@ -14,9 +14,8 @@ const getCards = async (req, res) => {
 
 const getMyCards = async (req, res) => {
   try {
-    const { token } = req.body;
-    const user = await userDataByToken(token);
-    const cards = await Story.find({ creatorId: user.data.userId }, 'title mainImageUrl');
+  const userId  = req.userId;
+    const cards = await Story.find({ creatorId: userId }, 'title mainImageUrl');
     res.json(cards);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -24,10 +23,8 @@ const getMyCards = async (req, res) => {
 };
 
 const addStory = async (req, res) => {
-
-  const { token, title } = req.body;
-  const user = await userDataByToken(token);
-  const userId = user.data.userId;
+const userId  = req.userId;
+  const { title } = req.body;
 
   const story = await Story.findOne({ title: title, creatorId: userId }); // Find by both title and userId
 
@@ -58,9 +55,8 @@ const addStory = async (req, res) => {
 
 const deleteStoryByTitle = async (req, res) => {
   try {
-    const { title, token } = req.body;
-    const user = await userDataByToken(token);
-    const userId = user.data.userId;
+  const userId  = req.userId;
+    const { title } = req.body;
 
     const story = await Story.findOne({ title: title, creatorId: userId }); // Find by both title and userId
 
@@ -80,7 +76,7 @@ const deleteStoryByTitle = async (req, res) => {
         }
       });
     }
-    story.paragraphs.forEach(async (paragraph)=>{
+    story.paragraphs.forEach(async (paragraph) => {
       try {
         if (paragraph.paragraphImageData)
           await fs.promises.unlink(paragraph.paragraphImageData);
@@ -97,19 +93,20 @@ const deleteStoryByTitle = async (req, res) => {
 };
 
 const updateParagraphs = async (req, res) => {
-  const { title, token, updatedTextsIndex, updatedTexts, updatedImagesIndex, removedImagesIndex } = req.body;
-  
-  const updatedTextsIndexArray = updatedTextsIndex.split(',');
-  const updatedTextsArray = updatedTexts.split(',');
-  const updatedImagesIndexArray = updatedImagesIndex.split(',');
-  const removedImagesIndexArray = removedImagesIndex.split(',');
-  updatedTextsIndexArray.forEach((value, idx)=>{updatedTextsIndexArray[idx] = parseInt(value)})
-  updatedImagesIndexArray.forEach((value, idx)=>{updatedImagesIndexArray[idx] = parseInt(value)})
-  removedImagesIndexArray.forEach((value, idx)=>{removedImagesIndexArray[idx] = parseInt(value)})
-
   try {
-    const user = await userDataByToken(token);
-    const creatorId = user.data.userId;
+  const userId  = req.userId;
+    const { title, updatedTextsIndex, updatedTexts, updatedImagesIndex, removedImagesIndex } = req.body;
+
+    const updatedTextsIndexArray = updatedTextsIndex.split(',');
+    const updatedTextsArray = updatedTexts.split(',');
+    const updatedImagesIndexArray = updatedImagesIndex.split(',');
+    const removedImagesIndexArray = removedImagesIndex.split(',');
+    updatedTextsIndexArray.forEach((value, idx) => { updatedTextsIndexArray[idx] = parseInt(value) })
+    updatedImagesIndexArray.forEach((value, idx) => { updatedImagesIndexArray[idx] = parseInt(value) })
+    removedImagesIndexArray.forEach((value, idx) => { removedImagesIndexArray[idx] = parseInt(value) })
+
+
+    const creatorId = userId;
 
     const existingStory = await Story.findOne({ title, creatorId });
 
@@ -122,9 +119,9 @@ const updateParagraphs = async (req, res) => {
       return res.status(403).json({ success: false, error: 'Can not add paragraph without text' });
     updatedTextsIndexArray.forEach(paragraphIndex => {
       if (existingStory.paragraphs.length <= paragraphIndex)
-      existingStory.paragraphs = [...existingStory.paragraphs, {"textData": null ,"paragraphImageData":null}]
+        existingStory.paragraphs = [...existingStory.paragraphs, { "textData": null, "paragraphImageData": null }]
     });
-    
+
     for (let paragraphIndex = 0; paragraphIndex < existingStory.paragraphs.length; paragraphIndex++) {
       // remove not old images
       const old_paragraph = existingStory.paragraphs[paragraphIndex];
@@ -136,12 +133,12 @@ const updateParagraphs = async (req, res) => {
           console.error('Error deleting image file:', error);
         }
       }
-      if (updatedImagesIndexArray.includes(paragraphIndex)) 
+      if (updatedImagesIndexArray.includes(paragraphIndex))
         existingStory.paragraphs[paragraphIndex].paragraphImageData = req.files[paragraphIndex].path
-      
-      if (updatedTextsIndexArray.includes(paragraphIndex)) 
+
+      if (updatedTextsIndexArray.includes(paragraphIndex))
         existingStory.paragraphs[paragraphIndex].textData = updatedTextsArray[paragraphIndex]
-      
+
       if (removedImagesIndexArray.includes(paragraphIndex))
         existingStory.paragraphs[paragraphIndex].textData = null
 
