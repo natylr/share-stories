@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require("../secret");
 const User = mongoose.model("UserInfo");
 
 
@@ -63,16 +63,6 @@ const login = async (req, res) => {
   }
 };
 
-// const userDataByToken = async (token) => {
-//   try {
-//     const user = jwt.verify(token, JWT_SECRET);
-//     const useremail = user.email;
-//     const userData = await User.findOne({ email: useremail });
-//     return { status: "ok", data: userData };
-//   } catch (error) {
-//     throw new Error("Invalid Token");
-//   }
-// };
 
 const userDataByUserId = async (userId) => {
   try {
