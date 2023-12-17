@@ -1,24 +1,31 @@
-import  apiService  from './apiService';
+import apiService from './apiService';
 
+const BASE_URL = 'http://localhost:5000';
 
 export const addStoryApi = async (token, title, mainImage) => {
-    try {
-      const formData = new FormData();
-      formData.append('token', token);
-      formData.append('title', title);
-      formData.append('mainImage', mainImage);
-  
-      const response = await apiService('http://localhost:5000/story/add_story', 'POST', {}, formData);
-      return response;
-    } catch (error) {
-      console.error('Error:', error);
-      throw error;
-    }
-  };
+  try {
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('mainImage', mainImage);
+
+    const response = await apiService(`${BASE_URL}/story/add_story`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    return response;
+  } catch (error) {
+    console.error('Error adding story:', error);
+    throw error;
+  }
+};
 
 export const getStoryByTitleApi = async (userId, title) => {
   try {
-    const response = await apiService(`http://localhost:5000/story/get_story?userId=${userId}&title=${title}`);
+    const response = await apiService(`${BASE_URL}/story/get_story?userId=${userId}&title=${title}`);
     return response;
   } catch (error) {
     console.error('Error fetching story data:', error);
@@ -29,19 +36,24 @@ export const getStoryByTitleApi = async (userId, title) => {
 export const updateParagraphsApi = async (token, title, updatedTextsIndex, updatedTexts, updatedImagesIndex, updatedImages, removedImagesIndex) => {
   try {
     const formData = new FormData();
-    formData.append('token', token);
     formData.append('title', title);
     formData.append('updatedTextsIndex', updatedTextsIndex);
     formData.append('updatedTexts', updatedTexts);
     formData.append('updatedImagesIndex', updatedImagesIndex);
 
-    updatedImages.forEach((image) => {
-      formData.append('updatedImages', image);
+    updatedImages.forEach((image, index) => {
+      formData.append(`updatedImages[${index}]`, image);
     });
 
     formData.append('removedImagesIndex', removedImagesIndex);
 
-    const response = await apiService('http://localhost:5000/story/update_paragraphs', 'PUT', {}, formData);
+    const response = await apiService(`${BASE_URL}/story/update_paragraphs`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+      body: formData,
+    });
 
     // if (!response.ok) {
     //   throw new Error(`Failed to update paragraphs. Status: ${response.status}`);
