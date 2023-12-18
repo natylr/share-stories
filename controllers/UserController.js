@@ -53,7 +53,7 @@ const login = async (req, res) => {
   }
 
   if (await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign({ email: user.email }, JWT_SECRET, {
+    const token = jwt.sign({ userId: user.userId }, JWT_SECRET, {
       expiresIn: "15m",
     });
 
