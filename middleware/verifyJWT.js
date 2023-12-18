@@ -12,7 +12,7 @@ const verifyJWT = (req, res, next) => {
         token,
         JWT_SECRET,
         (err, decoded) => {
-            if (err) return res.status(403).json({ message: 'Forbidden' })
+            if (err) return res.status(403).json({ data: "Invalid Token", message: 'Forbidden' })
             req.userId = decoded.userId
             next()
         }
