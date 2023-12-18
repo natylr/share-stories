@@ -9,6 +9,7 @@ const logout = () => {
 }
 
 const saveUserData = (data) => {
+    console.log(data)
     window.localStorage.setItem("userId", data.data.userId)
     window.localStorage.setItem("firstName", data.data.fname);
     window.localStorage.setItem("lastName", data.data.lname);

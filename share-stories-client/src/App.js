@@ -22,7 +22,7 @@ function App() {
           <Route
             exact
             path="/"
-            element={isLoggedIn ? <Navigate to="/story-cards" />: <Login />}
+            element={isLoggedIn ? <Navigate to="/all-stories" />: <Login />}
           />
           <Route path="/sign-in" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />

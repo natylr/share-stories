@@ -56,7 +56,7 @@ export const getUserDataApi = async (token) => {
     const response = await apiService(
       `${BASE_URL}/user/user-data`,
       'POST',
-      null, // No request body for this example
+      {}, // No request body for this example
       token
     );
 
