@@ -19,7 +19,7 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // try {
+    try {
       const loginResponse = await loginUserApi(email, password);
 
       if (loginResponse.status === "ok") {
@@ -34,9 +34,7 @@ export default function Login() {
           window.localStorage.removeItem("saved-email");
           window.localStorage.removeItem("saved-password");
         }
-        console.log(loginResponse.data)
         const userDataResponse = await getUserDataApi(loginResponse.data);
-        console.log(userDataResponse)
         if (userDataResponse.data === "Invalid Token") {
           logout();
         } else {
@@ -46,10 +44,10 @@ export default function Login() {
       } else {
         alert(loginResponse.error);
       }
-    // } catch (error) {
-    //   console.error('Error:', error);
-    //   alert("Something went wrong");
-    // }
+    } catch (error) {
+      console.error('Error:', error);
+      alert("Something went wrong");
+    }
   }
 
   return (

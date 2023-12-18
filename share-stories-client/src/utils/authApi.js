@@ -56,7 +56,7 @@ export const getUserDataApi = async (token) => {
     const response = await apiService(
       `${BASE_URL}/user/user-data`,
       'POST',
-      {}, // No request body for this example
+      {}, 
       token
     );
 
@@ -80,13 +80,12 @@ export const updateProfileApi = async (
       `${BASE_URL}/user/update-profile`,
       'PUT',
       JSON.stringify({
-        token,
         fname,
         lname,
         address,
         city,
         phone,
-      })
+      }), token
     );
 
     return response;
@@ -102,10 +101,9 @@ export const changePasswordApi = async (token, prevPassword, newPassword) => {
       `${BASE_URL}/user/change-password`,
       'POST',
       JSON.stringify({
-        token,
         prevPassword,
         newPassword,
-      })
+      }), token
     );
 
     return response;

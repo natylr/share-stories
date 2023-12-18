@@ -1,6 +1,6 @@
 import apiService from './apiService';
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5000';
 
 export const addStoryApi = async (token, title, mainImage) => {
   try {
@@ -8,13 +8,11 @@ export const addStoryApi = async (token, title, mainImage) => {
     formData.append('title', title);
     formData.append('mainImage', mainImage);
 
-    const response = await apiService(`${BASE_URL}/story/add_story`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const response = await apiService(`${BASE_URL}/story/add_story`, 
+      'POST',
+      formData,
+      token
+    );
 
     return response;
   } catch (error) {
@@ -47,13 +45,11 @@ export const updateParagraphsApi = async (token, title, updatedTextsIndex, updat
 
     formData.append('removedImagesIndex', removedImagesIndex);
 
-    const response = await apiService(`${BASE_URL}/story/update_paragraphs`, {
-      method: 'PUT',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-      body: formData,
-    });
+    const response = await apiService(`${BASE_URL}/story/update_paragraphs`, 
+      'PUT',
+      formData,
+      token
+    );
 
     // if (!response.ok) {
     //   throw new Error(`Failed to update paragraphs. Status: ${response.status}`);
