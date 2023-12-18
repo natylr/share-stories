@@ -7,6 +7,8 @@ const bodyParser = require("body-parser");
 const multer = require('multer');
 const path = require('path');
 
+require('dotenv').config();
+
 require("./models/userDetails");
 require("./models/storyDetails");
 
