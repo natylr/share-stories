@@ -1,10 +1,12 @@
 import React, {useState, useEffect } from "react";
 import ReactPlayer from 'react-player'
 import { useNavigate } from "react-router-dom";
-import {logout, saveUserData} from "../../utils/localStorage"
-import { loginUserApi, getUserDataApi } from '../../utils/authApi';
+import {logout} from "../../utils/localStorage"
+import { loginUserApi } from '../../utils/authApi';
 
 export default function Login() {
+  
+
   const navigate = useNavigate();
 
   useEffect(() => {
