@@ -1,11 +1,10 @@
 
 import React, { useEffect, useState } from "react";
-import { connect } from 'react-redux';
 import { Navbar, Nav } from "react-bootstrap";
-import { logout } from "../../utils/localStorage";
+import { logout } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
-import "../../styles/navbarContainer.css";
-import { getUserDataApi } from "../../utils/authApi";
+import "../styles/navbarContainer.css";
+import { getUserDataApi } from "../utils/authApi";
 
 function NavbarContainer({ page }) {
   const navigate = useNavigate();
@@ -13,13 +12,12 @@ function NavbarContainer({ page }) {
   useEffect(async ()=>{
     const token = window.localStorage.getItem("token");
     const response = await getUserDataApi(token);
-    console.log(response)
-    // if (response.data === "Invalid Token") {
-    //   logout();
-    // }
-    // else{
+    if (response.data === "Invalid Token") {
+      logout();
+    }
+    else{
       setFirstName(response.data.fname);
-    // }
+    }
   },[])
   useEffect(() => {
     const interval = setInterval(async () => {

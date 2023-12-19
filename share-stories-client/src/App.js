@@ -5,13 +5,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 import Login from "./components/auth/login";
 import SignUp from "./components/auth/signup";
-import StoriesCards from "./components/user_page/storiesCards";
-import StoryEditor from "./components/story_share/storyEditor";
-import AddStoryForm from "./components/story_share/addStoryForm";
-import UpdateProfile from "./components/user_page/updateProfile"
-import NavbarContainer from "./components/user_page/navbarContainer";
-import ChangePassword  from "./components/user_page/changePassword";
-import StoryView from './components/story_share/storyView'
+import StoriesCards from "./components/view/storiesCards";
+import StoryEditor from "./components/edit/storyEditor";
+import AddStoryForm from "./components/edit/addStoryForm";
+import UpdateProfile from "./components/setting/updateProfile"
+import NavbarContainer from "./components/navbarContainer";
+import ChangePassword  from "./components/setting/changePassword";
+import StoryView from './components/view/storyView'
 
 function App() {
   const isLoggedIn = window.localStorage.getItem("loggedIn");
