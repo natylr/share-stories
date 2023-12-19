@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getStoryByTitleApi } from '../../utils/storyApi';
 import '../../styles/storyView.css';
+import { getUserDataApi } from "../../utils/authApi";
 
 const StoryView = () => {
     const { title } = useParams();
-    const [paragraphsData, setParagraphsData] = useState([]); // Initialize paragraphsData state
-
+    const [paragraphsData, setParagraphsData] = useState([]); 
+    
     const fetchStoryByTitle = async () => {
         try {
-            const userId = localStorage.getItem('userId');
+            const userData = await getUserDataApi(localStorage.getItem("token"));
+            const userId = userData.data.userId;
             const storyData = await getStoryByTitleApi(userId, title);
             setParagraphsData(storyData.paragraphs);
         } catch (error) {

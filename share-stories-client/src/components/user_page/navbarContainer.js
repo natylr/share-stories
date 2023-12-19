@@ -9,14 +9,25 @@ import { getUserDataApi } from "../../utils/authApi";
 
 function NavbarContainer({ page }) {
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("")
+  useEffect(async ()=>{
+    const token = window.localStorage.getItem("token");
+    const response = await getUserDataApi(token);
+    console.log(response)
+    // if (response.data === "Invalid Token") {
+    //   logout();
+    // }
+    // else{
+      setFirstName(response.data.fname);
+    // }
+  },[])
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = window.localStorage.getItem("token");
-  
       if (token) {
         try {
           const response = await getUserDataApi(token);
-  
+          
           if (response.data === "Invalid Token") {
             logout();
           }
@@ -34,7 +45,7 @@ function NavbarContainer({ page }) {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand className="welcome-text">Welcome {window.localStorage.getItem("firstName")}!</Navbar.Brand>
+        <Navbar.Brand className="welcome-text">Welcome {firstName}!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">

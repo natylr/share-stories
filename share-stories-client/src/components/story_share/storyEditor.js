@@ -3,6 +3,7 @@ import EditParagraphFrame from './editParagraphFrame';
 import '../../styles/storyForm.css';
 import { getStoryByTitleApi, updateParagraphsApi } from '../../utils/storyApi';
 import { useParams } from 'react-router-dom';
+import { getUserDataApi } from "../../utils/authApi";
 
 const StoryEditor = () => {
   const { title } = useParams();
@@ -12,7 +13,8 @@ const StoryEditor = () => {
 
   const fetchStoryByTitle = async () => {
     try {
-      const userId = localStorage.getItem('userId');
+      const userData = await getUserDataApi(localStorage.getItem("token"));
+      const userId = userData.data.userId;
       const storyData = await getStoryByTitleApi(userId, title);
       setParagraphsData(storyData.paragraphs);
     } catch (error) {

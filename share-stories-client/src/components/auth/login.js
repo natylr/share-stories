@@ -34,13 +34,8 @@ export default function Login() {
           window.localStorage.removeItem("saved-email");
           window.localStorage.removeItem("saved-password");
         }
-        const userDataResponse = await getUserDataApi(loginResponse.data);
-        if (userDataResponse.data === "Invalid Token") {
-          logout();
-        } else {
-          saveUserData(userDataResponse);
-          navigate("/all-stories");
-        }
+        navigate("/all-stories");
+        
       } else {
         alert(loginResponse.error);
       }

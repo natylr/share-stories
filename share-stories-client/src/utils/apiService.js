@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logout } from "../utils/localStorage";
 
 const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000',
@@ -22,7 +23,10 @@ const apiService = async (url, method, data, token = null) => {
       headers,
       data,
     });
-
+    if (token && response.data === "Invalid Token") {
+      logout();
+      return
+    }
     return response.data;
   } catch (error) {
     console.error('Error:', error.response || error.request || error.message);
