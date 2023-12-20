@@ -8,7 +8,7 @@ export const addStoryApi = async (token, title, mainImage) => {
     formData.append('title', title);
     formData.append('mainImage', mainImage);
 
-    const response = await apiService(`${BASE_URL}/story/add_story`, 
+    const response = await apiService(`${BASE_URL}/story/add_story`,
       'POST',
       formData,
       token
@@ -20,10 +20,39 @@ export const addStoryApi = async (token, title, mainImage) => {
     throw error;
   }
 };
-
+export const getMyStoriesAsCards = async (token) => {
+  try {
+    const url = `${BASE_URL}/story/my_cards`;
+    const response = await apiService(url, "POST", {}, token)
+    return response
+  } catch (error) {
+    console.error('Error fetching story data:', error);
+    throw error;
+  }
+}
+export const getAllStoriesAsCards = async () => {
+  try {
+    const url = `${BASE_URL}/story/cards`;
+    const response = await apiService(url, 'GET', {});
+    return response;
+  } catch (error) {
+    console.error('Error fetching story data:', error);
+    throw error;
+  }
+}
+export const deleteStory = async (token, title) =>{
+  try {
+    const url = `${BASE_URL}/story/delete_story`;
+    const response = await apiService(url, 'DELETE', JSON.stringify({title}), token);
+    return response;
+  } catch (error) {
+    console.error('Error fetching story data:', error);
+    throw error;
+  }
+}
 export const getStoryByTitleApi = async (userId, title) => {
   try {
-    const response = await apiService(`${BASE_URL}/story/get_story?userId=${userId}&title=${title}`);
+    const response = await apiService(`${BASE_URL}/story/get_story?userId=${userId}&title=${title}`, "GET", {});
     return response;
   } catch (error) {
     console.error('Error fetching story data:', error);
@@ -45,7 +74,7 @@ export const updateParagraphsApi = async (token, title, updatedTextsIndex, updat
 
     formData.append('removedImagesIndex', removedImagesIndex);
 
-    const response = await apiService(`${BASE_URL}/story/update_paragraphs`, 
+    const response = await apiService(`${BASE_URL}/story/update_paragraphs`,
       'PUT',
       formData,
       token
