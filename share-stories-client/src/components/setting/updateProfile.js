@@ -17,6 +17,7 @@ export default function UpdateProfile() {
           setAddress(userData.address || "");
           setCity(userData.city || "");
           setPhone(userData.phone || "");
+          setAvatarUrl(userData.avatarUrl || "");
         } else {
           alert("Failed to fetch user data");
         }
@@ -28,25 +29,27 @@ export default function UpdateProfile() {
 
     fetchData();
   }, []);
-
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
-
+  const [avatarUrl, setAvatarUrl] = useState("");
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const token = window.localStorage.getItem("token"); 
     try {
+      try {
       const response = await updateProfileApi(
         token,
         fname,
         lname,
         address,
         city,
-        phone
+        phone,
+        avatar 
       );
 
       if (response.status === "ok") {
@@ -64,6 +67,21 @@ export default function UpdateProfile() {
     <div className="update-profile-container">
       <h3>Update Profile</h3>
       <form onSubmit={handleSubmit} className="profile-form">
+        {avatarUrl && (
+          <div className="form-group">
+            <label>Current Avatar:</label>
+            <img src={avatarUrl} alt="Avatar" className="current-avatar" />
+          </div>
+        )}
+      <div className="form-group">
+            <label>New Profile Picture:</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setAvatar(e.target.files[0])}
+              className="form-control"
+            />
+          </div>
         <div className="form-group">
           <label>First Name:</label>
           <input
