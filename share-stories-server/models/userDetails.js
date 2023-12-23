@@ -11,9 +11,10 @@ const UserDetailsSchema = new mongoose.Schema(
     lname: String,
     email: { type: String, unique: true },
     password: String,
-    address: String, // New field for address
-    city: String, // New field for city
-    phone: String, // New field for phone
+    address: String,
+    city: String,
+    phone: String,
+    avatarUrl: String
   },
   {
     collection: "UserInfo",

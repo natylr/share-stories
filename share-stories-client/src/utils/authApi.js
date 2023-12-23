@@ -9,21 +9,27 @@ export const registerUserApi = async (
   password,
   address,
   city,
-  phone
+  phone,
+  avatar 
 ) => {
   try {
+    const formData = new FormData();
+    formData.append('fname', fname);
+    formData.append('lname', lname);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('address', address);
+    formData.append('city', city);
+    formData.append('phone', phone);
+    formData.append('avatar', avatar); // Append avatar to FormData
+
     const response = await apiService(
       `${BASE_URL}/user/register`,
       'POST',
-      JSON.stringify({
-        fname,
-        lname,
-        email,
-        password,
-        address,
-        city,
-        phone,
-      })
+      formData, // Use FormData instead of JSON.stringify
+      {
+        'Content-Type': 'multipart/form-data', // Set content type for file upload
+      }
     );
 
     return response;
@@ -32,7 +38,6 @@ export const registerUserApi = async (
     throw error;
   }
 };
-
 export const loginUserApi = async (email, password) => {
   try {
     const response = await apiService(

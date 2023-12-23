@@ -18,7 +18,23 @@ export default function SignUp() {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState(""); // New state for avatar preview
+
   const headerStyle = { margin: 0, color: "#1bbd7e" };
+
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+    // Create a preview of the selected image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,7 +47,8 @@ export default function SignUp() {
         password,
         address,
         city,
-        phone
+        phone,
+        avatar
       );
 
       if (response.status === "ok") {
@@ -63,6 +80,21 @@ export default function SignUp() {
             <div className="auth-inner">
               <form onSubmit={handleSubmit}>
                 <h3 style={headerStyle}>Sign Up</h3>
+                {avatarPreview && (
+                  <div className="mb-3">
+                    <label>Selected Image Preview:</label>
+                    <img src={avatarPreview} alt="Avatar Preview" className="avatar-preview" />
+                  </div>
+                )}
+                <div className="mb-3">
+                  <label>Profile Picture</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAvatarChange}
+                    className="form-control"
+                  />
+                </div>
                 <div className="mb-3">
                   <label>First name</label>
                   <input

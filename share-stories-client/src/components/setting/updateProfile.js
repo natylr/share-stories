@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { updateProfileApi, getUserDataApi } from "../../utils/authApi";
-import "../../styles/updateProfile.css"; 
+import "../../styles/updateProfile.css";
 
 export default function UpdateProfile() {
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       const token = window.localStorage.getItem("token");
@@ -12,12 +20,13 @@ export default function UpdateProfile() {
 
         if (response.status === "ok") {
           const userData = response.data;
-          setFname(userData.fname || "");
-          setLname(userData.lname || "");
-          setAddress(userData.address || "");
-          setCity(userData.city || "");
-          setPhone(userData.phone || "");
-          setAvatarUrl(userData.avatarUrl || "");
+          setFname(userData.fname);
+          setLname(userData.lname);
+          setAddress(userData.address);
+          setCity(userData.city);
+          setPhone(userData.phone);
+          if (userData.avatarUrl)
+            setAvatarPreview("http://localhost:5000/" + userData.avatarUrl);
         } else {
           alert("Failed to fetch user data");
         }
@@ -29,19 +38,12 @@ export default function UpdateProfile() {
 
     fetchData();
   }, []);
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [phone, setPhone] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = window.localStorage.getItem("token"); 
+    const token = window.localStorage.getItem("token");
     try {
-      try {
       const response = await updateProfileApi(
         token,
         fname,
@@ -49,7 +51,7 @@ export default function UpdateProfile() {
         address,
         city,
         phone,
-        avatar 
+        avatar
       );
 
       if (response.status === "ok") {
@@ -62,26 +64,37 @@ export default function UpdateProfile() {
       alert("Something went wrong");
     }
   };
-
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    setAvatar(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result);
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
   return (
     <div className="update-profile-container">
       <h3>Update Profile</h3>
       <form onSubmit={handleSubmit} className="profile-form">
-        {avatarUrl && (
+        
+        {avatarPreview && (
           <div className="form-group">
             <label>Current Avatar:</label>
-            <img src={avatarUrl} alt="Avatar" className="current-avatar" />
+            <img src={avatarPreview} alt="Avatar" className="current-avatar" />
           </div>
         )}
-      <div className="form-group">
-            <label>New Profile Picture:</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setAvatar(e.target.files[0])}
-              className="form-control"
-            />
-          </div>
+        <div className="form-group">
+          <label>Change Profile Picture:</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleAvatarChange}
+            className="form-control"
+          />
+        </div>
         <div className="form-group">
           <label>First Name:</label>
           <input
@@ -131,7 +144,7 @@ export default function UpdateProfile() {
         <button type="submit" className="update-btn">
           Update Profile
         </button>
-       
+
       </form>
       <a href="/change-password" className="change-password">change your password</a>
 

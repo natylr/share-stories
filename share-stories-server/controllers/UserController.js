@@ -7,6 +7,7 @@ const User = mongoose.model("UserInfo");
 
 const register = async (req, res) => {
   const { fname, lname, email, password, address, city, phone } = req.body;
+  const avatar = req.files && req.files.avatar;
 
   const encryptedPassword = await bcrypt.hash(password, 10);
   try {
@@ -33,6 +34,7 @@ const register = async (req, res) => {
       address,
       city,
       phone,
+      avatar: avatar ? avatar.data : undefined,
     });
 
     await user.save();
@@ -86,6 +88,7 @@ const userData = async (req, res) => {
 const updateProfile = async (req, res) => {
   const userId = req.userId;
   const { fname, lname, address, city, phone } = req.body;
+  const avatar = req.files && req.files.avatar;
 
   try {
     const user = await User.findOne({ userId });
@@ -94,14 +97,19 @@ const updateProfile = async (req, res) => {
       return res.json({ error: "User not found" });
     }
 
-    // Update the user's details
+    // Delete the old avatar image if it exists
+    if (user.avatar) {
+      await user.avatar.remove();
+    }
+
     user.fname = fname;
     user.lname = lname;
     user.address = address;
     user.city = city;
     user.phone = phone;
+    user.avatar = avatar ? avatar.data : undefined;
 
-    await user.save(); // Save the updated user to the database
+    await user.save();
 
     res.send({ status: "ok" });
   } catch (error) {
@@ -109,7 +117,6 @@ const updateProfile = async (req, res) => {
     res.send({ status: "error" });
   }
 };
-
 const changePassword = async (req, res) => {
   const userId = req.userId;
   const { prevPassword, newPassword } = req.body;
