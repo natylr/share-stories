@@ -9,16 +9,23 @@ import { getUserDataApi } from "../utils/authApi";
 function NavbarContainer({ page }) {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("")
-  useEffect(async ()=>{
-    const token = window.localStorage.getItem("token");
-    const response = await getUserDataApi(token);
-    if (response.data === "Invalid Token") {
-      logout();
+  useEffect(() => {
+    async function getFirstName() {
+      const token = window.localStorage.getItem("token");
+      try {
+        const response = await getUserDataApi(token);
+
+        if (response.data === "Invalid Token") {
+          logout();
+        } else {
+          setFirstName(response.data.fname);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
     }
-    else{
-      setFirstName(response.data.fname);
-    }
-  },[])
+    getFirstName();
+  }, []);
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = window.localStorage.getItem("token");

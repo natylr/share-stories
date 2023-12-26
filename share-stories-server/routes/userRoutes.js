@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const verifyJWT = require('../middleware/verifyJWT')
 const UserController = require("../controllers/UserController");
-const upload = require('multer')();
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 router.post("/register", upload.single('avatar'), UserController.register);
 router.post("/login-user", UserController.login);

@@ -86,10 +86,11 @@ const userData = async (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
+  console.log("updateProfile")
   const userId = req.userId;
   const { fname, lname, address, city, phone } = req.body;
-  const avatar = req.files && req.files.avatar;
-
+  const avatar = req.file
+  console.log(avatar)
   try {
     const user = await User.findOne({ userId });
 

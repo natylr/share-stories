@@ -34,7 +34,6 @@ const AddStoryForm = ({onFinish}) => {
   
     try {
       const response = await addStoryApi(window.localStorage.getItem('token'), title, mainImage);
-      onFinish(title);
     } catch (error) {
       console.error('Error:', error);
     }

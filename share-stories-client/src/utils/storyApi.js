@@ -1,6 +1,6 @@
 import apiService from './apiService';
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5000';
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 export const addStoryApi = async (token, title, mainImage) => {
   try {
@@ -8,10 +8,12 @@ export const addStoryApi = async (token, title, mainImage) => {
     formData.append('title', title);
     formData.append('mainImage', mainImage);
 
-    const response = await apiService(`${BASE_URL}/story/add_story`,
+    const response = await apiService(
+      `${BASE_URL}/story/add_story`,
       'POST',
       formData,
-      token
+      token,
+      { 'Content-Type': 'multipart/form-data' }
     );
 
     return response;
@@ -20,16 +22,18 @@ export const addStoryApi = async (token, title, mainImage) => {
     throw error;
   }
 };
+
 export const getMyStoriesAsCards = async (token) => {
   try {
     const url = `${BASE_URL}/story/my_cards`;
-    const response = await apiService(url, "POST", {}, token)
-    return response
+    const response = await apiService(url, 'POST', {}, token);
+    return response;
   } catch (error) {
     console.error('Error fetching story data:', error);
     throw error;
   }
-}
+};
+
 export const getAllStoriesAsCards = async () => {
   try {
     const url = `${BASE_URL}/story/cards`;
@@ -39,20 +43,31 @@ export const getAllStoriesAsCards = async () => {
     console.error('Error fetching story data:', error);
     throw error;
   }
-}
-export const deleteStory = async (token, title) =>{
+};
+
+export const deleteStory = async (token, title) => {
   try {
     const url = `${BASE_URL}/story/delete_story`;
-    const response = await apiService(url, 'DELETE', JSON.stringify({title}), token);
+    const response = await apiService(
+      url,
+      'DELETE',
+      JSON.stringify({ title }),
+      token
+    );
     return response;
   } catch (error) {
-    console.error('Error fetching story data:', error);
+    console.error('Error deleting story:', error);
     throw error;
   }
-}
+};
+
 export const getStoryByTitleApi = async (userId, title) => {
   try {
-    const response = await apiService(`${BASE_URL}/story/get_story?userId=${userId}&title=${title}`, "GET", {});
+    const response = await apiService(
+      `${BASE_URL}/story/get_story?userId=${userId}&title=${title}`,
+      'GET',
+      {}
+    );
     return response;
   } catch (error) {
     console.error('Error fetching story data:', error);
@@ -60,7 +75,15 @@ export const getStoryByTitleApi = async (userId, title) => {
   }
 };
 
-export const updateParagraphsApi = async (token, title, updatedTextsIndex, updatedTexts, updatedImagesIndex, updatedImages, removedImagesIndex) => {
+export const updateParagraphsApi = async (
+  token,
+  title,
+  updatedTextsIndex,
+  updatedTexts,
+  updatedImagesIndex,
+  updatedImages,
+  removedImagesIndex
+) => {
   try {
     const formData = new FormData();
     formData.append('title', title);
@@ -74,17 +97,16 @@ export const updateParagraphsApi = async (token, title, updatedTextsIndex, updat
 
     formData.append('removedImagesIndex', removedImagesIndex);
 
-    const response = await apiService(`${BASE_URL}/story/update_paragraphs`,
+    const response = await apiService(
+      `${BASE_URL}/story/update_paragraphs`,
       'PUT',
       formData,
-      token
+      token,
+      { 'Content-Type': 'multipart/form-data' }
     );
 
-    // if (!response.ok) {
-    //   throw new Error(`Failed to update paragraphs. Status: ${response.status}`);
-    // }
-
     console.log('Paragraphs updated successfully');
+    return response;
   } catch (error) {
     console.error('Error updating paragraphs:', error);
     throw error;

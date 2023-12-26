@@ -1,3 +1,4 @@
+// ApiAuth.js
 import apiService from './apiService';
 
 const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
@@ -10,7 +11,7 @@ export const registerUserApi = async (
   address,
   city,
   phone,
-  avatar 
+  avatar
 ) => {
   try {
     const formData = new FormData();
@@ -21,15 +22,14 @@ export const registerUserApi = async (
     formData.append('address', address);
     formData.append('city', city);
     formData.append('phone', phone);
-    formData.append('avatar', avatar); // Append avatar to FormData
+    formData.append('avatar', avatar);
 
     const response = await apiService(
       `${BASE_URL}/user/register`,
       'POST',
-      formData, // Use FormData instead of JSON.stringify
-      {
-        'Content-Type': 'multipart/form-data', // Set content type for file upload
-      }
+      formData,
+      null,
+      { 'Content-Type': 'multipart/form-data' }
     );
 
     return response;
@@ -38,6 +38,7 @@ export const registerUserApi = async (
     throw error;
   }
 };
+
 export const loginUserApi = async (email, password) => {
   try {
     const response = await apiService(
@@ -61,7 +62,7 @@ export const getUserDataApi = async (token) => {
     const response = await apiService(
       `${BASE_URL}/user/user-data`,
       'POST',
-      {}, 
+      {},
       token
     );
 
@@ -90,7 +91,8 @@ export const updateProfileApi = async (
         address,
         city,
         phone,
-      }), token
+      }),
+      token
     );
 
     return response;
@@ -108,7 +110,8 @@ export const changePasswordApi = async (token, prevPassword, newPassword) => {
       JSON.stringify({
         prevPassword,
         newPassword,
-      }), token
+      }),
+      token
     );
 
     return response;

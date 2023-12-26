@@ -9,10 +9,8 @@ const axiosInstance = axios.create({
   },
 });
 
-const apiService = async (url, method, data, token = null) => {
+const apiService = async (url, method, data, token = null, headers = {}) => {
   try {
-    const headers = {};
-
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
@@ -23,10 +21,12 @@ const apiService = async (url, method, data, token = null) => {
       headers,
       data,
     });
+
     if (token && response.data === "Invalid Token") {
       logout();
-      return
+      return;
     }
+
     return response.data;
   } catch (error) {
     console.error('Error:', error.response || error.request || error.message);
