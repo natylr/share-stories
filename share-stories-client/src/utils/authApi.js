@@ -1,7 +1,7 @@
 // ApiAuth.js
 import apiService from './apiService';
+import BASE_URL from '../config/config'
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
 
 export const registerUserApi = async (
   fname,

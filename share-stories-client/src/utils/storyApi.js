@@ -1,6 +1,5 @@
 import apiService from './apiService';
-
-const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000';
+import BASE_URL from '../config/config'
 
 export const addStoryApi = async (token, title, mainImage) => {
   try {
