@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import "../../styles/addStoryForm.css"
 import ReactPlayer from 'react-player';
 import { addStoryApi } from '../../utils/storyApi';
+import { useNavigate } from "react-router-dom";
 
-const AddStoryForm = ({onFinish}) => {
+const AddStoryForm = ({ onFinish }) => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [mainImage, setMainImage] = useState(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
@@ -26,14 +28,15 @@ const AddStoryForm = ({onFinish}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!title.trim()) {
       alert('Please enter a title.');
       return;
     }
-  
+
     try {
       const response = await addStoryApi(window.localStorage.getItem('token'), title, mainImage);
+      navigate(`/edit-story/${title}`);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -57,7 +60,7 @@ const AddStoryForm = ({onFinish}) => {
           </div>
           <div className="frame">
             <div className="form-group">
-            <label className="main-image-label" htmlFor="mainImage">Main Image:</label>
+              <label className="main-image-label" htmlFor="mainImage">Main Image:</label>
               <input
                 type="file"
                 accept="image/*"
@@ -67,17 +70,17 @@ const AddStoryForm = ({onFinish}) => {
             </div>
           </div>
           <div className="frame">
-          <div className="form-group">
-          {uploadedImageUrl && (
-              <div className="image-preview">
-                <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
-              </div>
-            )}
+            <div className="form-group">
+              {uploadedImageUrl && (
+                <div className="image-preview">
+                  <img src={uploadedImageUrl} alt="Uploaded" className='add-story-img' />
+                </div>
+              )}
             </div>
-            </div>
+          </div>
           <button type="submit" className='add-btn'>Add the story</button>
         </form>
-          <ReactPlayer
+        <ReactPlayer
           width={'100%'}
           height="100%"
           url="http://localhost:3000/create_story_backgroud.mp4"
