@@ -15,11 +15,8 @@ function NavbarContainer({ page }) {
       try {
         const response = await getUserDataApi(token);
 
-        if (response.data === "Invalid Token") {
-          logout();
-        } else {
-          setFirstName(response.data.fname);
-        }
+        setFirstName(response.data.fname);
+
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -32,12 +29,11 @@ function NavbarContainer({ page }) {
       if (token) {
         try {
           const response = await getUserDataApi(token);
-          
-          if (response.data === "Invalid Token") {
-            logout();
-          }
+
+        
         } catch (error) {
           console.error('Error fetching user data:', error);
+         
         }
       } else {
         logout();

@@ -22,20 +22,23 @@ const apiService = async (url, method, data, token = null, headers = {}) => {
       data,
     });
 
-    if (token && response.data === "Invalid Token") {
-      logout();
-      return;
-    }
-
     return response.data;
   } catch (error) {
     console.error('Error:', error.response || error.request || error.message);
 
     if (error.response) {
-      throw {
-        status: error.response.status,
-        data: error.response.data,
-      };
+      console.log(error.response)
+      if (token && error.response.data.data === "Invalid Token") {
+        alert("your connection has timed out. please login again")
+        logout();
+        return;
+      }
+      else {
+        throw {
+          status: error.response.status,
+          data: error.response.data,
+        };
+      }
     } else if (error.request) {
       throw {
         status: 500,
