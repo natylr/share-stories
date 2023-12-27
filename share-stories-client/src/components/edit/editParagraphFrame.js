@@ -4,6 +4,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import '../../styles/editorParagraphFrame.css';
+import BASE_URL from '../../config/config'
 
 const EditParagraphFrame = (props) => {
     const [paragraphText, setParagraphText] = useState(EditorState.createEmpty());
@@ -21,7 +22,7 @@ const EditParagraphFrame = (props) => {
             setParagraphText(editorState);
         }
         if (props.initialImageUrl) {
-            setUploadedImageUrl(`http://localhost:5000/${props.initialImageUrl}`);
+            setUploadedImageUrl(`${BASE_URL}/${props.initialImageUrl}`);
         }
     }, []);
 

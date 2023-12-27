@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getStoryByTitleApi } from '../../utils/storyApi';
 import '../../styles/storyView.css';
 import { getUserDataApi } from "../../utils/authApi";
+import BASE_URL from '../../config/config'
 
 const StoryView = () => {
     const { title } = useParams();
@@ -31,7 +32,7 @@ const StoryView = () => {
                     <div dangerouslySetInnerHTML={{ __html: paragraphData.textData }} />
                     {console.log(paragraphData.paragraphImageData)}
                     {paragraphData.paragraphImageData && (
-                        <img src={`http://localhost:5000/${paragraphData.paragraphImageData}`} alt={`Image ${index}`} className='add-story-img' />
+                        <img src={`${BASE_URL}/${paragraphData.paragraphImageData}`} alt={`Image ${index}`} className='add-story-img' />
                     )}
                 </div>
             ))}

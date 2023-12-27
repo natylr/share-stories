@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { updateProfileApi, getUserDataApi } from "../../utils/authApi";
 import "../../styles/updateProfile.css";
+import BASE_URL from '../../config/config'
 
 export default function UpdateProfile() {
   const [fname, setFname] = useState("");
@@ -8,7 +9,7 @@ export default function UpdateProfile() {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState("");
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function UpdateProfile() {
           setCity(userData.city);
           setPhone(userData.phone);
           if (userData.avatarUrl)
-            setAvatarPreview("http://localhost:5000/" + userData.avatarUrl);
+            setAvatarPreview(BASE_URL+'/' + userData.avatarUrl);
         } else {
           alert("Failed to fetch user data");
         }

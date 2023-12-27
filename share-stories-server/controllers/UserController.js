@@ -7,8 +7,11 @@ const User = mongoose.model("UserInfo");
 
 const register = async (req, res) => {
   const { fname, lname, email, password, address, city, phone } = req.body;
-  const avatar = req.files && req.files.avatar;
-
+  console.log(req.file)
+  let avatar;
+  if (req.file) {
+    avatar = req.file.path;
+  }
   const encryptedPassword = await bcrypt.hash(password, 10);
   try {
     const oldUser = await User.findOne({ email });
@@ -34,7 +37,7 @@ const register = async (req, res) => {
       address,
       city,
       phone,
-      avatar: avatar ? avatar.data : undefined,
+      avatarUrl: avatar ? avatar : undefined,
     });
 
     await user.save();
@@ -86,11 +89,12 @@ const userData = async (req, res) => {
 };
 
 const updateProfile = async (req, res) => {
-  console.log("updateProfile")
   const userId = req.userId;
   const { fname, lname, address, city, phone } = req.body;
-  const avatar = req.file
-  console.log(avatar)
+  let avatar;
+  if (req.file) {
+    avatar = req.file.path;
+  }
   try {
     const user = await User.findOne({ userId });
 
@@ -108,7 +112,7 @@ const updateProfile = async (req, res) => {
     user.address = address;
     user.city = city;
     user.phone = phone;
-    user.avatar = avatar ? avatar.data : undefined;
+    user.avatarUrl = avatar ? avatar : undefined;
 
     await user.save();
 

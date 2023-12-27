@@ -1,22 +1,26 @@
 
 import React, { useEffect, useState } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, Image } from "react-bootstrap";
 import { logout } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import "../styles/navbarContainer.css";
 import { getUserDataApi } from "../utils/authApi";
+import BASE_URL from '../config/config'
 
 function NavbarContainer({ page }) {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("")
+  const [avatarUrl, setAvatarUrl] = useState("");
+
   useEffect(() => {
     async function getFirstName() {
       const token = window.localStorage.getItem("token");
       try {
         const response = await getUserDataApi(token);
-
+        console.log(Object.keys(response.data))
         setFirstName(response.data.fname);
-
+        setAvatarUrl(BASE_URL+'/'+response.data.avatarUrl);
+        console.log(avatarUrl)
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -29,11 +33,9 @@ function NavbarContainer({ page }) {
       if (token) {
         try {
           const response = await getUserDataApi(token);
-
-        
         } catch (error) {
           console.error('Error fetching user data:', error);
-         
+          logout();
         }
       } else {
         logout();
@@ -46,6 +48,7 @@ function NavbarContainer({ page }) {
   return (
     <div>
       <Navbar bg="light" expand="lg">
+      {avatarUrl && <Image src={avatarUrl} roundedCircle style={{ marginRight: "10px" }} />}
         <Navbar.Brand className="welcome-text">Welcome {firstName}!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

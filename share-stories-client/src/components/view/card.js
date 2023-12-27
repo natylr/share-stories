@@ -1,6 +1,7 @@
 import React from 'react';
 import "../../styles/storiesCards.css";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from '../../config/config'
 
 const Card = (props) => { 
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Card = (props) => {
     return (
         <div className="card">
             <div className="card-image">
-                {props.imageUrl ? <img src={`http://localhost:5000/${props.imageUrl}`} alt="Card" /> : null}
+                {props.imageUrl ? <img src={`${BASE_URL}/${props.imageUrl}`} alt="Card" /> : null}
                 <h1 className="card-text">{title}</h1>
             </div>
             {props.isEdit && (

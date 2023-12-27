@@ -23,7 +23,7 @@ export const registerUserApi = async (
     formData.append('city', city);
     formData.append('phone', phone);
     formData.append('avatar', avatar);
-
+    console.log(avatar)
     const response = await apiService(
       `${BASE_URL}/user/register`,
       'POST',
@@ -79,20 +79,24 @@ export const updateProfileApi = async (
   lname,
   address,
   city,
-  phone
+  phone,
+  avatar
 ) => {
   try {
+    const formData = new FormData();
+    formData.append('fname', fname);
+    formData.append('lname', lname);
+    formData.append('address', address);
+    formData.append('city', city);
+    formData.append('phone', phone);
+    formData.append('avatar', avatar);
+
     const response = await apiService(
       `${BASE_URL}/user/update-profile`,
       'PUT',
-      JSON.stringify({
-        fname,
-        lname,
-        address,
-        city,
-        phone,
-      }),
-      token
+      formData,
+      token,
+      { 'Content-Type': 'multipart/form-data' }
     );
 
     return response;

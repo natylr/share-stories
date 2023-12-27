@@ -19,14 +19,13 @@ export default function SignUp() {
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState(""); // New state for avatar preview
+  const [avatarPreview, setAvatarPreview] = useState(""); 
 
   const headerStyle = { margin: 0, color: "#1bbd7e" };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     setAvatar(file);
-    // Create a preview of the selected image
     const reader = new FileReader();
     reader.onloadend = () => {
       setAvatarPreview(reader.result);
