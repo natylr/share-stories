@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
 import { registerUserApi } from "../../utils/authApi";
@@ -8,18 +8,19 @@ export default function SignUp() {
 
   useEffect(() => {
     console.log(window.localStorage.getItem("loggedIn"))
-    if(window.localStorage.getItem("loggedIn")==="true")
+    if (window.localStorage.getItem("loggedIn") === "true")
       navigate("/all-stories");
-  },[])
+  }, [])
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState(""); 
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   const headerStyle = { margin: 0, color: "#1bbd7e" };
 
@@ -35,8 +36,17 @@ export default function SignUp() {
     }
   };
 
+  const handlePasswordConfirmChange = (e) => {
+    setPasswordConfirm(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password !== passwordConfirm) {
+      alert("Passwords do not match");
+      return;
+    }
 
     try {
       const response = await registerUserApi(
@@ -82,7 +92,11 @@ export default function SignUp() {
                 {avatarPreview && (
                   <div className="mb-3">
                     <label>Selected Image Preview:</label>
-                    <img src={avatarPreview} alt="Avatar Preview" className="avatar-preview" />
+                    <img
+                      src={avatarPreview}
+                      alt="Avatar Preview"
+                      className="avatar-preview"
+                    />
                   </div>
                 )}
                 <div className="mb-3">
@@ -131,6 +145,15 @@ export default function SignUp() {
                     className="form-control"
                     placeholder="Enter password"
                     onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>Confirm Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Confirm password"
+                    onChange={handlePasswordConfirmChange}
                   />
                 </div>
 
