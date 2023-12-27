@@ -19,7 +19,7 @@ function NavbarContainer({ page }) {
         const response = await getUserDataApi(token);
         console.log(Object.keys(response.data))
         setFirstName(response.data.fname);
-        setAvatarUrl(BASE_URL+'/'+response.data.avatarUrl);
+        setAvatarUrl(BASE_URL + '/' + response.data.avatarUrl);
         console.log(avatarUrl)
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -48,7 +48,14 @@ function NavbarContainer({ page }) {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-      {avatarUrl && <Image src={avatarUrl} roundedCircle style={{ marginRight: "10px" }} />}
+        {avatarUrl && (
+          <Image
+            src={avatarUrl}
+            roundedCircle
+            className="rounded-avatar"
+            style={{ marginRight: "10px" }}
+          />
+        )}        
         <Navbar.Brand className="welcome-text">Welcome {firstName}!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
