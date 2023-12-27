@@ -68,3 +68,8 @@ h3 {
     color: #031c3d;
   }
   
+  .current-avatar {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
