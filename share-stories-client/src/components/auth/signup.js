@@ -10,7 +10,8 @@ export default function SignUp() {
     console.log(window.localStorage.getItem("loggedIn"))
     if (window.localStorage.getItem("loggedIn") === "true")
       navigate("/all-stories");
-  }, [])
+  }, []);
+
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
@@ -89,9 +90,10 @@ export default function SignUp() {
             <div className="auth-inner">
               <form onSubmit={handleSubmit}>
                 <h3 style={headerStyle}>Sign Up</h3>
+                <div className="mb-3 row">
                 {avatarPreview && (
-                  <div className="mb-3">
-                    <label>Selected Image Preview:</label>
+                  <div className="col-md-6">
+                  <label>Selected Image Preview:</label>
                     <img
                       src={avatarPreview}
                       alt="Avatar Preview"
@@ -99,7 +101,7 @@ export default function SignUp() {
                     />
                   </div>
                 )}
-                <div className="mb-3">
+                  <div className="col-md-6">
                   <label>Profile Picture</label>
                   <input
                     type="file"
@@ -108,27 +110,30 @@ export default function SignUp() {
                     className="form-control"
                   />
                 </div>
-                <div className="mb-3">
-                  <label>First name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="First name"
-                    onChange={(e) => setFname(e.target.value)}
-                  />
                 </div>
-
-                <div className="mb-3">
-                  <label>Last name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Last name"
-                    onChange={(e) => setLname(e.target.value)}
-                  />
+                <div className="mb-3 row">
+                  <div className="col-md-6">
+                    <label>First name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="First name"
+                      onChange={(e) => setFname(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label>Last name</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Last name"
+                      onChange={(e) => setLname(e.target.value)}
+                    />
+                  </div>
                 </div>
+                <div className="mb-3 row">
 
-                <div className="mb-3">
+                <div className="col-md-6">
                   <label>Email address</label>
                   <input
                     type="email"
@@ -137,47 +142,7 @@ export default function SignUp() {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-
-                <div className="mb-3">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Enter password"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label>Confirm Password</label>
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="Confirm password"
-                    onChange={handlePasswordConfirmChange}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label>Address</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter address"
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-3">
-                  <label>City</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter city"
-                    onChange={(e) => setCity(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-3">
+                <div className="col-md-6">
                   <label>Phone</label>
                   <input
                     type="text"
@@ -186,7 +151,51 @@ export default function SignUp() {
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
+                </div>
+                <div className="mb-3 row">
+                  <div className="col-md-6">
+                    <label>Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      placeholder="Enter password"
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label>Confirm Password</label>
+                    <input
+                      type="password"
+                      className="form-control"
+                      placeholder="Confirm password"
+                      onChange={handlePasswordConfirmChange}
+                    />
+                  </div>
+                </div>
 
+                <div className="mb-3 row">
+                  <div className="col-md-6">
+                    <label>Address</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter address"
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="col-md-6">
+                    <label>City</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Enter city"
+                      onChange={(e) => setCity(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+               
                 <div className="d-grid">
                   <button type="submit" className="btn btn-primary">
                     Sign Up
