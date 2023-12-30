@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { logout } from "../utils/localStorage";
-import BASE_URL from '../config/config'
+import {BASE_URL} from '../config/config'
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,

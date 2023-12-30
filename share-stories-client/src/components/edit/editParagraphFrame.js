@@ -4,7 +4,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
 import '../../styles/editorParagraphFrame.css';
-import BASE_URL from '../../config/config'
+import {BASE_URL} from '../../config/config'
 
 const EditParagraphFrame = (props) => {
     const [paragraphText, setParagraphText] = useState(EditorState.createEmpty());

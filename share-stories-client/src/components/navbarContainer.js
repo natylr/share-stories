@@ -5,22 +5,21 @@ import { logout } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import "../styles/navbarContainer.css";
 import { getUserDataApi } from "../utils/authApi";
-import BASE_URL from '../config/config'
+import { defaultAvatarUrl, BASE_URL } from "../config/config"
 
 function NavbarContainer({ page }) {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("")
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarUrl, setAvatarUrl] = useState(defaultAvatarUrl);
 
   useEffect(() => {
     async function getFirstName() {
       const token = window.localStorage.getItem("token");
       try {
         const response = await getUserDataApi(token);
-        console.log(Object.keys(response.data))
         setFirstName(response.data.fname);
-        setAvatarUrl(BASE_URL + '/' + response.data.avatarUrl);
-        console.log(avatarUrl)
+        if (response.data.avatarUrl)
+          setAvatarUrl(BASE_URL + '/' + response.data.avatarUrl);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -55,7 +54,7 @@ function NavbarContainer({ page }) {
             className="rounded-avatar"
             style={{ marginRight: "10px" }}
           />
-        )}        
+        )}
         <Navbar.Brand className="welcome-text">Welcome {firstName}!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

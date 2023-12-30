@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../styles/storiesCards.css";
 import { useNavigate } from "react-router-dom";
-import BASE_URL from '../../config/config'
+import {BASE_URL} from '../../config/config'
 
 const Card = (props) => { 
     const navigate = useNavigate();

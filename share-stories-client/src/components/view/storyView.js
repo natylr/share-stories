@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getStoryByTitleApi } from '../../utils/storyApi';
 import '../../styles/storyView.css';
 import { getUserDataApi } from "../../utils/authApi";
-import BASE_URL from '../../config/config'
+import {BASE_URL} from '../../config/config'
 
 const StoryView = () => {
     const { title } = useParams();

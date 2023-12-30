@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { updateProfileApi, getUserDataApi } from "../../utils/authApi";
 import "../../styles/updateProfile.css";
-import BASE_URL from '../../config/config'
+import { defaultAvatarUrl, BASE_URL } from "../../config/config"
 
 export default function UpdateProfile() {
   const [fname, setFname] = useState("");
@@ -10,7 +10,7 @@ export default function UpdateProfile() {
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState(defaultAvatarUrl);
 
   useEffect(() => {
     const fetchData = async () => {

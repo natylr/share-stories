@@ -2,15 +2,10 @@ import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
 import { registerUserApi } from "../../utils/authApi";
+import {defaultAvatarUrl} from "../../config/config"
 
 export default function SignUp() {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log(window.localStorage.getItem("loggedIn"))
-    if (window.localStorage.getItem("loggedIn") === "true")
-      navigate("/all-stories");
-  }, []);
 
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -21,7 +16,15 @@ export default function SignUp() {
   const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [avatarPreview, setAvatarPreview] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState(defaultAvatarUrl);
+
+  useEffect(() => {
+    console.log(window.localStorage.getItem("loggedIn"))
+    if (window.localStorage.getItem("loggedIn") === "true")
+      navigate("/all-stories");
+  }, []);
+
+  
 
   const headerStyle = { margin: 0, color: "#1bbd7e" };
 
