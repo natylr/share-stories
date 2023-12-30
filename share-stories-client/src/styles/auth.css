@@ -117,9 +117,13 @@
     border: 1px solid black !important;
   }
   
-  .avatar-preview img {
-    width: 100%;
+  .avatar-preview {
+    max-width: 150px;
+    max-height: 150px;
+    width: auto;
     height: auto;
-}
+    object-fit: cover;
+    border-radius: 50%;
+  }
   
   

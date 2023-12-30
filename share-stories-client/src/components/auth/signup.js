@@ -96,7 +96,6 @@ export default function SignUp() {
                   <label>Selected Image Preview:</label>
                     <img
                       src={avatarPreview}
-                      alt="Avatar Preview"
                       className="avatar-preview"
                     />
                   </div>
