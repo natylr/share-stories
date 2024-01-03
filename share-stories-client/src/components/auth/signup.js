@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
 import { registerUserApi } from "../../utils/authApi";
-import {defaultAvatarUrl} from "../../config/config"
-
+import { defaultAvatarUrl } from "../../config/config"
+import Background from "../../utils/background"
 export default function SignUp() {
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ export default function SignUp() {
       navigate("/all-stories");
   }, []);
 
-  
+
 
   const headerStyle = { margin: 0, color: "#1bbd7e" };
 
@@ -78,32 +78,27 @@ export default function SignUp() {
   return (
     <div className="auth-body">
       <div className="auth-main">
-        <div className="auth-overlay"></div>
-        <ReactPlayer
-          width={"100%"}
-          height="100%"
-          url="http://localhost:3000/login_sign_up.mp4"
-          playing={true}
-          muted={true}
-          loop={true}
-        ></ReactPlayer>
+      <Background/>
 
-        <div className="auth-content">
-          <div className="auth-wrapper">
-            <div className="auth-inner">
-              <form onSubmit={handleSubmit}>
-                <h3 style={headerStyle}>Sign Up</h3>
-                <div className="mb-3 row">
+        <div className="auth-overlay"></div>
+      </div>
+      <div className="auth-content">
+
+        <div className="auth-wrapper">
+          <div className="auth-inner">
+            <form onSubmit={handleSubmit}>
+              <h3 style={headerStyle}>Sign Up</h3>
+              <div className="mb-3 row">
                 {avatarPreview && (
                   <div className="col-md-6">
-                  <label>Selected Image Preview:</label>
+                    <label>Selected Image Preview:</label>
                     <img
                       src={avatarPreview}
                       className="avatar-preview"
                     />
                   </div>
                 )}
-                  <div className="col-md-6">
+                <div className="col-md-6">
                   <label>Profile Picture</label>
                   <input
                     type="file"
@@ -112,28 +107,28 @@ export default function SignUp() {
                     className="form-control"
                   />
                 </div>
+              </div>
+              <div className="mb-3 row">
+                <div className="col-md-6">
+                  <label>First name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="First name"
+                    onChange={(e) => setFname(e.target.value)}
+                  />
                 </div>
-                <div className="mb-3 row">
-                  <div className="col-md-6">
-                    <label>First name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="First name"
-                      onChange={(e) => setFname(e.target.value)}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label>Last name</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Last name"
-                      onChange={(e) => setLname(e.target.value)}
-                    />
-                  </div>
+                <div className="col-md-6">
+                  <label>Last name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Last name"
+                    onChange={(e) => setLname(e.target.value)}
+                  />
                 </div>
-                <div className="mb-3 row">
+              </div>
+              <div className="mb-3 row">
 
                 <div className="col-md-6">
                   <label>Email address</label>
@@ -153,64 +148,66 @@ export default function SignUp() {
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
+              </div>
+              <div className="mb-3 row">
+                <div className="col-md-6">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Enter password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
-                <div className="mb-3 row">
-                  <div className="col-md-6">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="Enter password"
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <label>Confirm Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      placeholder="Confirm password"
-                      onChange={handlePasswordConfirmChange}
-                    />
-                  </div>
+                <div className="col-md-6">
+                  <label>Confirm Password</label>
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="Confirm password"
+                    onChange={handlePasswordConfirmChange}
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3 row">
+                <div className="col-md-6">
+                  <label>Address</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter address"
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
                 </div>
 
-                <div className="mb-3 row">
-                  <div className="col-md-6">
-                    <label>Address</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter address"
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="col-md-6">
-                    <label>City</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Enter city"
-                      onChange={(e) => setCity(e.target.value)}
-                    />
-                  </div>
+                <div className="col-md-6">
+                  <label>City</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter city"
+                    onChange={(e) => setCity(e.target.value)}
+                  />
                 </div>
+              </div>
 
-               
-                <div className="d-grid">
-                  <button type="submit" className="btn btn-primary">
-                    Sign Up
-                  </button>
-                </div>
-                <p className="forgot-password text-right">
-                  Already registered <a href="/sign-in">sign in?</a>
-                </p>
-              </form>
-            </div>
+
+              <div className="d-grid">
+                <button type="submit" className="btn btn-primary">
+                  Sign Up
+                </button>
+              </div>
+              <p className="forgot-password text-right">
+                Already registered <a href="/sign-in">sign in?</a>
+              </p>
+            </form>
           </div>
         </div>
       </div>
+
     </div>
+     
+
   );
 }

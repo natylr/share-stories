@@ -3,6 +3,7 @@ import ReactPlayer from 'react-player'
 import { useNavigate } from "react-router-dom";
 import {logout} from "../../utils/localStorage"
 import { loginUserApi } from '../../utils/authApi';
+import Background from "../../utils/background"
 
 export default function Login() {
   
@@ -51,19 +52,7 @@ export default function Login() {
     <div className="auth-body">
       <div className='auth-main'>
         <div className="auth-overlay"></div>
-        <ReactPlayer width={'100%'} height='100%'
-          url="http://localhost:3000/login_sign_up.mp4"
-          playing={true}
-          muted={true}
-          loop={true}
-          config={{
-            file: {
-              attributes: {
-                controlsList: "nofullscreen",
-              },
-            },
-          }}
-        />
+        <Background/>
         <div className="auth-content">
           <div className="auth-wrapper">
             <div className="auth-inner">

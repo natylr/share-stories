@@ -80,21 +80,6 @@ const AddStoryForm = ({ onFinish }) => {
           </div>
           <button type="submit" className='add-btn'>Add the story</button>
         </form>
-        <ReactPlayer
-          width={'100%'}
-          height="100%"
-          url="http://localhost:3000/create_story_backgroud.mp4"
-          playing={true}
-          muted={true}
-          loop={true}
-          config={{
-            file: {
-              attributes: {
-                controlsList: 'nofullscreen',
-              },
-            },
-          }}
-        />
       </div>
     </div>
   );

@@ -12,12 +12,14 @@ import UpdateProfile from "./components/setting/updateProfile"
 import NavbarContainer from "./components/navbarContainer";
 import ChangePassword  from "./components/setting/changePassword";
 import StoryView from './components/view/storyView'
+import Background from "./utils/background"
 
 function App() {
   const isLoggedIn = window.localStorage.getItem("loggedIn");
   return (
     <Router>
       <div className="App">
+        <Background/>
         <Routes>
           <Route
             exact

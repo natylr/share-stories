@@ -1,4 +1,3 @@
-// ApiAuth.js
 import apiService from './apiService';
 import {BASE_URL} from '../config/config'
 

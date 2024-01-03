@@ -1,5 +1,4 @@
 .outer-frame {
-  border: 2px solid #ccc;
   padding: 10px;
   border-radius: 10px;
 }
@@ -44,7 +43,7 @@
 }
 
 .add-btn {
-  background-color: #007bff;
+  background-color: #02162f;
   color: #fff;
   padding: 10px 20px;
   font-size: 16px;
