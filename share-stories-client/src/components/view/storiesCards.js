@@ -41,7 +41,6 @@ const handleDelete = async (title) => {
     }
   } catch (error) {
     console.error('Error deleting story:', error);
-    // Handle the error, e.g., show a message to the user
   }
 };
 

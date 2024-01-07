@@ -17,6 +17,11 @@
   text-align: center;
   overflow: hidden;
   position: relative;
+  transition: transform 0.3s ease; 
+}
+
+.card:hover {
+  transform: translateX(10px); 
 }
 
 .card img {
@@ -48,6 +53,13 @@
   position: absolute;
   bottom: 10px;
   transform: translateX(-50%);
+  transition: background-color 0.3s ease; 
+}
+
+.edit-button:hover,
+.view-button:hover,
+.delete-button:hover {
+  background-color: royalblue; 
 }
 
 .edit-button {
