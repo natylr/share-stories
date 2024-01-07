@@ -91,7 +91,7 @@ export const updateParagraphsApi = async (
     formData.append('updatedImagesIndex', updatedImagesIndex);
 
     updatedImages.forEach((image, index) => {
-      formData.append(`updatedImages[${index}]`, image);
+      formData.append(`updatedImages`, image);
     });
 
     formData.append('removedImagesIndex', removedImagesIndex);
