@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import EditParagraphFrame from './editParagraphFrame';
-import '../../styles/storyForm.css';
+import '../../styles/storyEditor.css';
 import { getStoryByTitleApi, updateParagraphsApi } from '../../utils/storyApi';
 import { useParams } from 'react-router-dom';
 import { getUserDataApi } from "../../utils/authApi";
+import { useNavigate } from "react-router-dom";
 
 const StoryEditor = () => {
+  const navigate = useNavigate();
   const { title } = useParams();
   const [paragraphsData, setParagraphsData] = useState([]);
   const [updatedTextsIndex, setUpdatedTextsIndex] = useState(new Set());
@@ -76,6 +78,11 @@ const StoryEditor = () => {
     }
   };
 
+  const handleSaveAndClose =async () => {
+    await handleSave();
+    navigate("/my-stories");
+  }
+
   return (
     <form className="formContainer">
       <label htmlFor="title">
@@ -98,9 +105,11 @@ const StoryEditor = () => {
           />
         ))}
       </div>
-
       <button className="saveButton" type="button" onClick={handleSave}>
         Save
+      </button>
+      <button className="closeButton" type="button" onClick={handleSaveAndClose}>
+        Save And Close
       </button>
     </form>
   );

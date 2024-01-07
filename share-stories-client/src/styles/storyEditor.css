@@ -14,7 +14,7 @@
   color: beige;
 }
 
-.saveButton {
+.closeButton {
   position: absolute;
   top: 0;
   right: 0;
@@ -25,7 +25,18 @@
   color: beige;
 }
 
-.addButton:hover, .saveButton:hover {
+.saveButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 20px; 
+  margin-right: 200px; 
+  padding: 10px;
+  background-color: midnightblue;
+  color: beige;
+}
+
+.addButton:hover, .saveButton:hover, .closeButton:hover {
   background-color: lightblue; /* Change to the color you want on hover */
   color: midnightblue; /* Change to the text color you want on hover */
 }
