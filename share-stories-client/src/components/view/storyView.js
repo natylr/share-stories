@@ -3,12 +3,12 @@ import { useParams } from 'react-router-dom';
 import { getStoryByTitleApi } from '../../utils/storyApi';
 import '../../styles/storyView.css';
 import { getUserDataApi } from "../../utils/authApi";
-import {BASE_URL} from '../../config/config'
+import { BASE_URL } from '../../config/config';
 
 const StoryView = () => {
     const { title } = useParams();
-    const [paragraphsData, setParagraphsData] = useState([]); 
-    
+    const [paragraphsData, setParagraphsData] = useState([]);
+
     const fetchStoryByTitle = async () => {
         try {
             const userData = await getUserDataApi(localStorage.getItem("token"));
@@ -29,7 +29,9 @@ const StoryView = () => {
             <h1 className="story-view-title">{title}</h1>
             {paragraphsData.map((paragraphData, index) => (
                 <div className="story-view-paragraph-frame" key={index}>
-                    <div dangerouslySetInnerHTML={{ __html: paragraphData.textData }} />
+                    <div className="story-content">
+                        <div dangerouslySetInnerHTML={{ __html: paragraphData.textData }} />
+                    </div>
                     {console.log(paragraphData.paragraphImageData)}
                     {paragraphData.paragraphImageData && (
                         <img src={`${BASE_URL}/${paragraphData.paragraphImageData}`} alt={`Image ${index}`} className='add-story-img' />
