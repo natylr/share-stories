@@ -22,7 +22,6 @@ export const registerUserApi = async (
     formData.append('city', city);
     formData.append('phone', phone);
     formData.append('avatar', avatar);
-    console.log(avatar)
     const response = await apiService(
       `${BASE_URL}/user/register`,
       'POST',

@@ -1,23 +1,23 @@
 import "../styles/background.css"
 export default function Background() {
     return (
-        <div class="wrapper">
+        <div className="wrapper">
             <div>
-                <span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
-            <div><span class="dot"></span></div>
+                <span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
+            <div><span className="dot"></span></div>
         </div>
     )
 }
