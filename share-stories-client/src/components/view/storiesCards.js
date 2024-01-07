@@ -8,7 +8,7 @@ import { getMyStoriesAsCards, getAllStoriesAsCards, deleteStory } from '../../ut
 const StoriesCards = (props) => {
   const navigate = useNavigate();
   const [cards, setCards] = useState([]);
-  const { cardsType, onEdit } = props;
+  const { cardsType } = props;
 
   useEffect(() => {
     const fetchData = async () => {

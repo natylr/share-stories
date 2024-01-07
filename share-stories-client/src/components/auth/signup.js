@@ -28,6 +28,10 @@ export default function SignUp() {
 
   const headerStyle = { margin: 0, color: "#1bbd7e" };
 
+  const handleAvatarPreviewClick = () => {
+    const avatarInput = document.getElementById("avatarInput");
+    avatarInput.click();
+  };
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     setAvatar(file);
@@ -78,7 +82,7 @@ export default function SignUp() {
   return (
     <div className="auth-body">
       <div className="auth-main">
-      <Background/>
+        <Background />
 
         <div className="auth-overlay"></div>
       </div>
@@ -88,26 +92,31 @@ export default function SignUp() {
           <div className="auth-inner">
             <form onSubmit={handleSubmit}>
               <h3 style={headerStyle}>Sign Up</h3>
-              <div className="mb-3 row">
-                {avatarPreview && (
-                  <div className="col-md-6">
-                    <label>Selected Image Preview:</label>
+              <div className="align-items-center">
+                <div className="avatar-preview-container">
+                  {avatarPreview && (
+                    <div>
+                      <img src={avatarPreview} className="avatar-preview" />
+                    </div>
+                  )}
+                  <div className="image-upload">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="avatarInput"
+                      style={{ display: "none" }}
+                      onChange={handleAvatarChange}
+                    />
                     <img
-                      src={avatarPreview}
-                      className="avatar-preview"
+                      src="http://localhost:3000/edit_icon.jpg"
+                      alt="Edit Pencil"
+                      className="change-avatar-icon"
+                      onClick={handleAvatarPreviewClick}
                     />
                   </div>
-                )}
-                <div className="col-md-6">
-                  <label>Profile Picture</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleAvatarChange}
-                    className="form-control"
-                  />
                 </div>
               </div>
+
               <div className="mb-3 row">
                 <div className="col-md-6">
                   <label>First name</label>
@@ -207,7 +216,7 @@ export default function SignUp() {
       </div>
 
     </div>
-     
+
 
   );
 }
