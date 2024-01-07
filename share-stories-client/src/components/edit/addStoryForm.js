@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import "../../styles/addStoryForm.css"
-import ReactPlayer from 'react-player';
 import { addStoryApi } from '../../utils/storyApi';
 import { useNavigate } from "react-router-dom";
 
-const AddStoryForm = ({ onFinish }) => {
+const AddStoryForm = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [mainImage, setMainImage] = useState(null);
