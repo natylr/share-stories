@@ -14,7 +14,7 @@ const getCards = async (req, res) => {
 
 const getMyCards = async (req, res) => {
   try {
-  const userId  = req.userId;
+    const userId = req.userId;
     const cards = await Story.find({ creatorId: userId }, 'title mainImageUrl');
     res.json(cards);
   } catch (error) {
@@ -23,7 +23,7 @@ const getMyCards = async (req, res) => {
 };
 
 const addStory = async (req, res) => {
-const userId  = req.userId;
+  const userId = req.userId;
   const { title } = req.body;
 
   const story = await Story.findOne({ title: title, creatorId: userId }); // Find by both title and userId
@@ -55,7 +55,7 @@ const userId  = req.userId;
 
 const deleteStoryByTitle = async (req, res) => {
   try {
-  const userId  = req.userId;
+    const userId = req.userId;
     const { title } = req.body;
 
     const story = await Story.findOne({ title: title, creatorId: userId }); // Find by both title and userId
@@ -94,7 +94,7 @@ const deleteStoryByTitle = async (req, res) => {
 
 const updateParagraphs = async (req, res) => {
   try {
-  const userId  = req.userId;
+    const userId = req.userId;
     const { title, updatedTextsIndex, updatedTexts, updatedImagesIndex, removedImagesIndex } = req.body;
 
     const updatedTextsIndexArray = updatedTextsIndex.split(',');
@@ -133,9 +133,10 @@ const updateParagraphs = async (req, res) => {
           console.error('Error deleting image file:', error);
         }
       }
-      if (updatedImagesIndexArray.includes(paragraphIndex))
-        existingStory.paragraphs[paragraphIndex].paragraphImageData = req.files[paragraphIndex].path
-
+      if (updatedImagesIndexArray.includes(paragraphIndex)) {
+        const index_in_array = updatedImagesIndexArray.indexOf(paragraphIndex);
+        existingStory.paragraphs[paragraphIndex].paragraphImageData = req.files[index_in_array].path
+      }
       if (updatedTextsIndexArray.includes(paragraphIndex))
         existingStory.paragraphs[paragraphIndex].textData = updatedTextsArray[paragraphIndex]
 

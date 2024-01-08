@@ -31,18 +31,22 @@ export default function SignUp() {
     const avatarInput = document.getElementById("avatarInput");
     avatarInput.click();
   };
-  const handleAvatarChange = (e) => {
+  const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
     setAvatar(file);
     const reader = new FileReader();
+  
     reader.onloadend = () => {
       setAvatarPreview(reader.result);
     };
+  
     if (file) {
-      reader.readAsDataURL(file);
+      await new Promise((resolve) => {
+        reader.onloadend = resolve;
+        reader.readAsDataURL(file);
+      });
     }
   };
-
   const handlePasswordConfirmChange = (e) => {
     setPasswordConfirm(e.target.value);
   };
