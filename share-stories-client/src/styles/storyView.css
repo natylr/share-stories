@@ -11,7 +11,7 @@
 
 .story-view-paragraph-frame {
   display: flex;
-  flex-direction: row; 
+  flex-direction: column;  
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
@@ -21,6 +21,12 @@
 }
 
 .story-content {
-  flex: 1; 
-  margin-right: 20px; 
+  margin-bottom: 20px;  
+}
+
+/* Media query for screens smaller than 600px */
+@media (max-width: 600px) {
+  .story-view-paragraph-frame {
+    width: 100%;  
+  }
 }

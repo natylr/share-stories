@@ -8,20 +8,30 @@ import { BASE_URL } from '../../config/config';
 const StoryView = () => {
     const { title } = useParams();
     const [paragraphsData, setParagraphsData] = useState([]);
+    const [isMounted, setIsMounted] = useState(true);
 
     const fetchStoryByTitle = async () => {
         try {
             const userData = await getUserDataApi(localStorage.getItem("token"));
             const userId = userData.data.userId;
             const storyData = await getStoryByTitleApi(userId, title);
-            setParagraphsData(storyData.paragraphs);
+
+            if (isMounted) {
+                setParagraphsData(storyData.paragraphs);
+            }
         } catch (error) {
             console.error('Error fetching story data:', error);
         }
     };
 
     useEffect(() => {
+        setIsMounted(true);
+
         fetchStoryByTitle();
+
+        return () => {
+            setIsMounted(false);
+        };
     }, [title]);
 
     return (
