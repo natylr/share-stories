@@ -3,8 +3,8 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
-import Login from "./components/auth/login";
-import SignUp from "./components/auth/signup";
+import SignIn from "./components/auth/signIn";
+import SignUp from "./components/auth/signUp";
 import StoriesCards from "./components/view/storiesCards";
 import StoryEditor from "./components/edit/storyEditor";
 import AddStoryForm from "./components/edit/addStoryForm";
@@ -24,9 +24,9 @@ function App() {
           <Route
             exact
             path="/"
-            element={isLoggedIn ? <Navigate to="/all-stories" />: <Login />}
+            element={isLoggedIn ? <Navigate to="/all-stories" />: <SignIn />}
           />
-          <Route path="/sign-in" element={<Login />} />
+          <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/all-stories" element={<NavbarContainer page={<StoriesCards cardsType="cards"/>} />} />
           <Route path="/my-stories" element={<NavbarContainer page={<StoriesCards cardsType="my_cards"/>} />} />

@@ -32,7 +32,6 @@ const StoryView = () => {
                     <div className="story-content">
                         <div dangerouslySetInnerHTML={{ __html: paragraphData.textData }} />
                     </div>
-                    {console.log(paragraphData.paragraphImageData)}
                     {paragraphData.paragraphImageData && (
                         <img src={`${BASE_URL}/${paragraphData.paragraphImageData}`} alt={`Image ${index}`} className='add-story-img' />
                     )}

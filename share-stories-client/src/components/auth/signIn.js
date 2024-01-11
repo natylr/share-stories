@@ -5,7 +5,7 @@ import {logout} from "../../utils/localStorage"
 import { loginUserApi } from '../../utils/authApi';
 import Background from "../../utils/background"
 
-export default function Login() {
+export default function SignIn() {
   
 
   const navigate = useNavigate();
@@ -86,9 +86,9 @@ export default function Login() {
                     <input
                       type="checkbox"
                       className="custom-control-input"
-                      id="customCheck1"
+                      id="rememberMeCheckBox"
                       checked={rememberMe}
-                      onChange={() => setRememberMe(!rememberMe)}
+                      onChange={() => setRememberMe(prevState => !prevState)}
                     />
                     <label className="custom-control-label" htmlFor="customCheck1" style={headerStyle}>
                       Remember me

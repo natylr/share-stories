@@ -7,7 +7,6 @@ const User = mongoose.model("UserInfo");
 
 const register = async (req, res) => {
   const { fname, lname, email, password, address, city, phone } = req.body;
-  console.log(req.file)
   let avatar;
   if (req.file) {
     avatar = req.file.path;
