@@ -1,24 +1,24 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactPlayer from 'react-player'
 import { useNavigate } from "react-router-dom";
-import {logout} from "../../utils/localStorage"
+import { logout } from "../../utils/localStorage"
 import { loginUserApi } from '../../utils/authApi';
 import Background from "../../utils/background"
 
 export default function SignIn() {
-  
+
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(window.localStorage.getItem("loggedIn") ==="true")
+    if (window.localStorage.getItem("loggedIn") === "true")
       navigate("/all-stories");
-  },[])
+  }, [])
   const [email, setAuthEmail] = useState(window.localStorage.getItem("saved-email") || "");
   const [password, setAuthPassword] = useState(window.localStorage.getItem("saved-password") || "");
   const [rememberMe, setRememberMe] = useState(true);
   const headerStyle = { margin: 0, color: '#1bbd7e' }
-  
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -38,7 +38,7 @@ export default function SignIn() {
           window.localStorage.removeItem("saved-password");
         }
         navigate("/all-stories");
-        
+
       } else {
         alert(loginResponse.error);
       }
@@ -52,7 +52,7 @@ export default function SignIn() {
     <div className="auth-body">
       <div className='auth-main'>
         <div className="auth-overlay"></div>
-        <Background/>
+        <Background />
         <div className="auth-content">
           <div className="auth-wrapper">
             <div className="auth-inner">
@@ -81,20 +81,22 @@ export default function SignIn() {
                   />
                 </div>
 
-                <div className="mb-3">
+                <div className="mb-3 d-flex align-items-center">
+                 
                   <div className="custom-control custom-checkbox">
                     <input
                       type="checkbox"
                       className="custom-control-input"
                       id="rememberMeCheckBox"
                       checked={rememberMe}
-                      onChange={() => setRememberMe(prevState => !prevState)}
+                      onChange={() => setRememberMe((prevState) => !prevState)}
                     />
-                    <label className="custom-control-label" htmlFor="customCheck1" style={headerStyle}>
-                      Remember me
-                    </label>
                   </div>
+                  <label className="custom-control-label" htmlFor="rememberMeCheckBox" style={headerStyle}>
+                    Remember me
+                  </label>
                 </div>
+
                 <div className="d-grid">
                   <button type="submit" className="btn btn-primary">
                     Submit
