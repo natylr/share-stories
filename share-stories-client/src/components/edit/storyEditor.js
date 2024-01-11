@@ -78,14 +78,14 @@ const StoryEditor = () => {
     }
   };
 
-  const handleSaveAndClose =async () => {
+  const handleSaveAndClose = async () => {
     await handleSave();
     navigate("/my-stories");
   }
 
   return (
     <form className="formContainer">
-      <label htmlFor="title">
+      <label>
         <h1>{title}</h1>
       </label>
 
