@@ -11,20 +11,21 @@ function NavbarContainer({ page }) {
   const navigate = useNavigate();
   const [firstName, setFirstName] = useState("")
   const [avatarUrl, setAvatarUrl] = useState(defaultAvatarUrl);
-
-  useEffect(() => {
-    async function getFirstName() {
-      const token = window.localStorage.getItem("token");
-      try {
-        const response = await getUserDataApi(token);
-        setFirstName(response.data.fname);
-        if (response.data.avatarUrl)
-          setAvatarUrl(BASE_URL + '/' + response.data.avatarUrl);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+  async function getFirstNameAndAvatar() {
+    const token = window.localStorage.getItem("token");
+    try {
+      const response = await getUserDataApi(token);
+      setFirstName(response.data.fname);
+      if (response.data.avatarUrl)
+        setAvatarUrl(BASE_URL + '/' + response.data.avatarUrl);
+        console.log("getFirstNameAndAvatar", avatarUrl)
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
-    getFirstName();
+  }
+  useEffect(() => {
+
+    getFirstNameAndAvatar();
   }, []);
   useEffect(() => {
     const interval = setInterval(async () => {
