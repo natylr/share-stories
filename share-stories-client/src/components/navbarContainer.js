@@ -1,24 +1,25 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Navbar, Nav, Image } from "react-bootstrap";
 import { logout } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import "../styles/navbarContainer.css";
 import { getUserDataApi } from "../utils/authApi";
 import { defaultAvatarUrl, BASE_URL } from "../config/config"
+import ProfileDataContext  from '../contexts/profileDataContext';
 
 function NavbarContainer({ page }) {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("")
-  const [avatarUrl, setAvatarUrl] = useState(defaultAvatarUrl);
+  const { profileData, updateProfileData } = useContext(ProfileDataContext);
+
   async function getFirstNameAndAvatar() {
     const token = window.localStorage.getItem("token");
     try {
       const response = await getUserDataApi(token);
-      setFirstName(response.data.fname);
+      updateProfileData("firstName", response.data.fname)
       if (response.data.avatarUrl)
-        setAvatarUrl(BASE_URL + '/' + response.data.avatarUrl);
-        console.log("getFirstNameAndAvatar", avatarUrl)
+        updateProfileData("avatarUrl", BASE_URL + '/' + response.data.avatarUrl)
+
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -48,15 +49,15 @@ function NavbarContainer({ page }) {
   return (
     <div>
       <Navbar bg="light" expand="lg">
-        {avatarUrl && (
+        {profileData["avatarUrl"] && (
           <Image
-            src={avatarUrl}
+            src={profileData["avatarUrl"]}
             roundedCircle
             className="rounded-avatar"
             style={{ marginRight: "10px" }}
           />
         )}
-        <Navbar.Brand className="welcome-text">Welcome {firstName}!</Navbar.Brand>
+        <Navbar.Brand className="welcome-text">Welcome {profileData["firstName"]}!</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">

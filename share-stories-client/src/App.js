@@ -2,6 +2,7 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import ProfileDataProvider from '../src/providers/profileDataProvider'
 
 import SignIn from "./components/auth/signIn";
 import SignUp from "./components/auth/signUp";
@@ -17,6 +18,8 @@ import Background from "./utils/background"
 function App() {
   const isLoggedIn = window.localStorage.getItem("loggedIn");
   return (
+    <ProfileDataProvider>
+
     <Router>
       <div className="App">
         <Background/>
@@ -35,10 +38,11 @@ function App() {
           <Route path="/add-story" element={<NavbarContainer page={<AddStoryForm />} />} />
           <Route path="/update-profile" element={<NavbarContainer page={<UpdateProfile />} />} />
           <Route path="/change-password" element={<NavbarContainer page={<ChangePassword />} />} />
-
         </Routes>
       </div>
     </Router>
+    </ProfileDataProvider>
+
   );
 }
 
