@@ -5,9 +5,10 @@ const ProfileDataProvider = ({ children }) => {
   const [profileData, setProfileData] = useState({});
 
   const updateProfileData = (key, newValue) => {
-    const updatedProfileData = { ...profileData, [key]: newValue };
-
-    setProfileData(updatedProfileData);
+    setProfileData(prevProfileData => ({
+      ...prevProfileData,
+      [key]: newValue,
+    }));
   };
 
   return (

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { updateProfileApi, getUserDataApi } from "../../utils/authApi";
 import "../../styles/updateProfile.css";
+import ProfileDataContext  from '../../contexts/profileDataContext';
 import { defaultAvatarUrl, BASE_URL } from "../../config/config"
 
 export default function UpdateProfile() {
+  const { profileData, updateProfileData } = useContext(ProfileDataContext);
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [address, setAddress] = useState("");
@@ -56,6 +58,11 @@ export default function UpdateProfile() {
       );
 
       if (response.status === "ok") {
+        console.log(response)
+        updateProfileData("firstName", fname)
+        console.log("response.user.avatarUrl", response.user.avatarUrl)
+        updateProfileData("avatarUrl", BASE_URL + '/' + response.user.avatarUrl);
+
         alert("Profile updated successfully");
       } else {
         alert("Something went wrong");

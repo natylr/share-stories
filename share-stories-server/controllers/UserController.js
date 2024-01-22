@@ -115,7 +115,7 @@ const updateProfile = async (req, res) => {
 
     await user.save();
 
-    res.send({ status: "ok" });
+    res.send({ status: "ok", user:user });
   } catch (error) {
     console.error("Error updating profile:", error);
     res.send({ status: "error" });
