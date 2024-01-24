@@ -28,7 +28,7 @@ const StoriesCards = (props) => {
     };
 
     fetchData();
-  }, []);
+  }, [cardsType, navigate]);
 
 
 const handleDelete = async (title) => {

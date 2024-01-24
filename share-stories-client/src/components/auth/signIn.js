@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ReactPlayer from 'react-player'
 import { useNavigate } from "react-router-dom";
-import { logout } from "../../utils/localStorage"
 import { loginUserApi } from '../../utils/authApi';
 import Background from "../../utils/background"
 
@@ -13,7 +11,8 @@ export default function SignIn() {
   useEffect(() => {
     if (window.localStorage.getItem("loggedIn") === "true")
       navigate("/all-stories");
-  }, [])
+  }, [navigate])
+  
   const [email, setAuthEmail] = useState(window.localStorage.getItem("saved-email") || "");
   const [password, setAuthPassword] = useState(window.localStorage.getItem("saved-password") || "");
   const [rememberMe, setRememberMe] = useState(true);

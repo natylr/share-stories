@@ -1,11 +1,11 @@
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { Navbar, Nav, Image } from "react-bootstrap";
 import { logout } from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import "../styles/navbarContainer.css";
 import { getUserDataApi } from "../utils/authApi";
-import { defaultAvatarUrl, BASE_URL } from "../config/config"
+import { BASE_URL } from "../config/config"
 import ProfileDataContext  from '../contexts/profileDataContext';
 
 function NavbarContainer({ page }) {
@@ -24,16 +24,19 @@ function NavbarContainer({ page }) {
       console.error("Error fetching user data:", error);
     }
   }
-  useEffect(() => {
 
+  useEffect(() => {
     getFirstNameAndAvatar();
   }, []);
+
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = window.localStorage.getItem("token");
       if (token) {
         try {
           const response = await getUserDataApi(token);
+          if(response.status !== "ok") 
+            alert("try again", response)
         } catch (error) {
           console.error('Error fetching user data:', error);
           logout();

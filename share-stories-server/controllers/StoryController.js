@@ -46,7 +46,7 @@ const addStory = async (req, res) => {
     });
     const savedStory = await newStory.save();
 
-    res.json(savedStory);
+    res.json({ status:"ok", savedStory});
   } catch (error) {
     console.log(error)
     res.status(500).json({ error: error.message });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { logout } from "../utils/localStorage";
-import {BASE_URL} from '../config/config'
+import { BASE_URL } from '../config/config';
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
@@ -28,28 +28,27 @@ const apiService = async (url, method, data, token = null, headers = {}) => {
     console.error('Error:', error.response || error.request || error.message);
 
     if (error.response) {
-      console.log(error.response)
+      console.log(error.response);
       if (token && error.response.data.data === "Invalid Token") {
-        alert("your connection has timed out. please login again")
+        alert("Your connection has timed out. Please login again");
         logout();
         return;
-      }
-      else {
-        throw {
+      } else {
+        throw new Error({
           status: error.response.status,
           data: error.response.data,
-        };
+        });
       }
     } else if (error.request) {
-      throw {
+      throw new Error({
         status: 500,
         message: 'No response received from the server',
-      };
+      });
     } else {
-      throw {
+      throw new Error({
         status: 500,
         message: 'Error setting up the request',
-      };
+      });
     }
   }
 };

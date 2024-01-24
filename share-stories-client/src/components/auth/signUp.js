@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
 import { registerUserApi } from "../../utils/authApi";
 import { defaultAvatarUrl } from "../../config/config"
@@ -21,7 +20,7 @@ export default function SignUp() {
   useEffect(() => {
     if (window.localStorage.getItem("loggedIn") === "true")
       navigate("/all-stories");
-  }, []);
+  }, [navigate]);
 
 
 
@@ -99,7 +98,7 @@ export default function SignUp() {
                 <div className="avatar-preview-container">
                   {avatarPreview && (
                     <div>
-                      <img src={avatarPreview} className="avatar-preview" />
+                      <img src={avatarPreview} className="avatar-preview" alt="User Avatar"/>
                     </div>
                   )}
                   <div className="image-upload">

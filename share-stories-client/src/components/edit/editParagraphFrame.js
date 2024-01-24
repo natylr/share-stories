@@ -24,7 +24,7 @@ const EditParagraphFrame = (props) => {
         if (props.initialImageUrl) {
             setUploadedImageUrl(`${BASE_URL}/${props.initialImageUrl}`);
         }
-    }, []);
+    }, [props.initialText, props.initialImageUrl]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -47,7 +47,7 @@ const EditParagraphFrame = (props) => {
     };
 
     const onEditorStateChange = (newEditorState) => {
-        if (paragraphText == newEditorState) {
+        if (paragraphText === newEditorState) {
             return
         }
         const contentState = newEditorState.getCurrentContent();

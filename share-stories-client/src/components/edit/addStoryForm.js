@@ -35,7 +35,10 @@ const AddStoryForm = () => {
 
     try {
       const response = await addStoryApi(window.localStorage.getItem('token'), title, mainImage);
-      navigate(`/edit-story/${title}`);
+      if (response.status === "ok")
+        navigate(`/edit-story/${title}`);
+      else
+        alert("try again", response)
     } catch (error) {
       console.error('Error:', error);
     }
