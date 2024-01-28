@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import EditParagraphFrame from './editParagraphFrame';
 import '../../styles/storyEditor.css';
 import { getStoryByTitleApi, updateParagraphsApi } from '../../utils/storyApi';
@@ -13,7 +13,7 @@ const StoryEditor = () => {
   const [updatedTextsIndex, setUpdatedTextsIndex] = useState(new Set());
   const [updatedImagesIndex, setUpdatedImagesIndex] = useState(new Set());
 
-  const fetchStoryByTitle = async () => {
+  const fetchStoryByTitle = useCallback(async () => {
     try {
       const userData = await getUserDataApi(localStorage.getItem("token"));
       const userId = userData.data.userId;
@@ -22,11 +22,11 @@ const StoryEditor = () => {
     } catch (error) {
       console.error('Error fetching story data:', error);
     }
-  };
-
+  }, [title]);
+  
   useEffect(() => {
     fetchStoryByTitle();
-  }, []);
+  }, [fetchStoryByTitle]);
 
   const handleAddParagraph = () => {
     setParagraphsData([...paragraphsData, {}]);

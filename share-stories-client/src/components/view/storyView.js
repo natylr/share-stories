@@ -8,29 +8,28 @@ import { BASE_URL } from '../../config/config';
 const StoryView = () => {
     const { title } = useParams();
     const [paragraphsData, setParagraphsData] = useState([]);
-    const [isMounted, setIsMounted] = useState(true);
-
-    const fetchStoryByTitle = async () => {
-        try {
-            const userData = await getUserDataApi(localStorage.getItem("token"));
-            const userId = userData.data.userId;
-            const storyData = await getStoryByTitleApi(userId, title);
-
-            if (isMounted) {
-                setParagraphsData(storyData.paragraphs);
-            }
-        } catch (error) {
-            console.error('Error fetching story data:', error);
-        }
-    };
 
     useEffect(() => {
-        setIsMounted(true);
+        let isMounted = true;
+
+        const fetchStoryByTitle = async () => {
+            try {
+                const userData = await getUserDataApi(localStorage.getItem("token"));
+                const userId = userData.data.userId;
+                const storyData = await getStoryByTitleApi(userId, title);
+
+                if (isMounted) {
+                    setParagraphsData(storyData.paragraphs);
+                }
+            } catch (error) {
+                console.error('Error fetching story data:', error);
+            }
+        };
 
         fetchStoryByTitle();
 
         return () => {
-            setIsMounted(false);
+            isMounted = false;
         };
     }, [title]);
 
@@ -43,7 +42,7 @@ const StoryView = () => {
                         <div dangerouslySetInnerHTML={{ __html: paragraphData.textData }} />
                     </div>
                     {paragraphData.paragraphImageData && (
-                        <img src={`${BASE_URL}/${paragraphData.paragraphImageData}`} alt={`Image ${index}`} className='add-story-img' />
+                        <img src={`${BASE_URL}/${paragraphData.paragraphImageData}`} alt={`img${index}`} className='add-story-img' />
                     )}
                 </div>
             ))}
