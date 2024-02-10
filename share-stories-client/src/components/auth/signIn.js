@@ -47,6 +47,10 @@ export default function SignIn() {
     }
   }
 
+  const signUp = () => {
+    navigate("/sign-up")
+  }
+
   return (
     <div className="auth-body">
       <div className='auth-main'>
@@ -102,7 +106,7 @@ export default function SignIn() {
                   </button>
                 </div>
                 <p className="forgot-password text-right">
-                  <a href="/sign-up">Sign Up</a>
+                  <label className="link-label" onClick={signUp}>Sign Up</label>
                 </p>
               </form>
             </div>

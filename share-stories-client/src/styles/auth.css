@@ -139,3 +139,8 @@ td {
   opacity: 0;
   cursor: pointer;
 }
+.link-label {
+  color: blue;
+  border-bottom: 1px solid blue; 
+  font-size: 12px;
+}

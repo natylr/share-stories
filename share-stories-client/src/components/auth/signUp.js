@@ -34,11 +34,11 @@ export default function SignUp() {
     const file = e.target.files[0];
     setAvatar(file);
     const reader = new FileReader();
-  
+
     reader.onloadend = () => {
       setAvatarPreview(reader.result);
     };
-  
+
     if (file) {
       await new Promise((resolve) => {
         reader.onloadend = resolve;
@@ -80,7 +80,9 @@ export default function SignUp() {
       alert("Something went wrong");
     }
   };
-
+  const signIn = () => {
+    navigate("/sign-in")
+  }
   return (
     <div className="auth-body">
       <div className="auth-main">
@@ -98,7 +100,7 @@ export default function SignUp() {
                 <div className="avatar-preview-container">
                   {avatarPreview && (
                     <div>
-                      <img src={avatarPreview} className="avatar-preview" alt="User Avatar"/>
+                      <img src={avatarPreview} className="avatar-preview" alt="User Avatar" />
                     </div>
                   )}
                   <div className="image-upload">
@@ -210,7 +212,7 @@ export default function SignUp() {
                 </button>
               </div>
               <p className="forgot-password text-right">
-                Already registered <a href="/sign-in">sign in?</a>
+                Already registered <label className="link-label" onClick={signIn}>sign in?</label>
               </p>
             </form>
           </div>

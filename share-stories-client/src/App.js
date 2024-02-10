@@ -16,7 +16,6 @@ import StoryView from './components/view/storyView'
 import Background from "./utils/background"
 
 function App() {
-  const isLoggedIn = window.localStorage.getItem("loggedIn");
   return (
     <ProfileDataProvider>
 
@@ -27,7 +26,7 @@ function App() {
           <Route
             exact
             path="/"
-            element={isLoggedIn ? <Navigate to="/all-stories" />: <SignIn />}
+            element={window.localStorage.getItem("loggedIn") ? <Navigate to="/all-stories" />: <SignIn />}
           />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
