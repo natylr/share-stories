@@ -65,6 +65,8 @@
 }
 
 .custom-control-label {
+  margin: 0;
+  color: #1bbd7e;
   font-weight: 400;
 }
 
@@ -143,4 +145,8 @@ td {
   color: blue;
   border-bottom: 1px solid blue; 
   font-size: 12px;
+}
+.auth-header {
+  margin: 0;
+  color: #1bbd7e;
 }

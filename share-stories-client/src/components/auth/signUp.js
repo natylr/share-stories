@@ -23,9 +23,6 @@ export default function SignUp() {
   }, [navigate]);
 
 
-
-  const headerStyle = { margin: 0, color: "#1bbd7e" };
-
   const handleAvatarPreviewClick = () => {
     const avatarInput = document.getElementById("avatarInput");
     avatarInput.click();
@@ -95,7 +92,7 @@ export default function SignUp() {
         <div className="auth-wrapper">
           <div className="auth-inner">
             <form onSubmit={handleSubmit}>
-              <h3 style={headerStyle}>Sign Up</h3>
+              <h3 className="auth-header">Sign Up</h3>
               <div className="align-items-center">
                 <div className="avatar-preview-container">
                   {avatarPreview && (
