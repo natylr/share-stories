@@ -29,6 +29,11 @@ function NavbarContainer({ page }) {
     getFirstNameAndAvatar();
   }, []);
 
+  function logoutHandle() {
+    navigate('/sign-in')
+    logout();
+  }
+
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = window.localStorage.getItem("token");
@@ -39,10 +44,10 @@ function NavbarContainer({ page }) {
             alert("try again", response)
         } catch (error) {
           console.error('Error fetching user data:', error);
-          logout();
+          logoutHandle();
         }
       } else {
-        logout();
+        logoutHandle();
       }
     }, 1000);
 

@@ -26,7 +26,7 @@ function App() {
           <Route
             exact
             path="/"
-            element={window.localStorage.getItem("loggedIn") ? <Navigate to="/all-stories" />: <SignIn />}
+            element={window.localStorage.getItem("loggedIn") ? <NavbarContainer page={<StoriesCards cardsType="cards"/>} />: <SignIn />}
           />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
