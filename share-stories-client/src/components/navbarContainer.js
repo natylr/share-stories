@@ -1,7 +1,7 @@
 
 import React, { useContext, useEffect } from "react";
 import { Navbar, Nav, Image } from "react-bootstrap";
-import { logout } from "../utils/localStorage";
+import useLogout from "../utils/localStorage";
 import { useNavigate } from "react-router-dom";
 import "../styles/navbarContainer.css";
 import { getUserDataApi } from "../utils/authApi";
@@ -10,6 +10,8 @@ import ProfileDataContext  from '../contexts/profileDataContext';
 
 function NavbarContainer({ page }) {
   const navigate = useNavigate();
+  const logout = useLogout();
+
   const { profileData, updateProfileData } = useContext(ProfileDataContext);
 
   async function getFirstNameAndAvatar() {
@@ -29,11 +31,6 @@ function NavbarContainer({ page }) {
     getFirstNameAndAvatar();
   }, []);
 
-  function logoutHandle() {
-    navigate('/sign-in')
-    logout();
-  }
-
   useEffect(() => {
     const interval = setInterval(async () => {
       const token = window.localStorage.getItem("token");
@@ -44,16 +41,19 @@ function NavbarContainer({ page }) {
             alert("try again", response)
         } catch (error) {
           console.error('Error fetching user data:', error);
-          logoutHandle();
+          logout();
         }
       } else {
-        logoutHandle();
+        alert("Your connection has timed out. Please login again");
+        logout();
       }
     }, 1000);
 
     return () => clearInterval(interval);
   }, []);
-
+  const logoutHandle= ()=>{
+    logout()
+  }
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -73,7 +73,7 @@ function NavbarContainer({ page }) {
             <Nav.Link onClick={() => navigate('/all-stories')}>Read stories</Nav.Link>
             <Nav.Link onClick={() => navigate('/my-stories')}>My stories</Nav.Link>
             <Nav.Link onClick={() => navigate('/update-profile')}>Change my details</Nav.Link>
-            <Nav.Link onClick={logout}>Log Out</Nav.Link>
+            <Nav.Link onClick={logoutHandle}>Log Out</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

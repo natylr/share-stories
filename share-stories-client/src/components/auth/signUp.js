@@ -18,7 +18,7 @@ export default function SignUp() {
   const [avatarPreview, setAvatarPreview] = useState(defaultAvatarUrl);
 
   useEffect(() => {
-    if (window.localStorage.getItem("loggedIn") === "true")
+    if (window.localStorage.getItem("token"))
       navigate("/all-stories");
   }, [navigate]);
 

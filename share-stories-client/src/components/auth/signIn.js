@@ -9,7 +9,7 @@ export default function SignIn() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (window.localStorage.getItem("loggedIn") === "true")
+    if (window.localStorage.getItem("token"))
       navigate("/all-stories");
   }, [navigate])
   
@@ -26,7 +26,6 @@ export default function SignIn() {
       if (loginResponse.status === "ok") {
         alert("Login successful");
         window.localStorage.setItem("token", loginResponse.data);
-        window.localStorage.setItem("loggedIn", true);
 
         if (rememberMe) {
           window.localStorage.setItem("saved-email", email);

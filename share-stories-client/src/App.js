@@ -26,7 +26,7 @@ function App() {
           <Route
             exact
             path="/"
-            element={window.localStorage.getItem("loggedIn") ? <NavbarContainer page={<StoriesCards cardsType="cards"/>} />: <SignIn />}
+            element={window.localStorage.getItem("token") ? <NavbarContainer page={<StoriesCards cardsType="cards"/>} />: <SignIn />}
           />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
