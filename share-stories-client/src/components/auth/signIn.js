@@ -16,7 +16,6 @@ export default function SignIn() {
   const [email, setAuthEmail] = useState(window.localStorage.getItem("saved-email") || "");
   const [password, setAuthPassword] = useState(window.localStorage.getItem("saved-password") || "");
   const [rememberMe, setRememberMe] = useState(true);
-  const headerStyle = { margin: 0, color: '#1bbd7e' }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -60,7 +59,7 @@ export default function SignIn() {
           <div className="auth-wrapper">
             <div className="auth-inner">
               <form onSubmit={handleSubmit}>
-                <h3 style={headerStyle}>Sign In</h3>
+                <h3 className="auth-header">Sign In</h3>
 
                 <div className="mb-3">
                   <label>Email address</label>
@@ -95,7 +94,7 @@ export default function SignIn() {
                       onChange={() => setRememberMe((prevState) => !prevState)}
                     />
                   </div>
-                  <label className="custom-control-label" htmlFor="rememberMeCheckBox" style={headerStyle}>
+                  <label className="custom-control-label" htmlFor="rememberMeCheckBox">
                     Remember me
                   </label>
                 </div>
