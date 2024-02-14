@@ -109,7 +109,7 @@ export default function SignUp() {
                       onChange={handleAvatarChange}
                     />
                     <img
-                      src="http://localhost:3000/edit_icon.jpg"
+                      src="http://share-stories.online//edit_icon.jpg"
                       alt="Edit Pencil"
                       className="change-avatar-icon"
                       onClick={handleAvatarPreviewClick}

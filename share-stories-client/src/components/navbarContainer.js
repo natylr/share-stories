@@ -50,7 +50,7 @@ function NavbarContainer({ page }) {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [logout]);
   const logoutHandle= ()=>{
     logout()
   }
