@@ -10,5 +10,5 @@ router.post("/login-user", UserController.login);
 router.post("/user-data",verifyJWT, UserController.userData);
 router.put("/update-profile", verifyJWT, upload.single('avatar'), UserController.updateProfile);
 router.put("/change-password",verifyJWT, UserController.changePassword);
-
+router.get('/reset', UserController.resetUserSchema)
 module.exports = router;

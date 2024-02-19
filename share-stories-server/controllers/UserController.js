@@ -148,10 +148,9 @@ const changePassword = async (req, res) => {
     res.json({ status: "error", error: "Something went wrong" });
   }
 };
-
-const resetStorySchema = async (req, res) => {
+const resetUserSchema = async (req, res) => {
   try {
-    const result = await Story.deleteMany({});
+    const result = await User.deleteMany({});
     return res.json({ message: "Schema reset successful", deletedCount: result.deletedCount });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -164,5 +163,6 @@ module.exports = {
   userData,
   userDataByUserId,
   updateProfile,
-  changePassword
+  changePassword,
+  resetUserSchema
 };

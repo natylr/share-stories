@@ -170,7 +170,16 @@ const getStoryByTitle = async (req, res) => {
   }
 };
 
+const resetStorySchema = async (req, res) => {
+  try {
+    const result = await Story.deleteMany({});
+    return res.json({ message: "Schema reset successful", deletedCount: result.deletedCount });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 
 module.exports = {
-  getCards, addStory, deleteStoryByTitle, getMyCards, updateParagraphs, getStoryByTitle
+  getCards, addStory, deleteStoryByTitle, getMyCards, updateParagraphs, getStoryByTitle, resetStorySchema
 };
