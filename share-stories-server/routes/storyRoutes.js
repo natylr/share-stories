@@ -11,5 +11,4 @@ router.post("/my_cards", verifyJWT, StoryController.getMyCards);
 router.delete("/delete_story", verifyJWT, StoryController.deleteStoryByTitle); 
 router.put("/update_paragraphs", verifyJWT, upload.array('updatedImages'), StoryController.updateParagraphs);
 router.get("/get_story", StoryController.getStoryByTitle);
-router.get('/reset', StoryController.resetStorySchema)
 module.exports = router;
