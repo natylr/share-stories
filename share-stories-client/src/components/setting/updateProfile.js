@@ -3,6 +3,7 @@ import { updateProfileApi, getUserDataApi } from "../../utils/authApi";
 import "../../styles/updateProfile.css";
 import ProfileDataContext  from '../../contexts/profileDataContext';
 import { defaultAvatarUrl, BASE_URL } from "../../config/config"
+import { useNavigate } from "react-router-dom";
 
 export default function UpdateProfile() {
   const { updateProfileData } = useContext(ProfileDataContext);
@@ -14,6 +15,7 @@ export default function UpdateProfile() {
   const [avatar, setAvatar] = useState("");
   const [avatarPreview, setAvatarPreview] = useState(defaultAvatarUrl);
 
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchData = async () => {
       const token = window.localStorage.getItem("token");
@@ -81,6 +83,11 @@ export default function UpdateProfile() {
       reader.readAsDataURL(file);
     }
   };
+
+  const handleChangePasswordClicked = () =>{
+    navigate("/change-password")
+  }
+
   return (
     <div className="update-profile-container">
       <h3>Update Profile</h3>
@@ -152,7 +159,7 @@ export default function UpdateProfile() {
         </button>
 
       </form>
-      <a href="/change-password" className="change-password">change your password</a>
+      <label className="change-password" onClick={handleChangePasswordClicked} >change your password</label>
 
     </div>
   );
