@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ShareStories
 
 Welcome to ShareStories, a cutting-edge storytelling platform crafted with React.js, Node.js, and MongoDB.
@@ -27,34 +26,6 @@ ShareStories provides an immersive experience for storytellers and readers alike
 - **Read-Only Access:** Dive into a vast collection of stories shared by creators worldwide. Find inspiration or simply enjoy exploring diverse narratives.
 - **Creator Privileges:** Maintain complete control over your stories with exclusive editing and deletion rights. Only you can modify or remove your content, ensuring the integrity of your narratives.
 - **Security Measures:** Rest assured knowing your data is safeguarded. ShareStories prioritizes security with token-based authentication and bcrypt encryption.
-=======
-
-# ShareStories
-
-Welcome to ShareStories, a cutting-edge storytelling platform crafted with React.js, Node.js, and MongoDB. ShareStories offers a dynamic space for users to weave captivating narratives seamlessly. With intuitive features, users can effortlessly craft sequential stories, each frame a canvas for creativity. Whether you're an aspiring writer or a seasoned storyteller, ShareStories provides the tools to bring your tales to life, with the option to enrich narratives through compelling imagery. Embark on a journey of storytelling innovation with ShareStories.
-
-### Link - http://share-stories-online.netlify.app/
-
-## 🏁 Technology Stack
-
-- [React](https://reactjs.org/)
-- [Node.js](https://nodejs.org/en/)
-- [MongoDb](https://www.mongodb.com/)
-
-## Key Features
-
-ShareStories presents a robust set of features to enhance your storytelling experience:
-
-- **User Authentication**: Seamlessly log in or register to access the platform's features. Customize your profile with avatars and personal details to create a personalized experience.
-
-- **Story Creation**: Dive into the world of storytelling by crafting your own sequential stories. Add frames effortlessly, with each frame serving as a canvas for your creativity.
-
-- **Read-Only Access**: Explore a vast collection of stories curated by creators worldwide. Gain inspiration or entertainment through the diverse range of narratives available.
-
-- **Creator Privileges**: Maintain control over your stories with exclusive editing and deletion rights. Only the creator retains the ability to modify or remove their content, ensuring the integrity of each narrative.
-
-- **Security Measures**: Rest assured knowing that ShareStories prioritizes your data security. Utilizing token-based authentication and bcrypt encryption, your personal information and stories are safeguarded against unauthorized access.
->>>>>>> f8e89995638affe2859b2c952f024c9289f85bb4
 
 ## Setup Instructions
 
