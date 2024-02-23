@@ -3,7 +3,7 @@
 
 Welcome to ShareStories, a cutting-edge storytelling platform crafted with React.js, Node.js, and MongoDB. ShareStories offers a dynamic space for users to weave captivating narratives seamlessly. With intuitive features, users can effortlessly craft sequential stories, each frame a canvas for creativity. Whether you're an aspiring writer or a seasoned storyteller, ShareStories provides the tools to bring your tales to life, with the option to enrich narratives through compelling imagery. Embark on a journey of storytelling innovation with ShareStories.
 
-### Link - http://sharestoriesonline.netlify.app/
+### Link - http://share-stories-online.netlify.app/
 
 ## 🏁 Technology Stack
 
