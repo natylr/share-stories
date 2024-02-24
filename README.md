@@ -10,7 +10,7 @@ ShareStories offers a dynamic space for users to weave captivating narratives se
 
 - ![React](https://img.shields.io/badge/React-2021-blue.svg) [React](https://reactjs.org/)
 - ![Node.js](https://img.shields.io/badge/Node.js-v18.8.0-green.svg) [Node.js](https://nodejs.org/en/)
-- ![MongoDB](https://img.shields.io/badge/MongoDB-v6.0.0-light-green.svg) [MongoDb](https://www.mongodb.com/)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-v6.0.0-green.svg) [MongoDb](https://www.mongodb.com/)
 - ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
 - ![HTML5](https://img.shields.io/badge/HTML5-semantic-orange)
 - ![CSS3](https://img.shields.io/badge/CSS3-responsive-blue)
