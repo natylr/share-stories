@@ -1,5 +1,7 @@
 # ShareStories
 
+![chatgram](https://github.com/natylr/share-stories/blob/main/share-stories-client/public/icon_img.jpg)
+
 Welcome to ShareStories, a cutting-edge storytelling platform crafted with React.js, Node.js, and MongoDB.
 
 ShareStories offers a dynamic space for users to weave captivating narratives seamlessly. With intuitive features, users can effortlessly craft sequential stories, each frame a canvas for creativity. Whether you're an aspiring writer or a seasoned storyteller, ShareStories provides the tools to bring your tales to life, with the option to enrich narratives through compelling imagery. Embark on a journey of storytelling innovation with ShareStories.
@@ -8,9 +10,9 @@ ShareStories offers a dynamic space for users to weave captivating narratives se
 
 ##  Technology Stack
 
-- ![React](https://img.shields.io/badge/React-2021-blue.svg) [React](https://reactjs.org/)
-- ![Node.js](https://img.shields.io/badge/Node.js-v18.8.0-green.svg) [Node.js](https://nodejs.org/en/)
-- ![MongoDB](https://img.shields.io/badge/MongoDB-v6.0.0-green.svg) [MongoDb](https://www.mongodb.com/)
+- ![React](https://img.shields.io/badge/React-2021-blue.svg) 
+- ![Node.js](https://img.shields.io/badge/Node.js-v18.8.0-green.svg) 
+- ![MongoDB](https://img.shields.io/badge/MongoDB-v6.0.0-green.svg) 
 - ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-yellow)
 - ![HTML5](https://img.shields.io/badge/HTML5-semantic-orange)
 - ![CSS3](https://img.shields.io/badge/CSS3-responsive-blue)
@@ -34,7 +36,7 @@ To set up ShareStories on your local machine, follow these steps:
 1. **Clone the Repository**: Clone the ShareStories repository to your local machine:
 
     ```bash
-    git clone https://github.com/yourusername/sharestories.git
+    git clone https://github.com/natylr/share-stories
     ```
 
 2. **Install Dependencies**: Navigate to the `client` directory and install the necessary dependencies:
