@@ -1,6 +1,6 @@
-# ShareStories
+<h2><img src="https://github.com/natylr/share-stories/blob/main/share-stories-client/public/icon_img.jpg" alt="ShareStories Icon" style="width: 20px; height: 20px;">ShareStories</h2>
 
-<img src="https://github.com/natylr/share-stories/blob/main/share-stories-client/public/icon_img.jpg" alt="ShareStories Icon" style="width: 100px; height: 100px;">
+
 
 Welcome to ShareStories, a cutting-edge storytelling platform crafted with React.js, Node.js, and MongoDB.
 
