@@ -6,14 +6,16 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const multer = require('multer');
 const path = require('path');
+
 const corsOptions = {
-  origin: '*',
+  origin: 'https://share-stories.online', 
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions)); 
+
 require('dotenv').config();
 
 require("./models/userDetails");
@@ -21,7 +23,6 @@ require("./models/storyDetails");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 
 mongoose.connect(mongoUrl, {
   useNewUrlParser: true,
