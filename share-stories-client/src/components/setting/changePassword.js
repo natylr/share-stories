@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { changePasswordApi } from "../../utils/authApi";
 import "../../styles/changePassword.css";
+import { validatePassword } from "../../utils/validators";
 
 export default function ChangePassword() {
   const [prevPassword, setPrevPassword] = useState("");
@@ -14,6 +15,11 @@ export default function ChangePassword() {
 
     if (newPassword !== confirmNewPassword) {
       alert("New passwords do not match");
+      return;
+    }
+
+    if (!validatePassword(newPassword)) { 
+      alert("Password must be at least 8 characters long");
       return;
     }
 

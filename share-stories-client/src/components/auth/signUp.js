@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUserApi } from "../../utils/authApi";
-import { defaultAvatarUrl } from "../../config/config"
-import Background from "../../utils/background"
+import { defaultAvatarUrl } from "../../config/config";
+import Background from "../../utils/background";
+import { validatePassword } from "../../utils/validators";
+
 export default function SignUp() {
   const navigate = useNavigate();
 
@@ -18,29 +20,28 @@ export default function SignUp() {
   const [avatarPreview, setAvatarPreview] = useState(defaultAvatarUrl);
 
   useEffect(() => {
-    if (window.localStorage.getItem("token"))
-      navigate("/all-stories");
+    if (window.localStorage.getItem("token")) navigate("/all-stories");
   }, [navigate]);
-
 
   const handleAvatarPreviewClick = () => {
     const avatarInput = document.getElementById("avatarInput");
     avatarInput.click();
   };
+
   const handleAvatarChange = async (e) => {
     const file = e.target.files[0];
     setAvatar(file);
-  
+
     const reader = new FileReader();
     reader.onloadend = () => {
       setAvatarPreview(reader.result);
     };
-  
+
     if (file) {
-      reader.readAsDataURL(file); 
+      reader.readAsDataURL(file);
     }
   };
-  
+
   const handlePasswordConfirmChange = (e) => {
     setPasswordConfirm(e.target.value);
   };
@@ -50,6 +51,11 @@ export default function SignUp() {
 
     if (password !== passwordConfirm) {
       alert("Passwords do not match");
+      return;
+    }
+
+    if (!validatePassword(password)) { 
+      alert("Password must be at least 8 characters long");
       return;
     }
 
@@ -75,18 +81,18 @@ export default function SignUp() {
       alert("Something went wrong");
     }
   };
+
   const signIn = () => {
-    navigate("/sign-in")
-  }
+    navigate("/sign-in");
+  };
+
   return (
     <div className="auth-body">
       <div className="auth-main">
         <Background />
-
         <div className="auth-overlay"></div>
       </div>
       <div className="auth-content">
-
         <div className="auth-wrapper">
           <div className="auth-inner">
             <form onSubmit={handleSubmit}>
@@ -95,7 +101,11 @@ export default function SignUp() {
                 <div className="avatar-preview-container">
                   {avatarPreview && (
                     <div>
-                      <img src={avatarPreview} className="avatar-preview" alt="User Avatar" />
+                      <img
+                        src={avatarPreview}
+                        className="avatar-preview"
+                        alt="User Avatar"
+                      />
                     </div>
                   )}
                   <div className="image-upload">
@@ -137,7 +147,6 @@ export default function SignUp() {
                 </div>
               </div>
               <div className="mb-3 row">
-
                 <div className="col-md-6">
                   <label>Email address</label>
                   <input
@@ -177,7 +186,6 @@ export default function SignUp() {
                   />
                 </div>
               </div>
-
               <div className="mb-3 row">
                 <div className="col-md-6">
                   <label>Address</label>
@@ -199,23 +207,21 @@ export default function SignUp() {
                   />
                 </div>
               </div>
-
-
               <div className="d-grid">
                 <button type="submit" className="btn btn-primary">
                   Sign Up
                 </button>
               </div>
               <p className="forgot-password text-right">
-                Already registered <label className="link-label" onClick={signIn}>sign in?</label>
+                Already registered{" "}
+                <label className="link-label" onClick={signIn}>
+                  sign in?
+                </label>
               </p>
             </form>
           </div>
         </div>
       </div>
-
     </div>
-
-
   );
 }
