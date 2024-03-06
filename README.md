@@ -77,7 +77,7 @@ To set up ShareStories on your local machine, follow these steps:
     Edit the `.env` file to specify the desired port:
 
     ```plaintext
-    PORT=3000
+    PORT=5000
     ```
 
 5. **Start Development Servers**: Start the client and server development servers separately:
